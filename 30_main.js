@@ -229,7 +229,7 @@
   var h_wintexty = 300;
   var questionmark;
   var hanamovespeed = 15;
-  var banditmovespeed = 15;
+  var banditmovespeed = 25;
 /*
   var currentdate = new Date();
   var datetime = (currentdate.getMonth()+1) + "/"
@@ -250,14 +250,14 @@
   var treenumber1 = 118;
   var treenumber2 = 118;
   var treenumber3 = 118;
-  var ballnumber = 40;
+  var ballnumber = 30;
   var loveline2;
   var house
   var trees1 = [];
   var trees2 = [];
   var trees3 = [];
   var flag
-  var raindrops = 600;
+  var raindrops = 60;
   var rain = [];
   var pagenumber = 10;
 
@@ -296,11 +296,18 @@
   var nosound
 
   var menu;
-
+var apuzzle1;
+var bpuzzle1;
+var cpuzzle1;
+var dpuzzle1;
+var epuzzle1;
+var fpuzzle1;
+var gpuzzle1;
   var ground1;
   var ground2;
   var ground3;
   var ground4;
+var banditwalkspeed = 4;
 
     function create () {
         game.stage.backgroundColor = '#2d2d2d';
@@ -329,6 +336,8 @@
   //      players.physicsBodyType = Phaser.Physics.ARCADE;
 
 
+
+
         ground1 = staticimages.create(0, 0, 'page1');
         ground1.anchor.setTo(0);
         ground1.scale.setTo(1);
@@ -344,6 +353,34 @@
         ground4 = staticimages.create(800, 1200, 'page4');
         ground4.anchor.setTo(0);
         ground4.scale.setTo(1);
+
+        apuzzle1 = staticimages.create(leftmargin2+300, pagestart3+yhop, 'greentarget');
+        apuzzle1.anchor.setTo(0.5);
+        apuzzle1.scale.setTo(3);
+
+        bpuzzle1 = staticimages.create(leftmargin2+100, pagestart3+yhop, 'greentarget');
+        bpuzzle1.anchor.setTo(0.5);
+        bpuzzle1.scale.setTo(3);
+
+        cpuzzle1 = staticimages.create(leftmargin2+300, pagestart3+yhop*3, 'greentarget');
+        cpuzzle1.anchor.setTo(0.5);
+        cpuzzle1.scale.setTo(3);
+
+        dpuzzle1 = staticimages.create(leftmargin2+600, pagestart3+yhop*4, 'greentarget');
+        dpuzzle1.anchor.setTo(0.5);
+        dpuzzle1.scale.setTo(3);
+
+        epuzzle1 = staticimages.create(leftmargin2+500, pagestart3+yhop*5, 'greentarget');
+        epuzzle1.anchor.setTo(0.5);
+        epuzzle1.scale.setTo(3);
+
+        fpuzzle1 = staticimages.create(leftmargin2+700, pagestart3+yhop*2, 'greentarget');
+        fpuzzle1.anchor.setTo(0.5);
+        fpuzzle1.scale.setTo(3);
+
+        gpuzzle1 = staticimages.create(leftmargin2+400, pagestart3+yhop*5, 'greentarget');
+        gpuzzle1.anchor.setTo(0.5);
+        gpuzzle1.scale.setTo(3);
 
         loveline = staticimages.create(leftmargin1+10, 0, 'loveline');
         loveline.anchor.setTo(0);
@@ -369,13 +406,13 @@
         house.anchor.setTo(0);
         house.scale.setTo(1);
 
-        wallguard1 = staticimages.create(guard1x, guard1y, 'wallguard1');
-        wallguard1.anchor.setTo(0.5);
-        wallguard1.scale.setTo(3);
+    //    wallguard1 = staticimages.create(guard1x, guard1y, 'wallguard1');
+    //    wallguard1.anchor.setTo(0.5);
+    //    wallguard1.scale.setTo(3);
 
-        wallguard2 = staticimages.create(guard2x, pageend1-40, 'wallguard2');
-        wallguard2.anchor.setTo(0.5);
-        wallguard2.scale.setTo(3);
+    //    wallguard2 = staticimages.create(guard2x, pageend1-40, 'wallguard2');
+    //    wallguard2.anchor.setTo(0.5);
+    //    wallguard2.scale.setTo(3);
 
         yellowtarget = staticimages.create(40, 40, 'yellowtarget');
         yellowtarget.anchor.setTo(0.5);
@@ -432,27 +469,27 @@
         gatemark14.anchor.setTo(0.5);
         gatemark15.anchor.setTo(0.5);
         gatemark16.anchor.setTo(0.5);
-        gatemark1.scale.setTo(0.5);
-        gatemark2.scale.setTo(0.5);
-        gatemark3.scale.setTo(0.5);
-        gatemark4.scale.setTo(0.5);
-        gatemark5.scale.setTo(0.5);
-        gatemark6.scale.setTo(0.5);
-        gatemark7.scale.setTo(0.5);
-        gatemark8.scale.setTo(0.5);
-        gatemark9.scale.setTo(0.5);
-        gatemark10.scale.setTo(0.5);
-        gatemark11.scale.setTo(0.5);
-        gatemark12.scale.setTo(0.5);
-        gatemark13.scale.setTo(0.5);
-        gatemark14.scale.setTo(0.5);
-        gatemark15.scale.setTo(0.5);
-        gatemark16.scale.setTo(0.5);
+        gatemark1.scale.setTo(1);
+        gatemark2.scale.setTo(1);
+        gatemark3.scale.setTo(1);
+        gatemark4.scale.setTo(1);
+        gatemark5.scale.setTo(1);
+        gatemark6.scale.setTo(1);
+        gatemark7.scale.setTo(1);
+        gatemark8.scale.setTo(1);
+        gatemark9.scale.setTo(1);
+        gatemark10.scale.setTo(1);
+        gatemark11.scale.setTo(1);
+        gatemark12.scale.setTo(1);
+        gatemark13.scale.setTo(1);
+        gatemark14.scale.setTo(1);
+        gatemark15.scale.setTo(1);
+        gatemark16.scale.setTo(1);
 
 
 //all text
-guard1dialogue = game.add.text(guard1x, guard1y, 'going over the bridge? \n [Y] for yes \n [N] for no', style);
-guard2dialogue = game.add.text(guard2x, pageend1-100, 'wanna go upstairs? \n [Y] for yes \n [N] for no', style);
+//guard1dialogue = game.add.text(guard1x, guard1y, 'going over the bridge? \n [Y] for yes \n [N] for no', style);
+//guard2dialogue = game.add.text(guard2x, pageend1-100, 'wanna go upstairs? \n [Y] for yes \n [N] for no', style);
 
 
 //ball starting positions
@@ -463,8 +500,8 @@ for(var i=0; i<ballnumber; i++){
   balls[i].sprite = projectiles.create(60+i*10, pageend1, 'gameball'+(i+1));
   balls[i].sprite.anchor.setTo(0.5);
   balls[i].sprite.scale.setTo(ballscale);
-  balls[i].sprite.vx = 3 + 0.1*i;
-  balls[i].sprite.vy = 3 + 0.1*i;
+  balls[i].sprite.vx = ballmeetsplayer/4;
+  balls[i].sprite.vy = yhop/10;
   //tossed
   balls[i].tossedup = false;
   balls[i].tosseddown = false;
@@ -483,6 +520,10 @@ for(var i=0; i<ballnumber; i++){
   balls[i].totheright = false;
   balls[i].inlooper2 = false;
   balls[i].totheright2 = false;
+  //puzzle1
+  balls[i].inboxa = false;
+  balls[i].inboxb = false;
+  balls[i].inboxc = false;
   //bandit ABILITIES
   balls[i].scan1on = false;
   balls[i].scan2on = false;
@@ -632,10 +673,12 @@ menu.scale.setTo(0);
                 playerPowers();
                 ballMove();
                 moveCamera();
-                npcTalk();
+          //      npcTalk();
             //    animals();
                 iconUpdate();
                 creatures();
+                puzzleCompletion();
+
 
             //    pauseMenu();
 
@@ -645,12 +688,71 @@ menu.scale.setTo(0);
                 //player movement monitor
               //  if(loader){
         //    game.debug.spriteInfo(loader, 450, 400);}
-            game.debug.spriteInfo(bandit[0].sprite, 450, 32);
+        //    game.debug.spriteInfo(bandit[0].sprite, 450, 32);
+}
+
+var puzzlehitbox = 44;
+var puzzle1timer = 0;
+var puzzle1blink = false;
+var gate1sounda = false;
+var gate1soundb = true;
+var access1sound = false;
+
+function puzzleCompletion(){
+  if (boxfull_a.length > 0
+      && boxfull_a.length > 0
+      && boxfull_b.length > 0
+      && boxfull_c.length > 0
+      && boxfull_d.length > 0
+      && boxfull_e.length > 0
+      && boxfull_f.length > 0
+      && boxfull_g.length > 0){
+        gate1down = true;
+        if (access1sound == false){
+      //  oob2.play();
+        access1sound = true;
+        ground4.tint = 0x9933ff;
+      }
+      }
+  else {
+    gate1down = false;
+    access1sound = false;
+    ground4.tint = 0xffffff;
+    }
+
+  if (gate1down == true){
+    if (gate1sounda == false){
+    gatemark7.kill();
+    gatemark7 = staticimages.create(leftmargin2+10, pageend3, 'gate');
+    gatemark7.scale.setTo(1);
+    yessound.play();
+    gate1sounda = true;
+    }
+    else{gate1soundb = false;}
+    }
+  else {
+    if (gate1soundb == false){
+    gatemark7.kill();
+    gatemark7 = staticimages.create(leftmargin2+10, pageend3, 'gate2');
+    gatemark7.scale.setTo(1);
+    nosound.play();
+    gate1soundb = true;
+    }
+    else{gate1sounda = false;}
+  }
+}
+
+function puzzle1(ball){
+
+  var obj = ball.sprite
+
+
 }
 
 var hippofollow = false;
 var hippospeed = 4;
 var ghostmode = false;
+
 
 function animals(){
   //hippo
@@ -852,7 +954,7 @@ function npcTalk() {
         guard1dialogue.scale.setTo(0);
         gatemark7.kill();
         gatemark7 = staticimages.create(leftmargin2+10, pageend3, 'gate');
-        gatemark7.scale.setTo(0.5);
+        gatemark7.scale.setTo(1);
         yessound.play();
         gate1down = true;
         }
@@ -860,7 +962,7 @@ function npcTalk() {
         guard1dialogue.scale.setTo(0);
         gatemark7.kill();
         gatemark7 = staticimages.create(leftmargin2+10, pageend3, 'gate2');
-        gatemark7.scale.setTo(0.5);
+        gatemark7.scale.setTo(1);
         nosound.play();
         gate1down = false;
       }
@@ -949,15 +1051,16 @@ var scan1init = false;
 var scan2init = false;
 //lopper variables
 var mtnbell = 0;
-var looperleftx = 1700;
+var looperleftx = 1620;
 var looperlefty = pageend3 - yhop;
-var looperrightx = 2300;
+var looperrightx = 2380;
 var looperrighty = pageend3 - yhop;
 
-var looperleftx2 = 1700;
+var looperleftx2 = 1620;
 var looperlefty2 = pageend3 + yhop;
-var looperrightx2 = 2300;
+var looperrightx2 = 2380;
 var looperrighty2 = pageend3 + yhop;
+var looperspeed = 19;
 
 
 function looper(ball) {
@@ -974,7 +1077,7 @@ function looper(ball) {
     && obj.x > looperleftx-60
     && obj.x < looperrightx+60){
       if (direction == true) {
-        obj.x += obj.vx;
+        obj.x += looperspeed;//obj.vx;
         if (obj.x > looperrightx) {
         sound.play();
         mtn.tint = Math.random() * 0xffffff;
@@ -988,7 +1091,7 @@ function looper(ball) {
         else{qmark.setTo(0);}
         }
       else {
-        obj.x -= obj.vx;
+        obj.x -= looperspeed;//obj.vx;
         if (obj.x < looperleftx) {
         sound.play();
         mtn.tint = Math.random() * 0xffffff;
@@ -1021,7 +1124,7 @@ function looper(ball) {
       && obj.x > looperleftx2-60
       && obj.x < looperrightx2+60){
         if (direction == true) {
-          obj.x += obj.vx;
+          obj.x += looperspeed;//obj.vx;
           if (obj.x > looperrightx2) {
           sound.play();
           mtn.tint = Math.random() * 0xffffff;
@@ -1035,7 +1138,7 @@ function looper(ball) {
           else{qmark.setTo(0);}
           }
         else {
-          obj.x -= obj.vx;
+          obj.x -= looperspeed; //obj.vx;
           if (obj.x < looperleftx2) {
           sound.play();
           mtn.tint = Math.random() * 0xffffff;
@@ -1056,9 +1159,11 @@ function looper(ball) {
 function loopReset(ball) {
   var obj = ball.sprite;
   var inside = ball.inlooper;
-  if (bandit[0].sprite.x < looperleftx && bandit[0].sprite.x > looperleftx - 20){
+  if (bandit[0].sprite.x > looperleftx && bandit[0].sprite.x < looperleftx + 200){
+    if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {
            obj.y = pageend3;
            inside = false;
+         }
 }
 return inside;
 }
@@ -1066,9 +1171,11 @@ return inside;
 function loopReset2(ball) {
   var obj = ball.sprite;
   var inside = ball.inlooper;
-  if (bandit[0].sprite.x < looperleftx && bandit[0].sprite.x > looperleftx - 8){
+  if (bandit[0].sprite.x > looperleftx && bandit[0].sprite.x < looperleftx + 200){
+    if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {
            obj.y = pageend3;
            inside = false;
+}
 }
 return inside;
 }
@@ -1159,6 +1266,7 @@ var rainspeed = 12;
 function rainer(rain){
   var rsprite = rain.sprite;
   rsprite.scale.setTo(0.4);
+
   if (rsprite.y < pagestart4){
     rsprite.y+=rainspeed;
 
@@ -1170,9 +1278,9 @@ function rainer(rain){
 }
 
 function rainFall(){
-  for (var i=0; i<raindrops;i++){
-    rainer(rain[i]);
-  }
+//  for (var i=0; i<raindrops;i++){
+//    rainer(rain[i]);
+//  }
 
   casa.scale.setTo(2);
 
@@ -1514,14 +1622,35 @@ var menusize = 1;
 
 //bandit left and right
        if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+         if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
+           for (var j = 0; j < banditwalkspeed; j++){
+          for (var i = 0; i < bandit.length; i++){
+           bandit[i].sprite.x --;
+           b_marginRules();
+           b_pagePortal();
+           b_marginRules2();  }
+        }
+         }
+         else{
                  for (var j = 0; j < banditmovespeed; j++){
                 for (var i = 0; i < bandit.length; i++){
                  bandit[i].sprite.x --;
                  b_marginRules();
                  b_pagePortal();
-                 b_marginRules2();  }  }
+                 b_marginRules2();  }
+              } }
                           }
        if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+         if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
+           for (var j = 0; j < banditwalkspeed; j++){
+          for (var i = 0; i < bandit.length; i++){
+           bandit[i].sprite.x ++;
+           b_marginRules();
+           b_pagePortal();
+           b_marginRules2();  }
+        }
+         }
+         else{
                 for (var j = 0; j < banditmovespeed; j++){
                 for (var i = 0; i < bandit.length; i++){
                  bandit[i].sprite.x ++;
@@ -1529,6 +1658,7 @@ var menusize = 1;
                  b_pagePortal();
                  b_marginRules2();  }  }
                           }
+                        }
                           /*
     if (game.input.keyboard.justPressed(Phaser.Keyboard.ENTER))  {
 
@@ -1539,6 +1669,7 @@ var menusize = 1;
                              b_pagePortal();
                              b_marginRules2();  }  }
                            }*/
+                           /*
     if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR))  {
                             for (var j = 0; j < thrust; j++){
                                 for (var i = 0; i < bandit.length; i++){
@@ -1547,6 +1678,7 @@ var menusize = 1;
                              b_pagePortal();
                              b_marginRules2();}}
                            }
+                           */
 
      if (game.input.keyboard.justPressed(Phaser.Keyboard.I))  {
       menu.scale.setTo(menusize);
@@ -1687,12 +1819,18 @@ else if (page3 == true){
     }
     else if (ob.x < leftmargin2) {
       if (gate1down == true){
-        if (ob.y == pageend3 && ob.x < leftmargin2) {
+        if (ob.y < pageend3 && ob.x < leftmargin2){
+          ob.y = ob.y - yhop;
+          ob.x = rightmargin2; }
+        else if (ob.y == pageend3 && ob.x < leftmargin2) {
           //go straight
-        }}
-      else {
+        }
+      }
+      else{
         ob.y = ob.y - yhop;
-        ob.x = rightmargin2; }
+        ob.x = rightmargin2;
+      }
+
       }
     }
   }
@@ -1872,7 +2010,7 @@ function lake2area(ball){
 
       if (lake3 == true){
         if(obj.y > pageend1){
-          obj.y -= obj.vy*wave;
+          obj.y -= 2*wave;
         }
         else {
           lake3 = false;
@@ -1882,41 +2020,189 @@ function lake2area(ball){
       return lake3;
     }
 
+function puzzleboxes(){
+  if (boxfull_a.length > 0){
+    apuzzle1.tint = 0x9933ff;
+  }
+  else{
+    apuzzle1.tint = 0xffffff;
+  }
+  if (boxfull_b.length > 0){
+      bpuzzle1.tint = 0x9933ff;
+  }
+  else{
+      bpuzzle1.tint = 0xffffff;
+  }
+  if (boxfull_c.length > 0){
+        cpuzzle1.tint = 0x9933ff;
+  }
+  else{
+        cpuzzle1.tint = 0xffffff;
+  }
 
+  if (boxfull_d.length > 0){
+    dpuzzle1.tint = 0x9933ff;
+  }
+  else{
+    dpuzzle1.tint = 0xffffff;
+  }
+  if (boxfull_e.length > 0){
+      epuzzle1.tint = 0x9933ff;
+  }
+  else{
+      epuzzle1.tint = 0xffffff;
+  }
+  if (boxfull_f.length > 0){
+        fpuzzle1.tint = 0x9933ff;
+  }
+  else{
+        fpuzzle1.tint = 0xffffff;
+  }
+  if (boxfull_g.length > 0){
+        gpuzzle1.tint = 0x9933ff;
+  }
+  else{
+        gpuzzle1.tint = 0xffffff;
+  }
+}
 
+var toss_speed = 19 //19 shows motion
+var boxfull_a = [];
+var boxfull_b = [];
+var boxfull_c = [];
+var boxfull_d = [];
+var boxfull_e = [];
+var boxfull_f = [];
+var boxfull_g = [];
 //ball movement
 function ballMove() {
 
-  for(var i=0; i<balls.length; i++){
-    if(balls[i].banditPossession==false){
-
-      if (balls[i].tossedup == true){
-        if(balls[i].sprite.y > balls[i].tossedy-yhop){
-          balls[i].sprite.y-=19;
-        }
-          else{
-            balls[i].tossedup = false;}
-      }
-
-      if (balls[i].tosseddown == true){
-        if(balls[i].sprite.y < balls[i].tossedy+yhop){
-          balls[i].sprite.y+=19;
-        }
-        else{balls[i].tosseddown = false;}
-      }
-
-      if (ghostmode == false) {
-      //meets player
-        if (balls[i].sprite.x > bandit[0].sprite.x-ballmeetsplayer
-          && balls[i].sprite.y > bandit[0].sprite.y-ballmeetsplayer
-          && balls[i].sprite.x < bandit[0].sprite.x+ballmeetsplayer
-          && balls[i].sprite.y < bandit[0].sprite.y+ballmeetsplayer) {
-    //pick up balls
-            balls[i].sound.play();
-            balls[i].banditPossession = true;
-            grabbed.push(i);
-      }
+  if (bandit[0].onpage4 == true){
+      puzzleboxes();
     }
+
+  for(var i=0; i<balls.length; i++){
+
+
+  if(balls[i].banditPossession==false){
+
+    //puzzle1
+    if (balls[i].sprite.x > apuzzle1.x-puzzlehitbox
+      && balls[i].sprite.x < apuzzle1.x+puzzlehitbox
+      && balls[i].sprite.y > apuzzle1.y-puzzlehitbox
+      && balls[i].sprite.y < apuzzle1.y+puzzlehitbox
+      )
+      {
+        boxfull_a.push(i);
+      }
+      else {
+        boxfull_a.splice(i);
+      }
+
+      if (balls[i].sprite.x > bpuzzle1.x-puzzlehitbox
+        && balls[i].sprite.x < bpuzzle1.x+puzzlehitbox
+        && balls[i].sprite.y > bpuzzle1.y-puzzlehitbox
+        && balls[i].sprite.y < bpuzzle1.y+puzzlehitbox
+        )
+        {
+          boxfull_b.push(i);
+        }
+        else {
+          boxfull_b.splice(i);
+        }
+
+        if (balls[i].sprite.x > cpuzzle1.x-puzzlehitbox
+          && balls[i].sprite.x < cpuzzle1.x+puzzlehitbox
+          && balls[i].sprite.y > cpuzzle1.y-puzzlehitbox
+          && balls[i].sprite.y < cpuzzle1.y+puzzlehitbox
+          )
+          {
+            boxfull_c.push(i);
+          }
+          else {
+            boxfull_c.splice(i);
+          }
+
+          if (balls[i].sprite.x > dpuzzle1.x-puzzlehitbox
+            && balls[i].sprite.x < dpuzzle1.x+puzzlehitbox
+            && balls[i].sprite.y > dpuzzle1.y-puzzlehitbox
+            && balls[i].sprite.y < dpuzzle1.y+puzzlehitbox
+            )
+            {
+              boxfull_d.push(i);
+            }
+            else {
+              boxfull_d.splice(i);
+            }
+
+            if (balls[i].sprite.x > epuzzle1.x-puzzlehitbox
+              && balls[i].sprite.x < epuzzle1.x+puzzlehitbox
+              && balls[i].sprite.y > epuzzle1.y-puzzlehitbox
+              && balls[i].sprite.y < epuzzle1.y+puzzlehitbox
+              )
+              {
+                boxfull_e.push(i);
+              }
+              else {
+                boxfull_e.splice(i);
+              }
+
+              if (balls[i].sprite.x > fpuzzle1.x-puzzlehitbox
+                && balls[i].sprite.x < fpuzzle1.x+puzzlehitbox
+                && balls[i].sprite.y > fpuzzle1.y-puzzlehitbox
+                && balls[i].sprite.y < fpuzzle1.y+puzzlehitbox
+                )
+                {
+                  boxfull_f.push(i);
+                }
+                else {
+                  boxfull_f.splice(i);
+                }
+
+                if (balls[i].sprite.x > gpuzzle1.x-puzzlehitbox
+                  && balls[i].sprite.x < gpuzzle1.x+puzzlehitbox
+                  && balls[i].sprite.y > gpuzzle1.y-puzzlehitbox
+                  && balls[i].sprite.y < gpuzzle1.y+puzzlehitbox
+                  )
+                  {
+                    boxfull_g.push(i);
+                  }
+                  else {
+                    boxfull_g.splice(i);
+                  }
+
+//magnet
+
+
+  if (balls[i].tossedup == true){
+    if(balls[i].sprite.y > balls[i].tossedy-yhop){
+      balls[i].sprite.y-=toss_speed;
+    }
+      else{
+        balls[i].tossedup = false;}
+  }
+
+  if (balls[i].tosseddown == true){
+    if(balls[i].sprite.y < balls[i].tossedy+yhop){
+      balls[i].sprite.y+=toss_speed;
+    }
+    else{balls[i].tosseddown = false;}
+  }
+
+  if (ghostmode == false) {
+  //meets player
+    if (balls[i].sprite.x > bandit[0].sprite.x-ballmeetsplayer
+      && balls[i].sprite.y > bandit[0].sprite.y-ballmeetsplayer
+      && balls[i].sprite.x < bandit[0].sprite.x+ballmeetsplayer
+      && balls[i].sprite.y < bandit[0].sprite.y+ballmeetsplayer) {
+  //pick up balls
+        balls[i].sound.play();
+        balls[i].banditPossession = true;
+        grabbed.push(i);
+  }
+  }
+
+
 
     if (balls[i].lake1 == true){
       //this next bit breaks water movement
@@ -1962,15 +2248,115 @@ function ballMove() {
       balls[i].inlooper = loopReset(balls[i]);
       balls[i].totheright2 = looper2(balls[i]);
       balls[i].inlooper2 = loopReset2(balls[i]);
+
+      //puzzle1
+    //  puzzle1(balls[i]);
+
+    //a
+    if (balls[i].sprite.y == apuzzle1.y
+      && balls[i].sprite.x > apuzzle1.x - puzzlehitbox
+      && balls[i].sprite.x < apuzzle1.x + puzzlehitbox){
+      if (balls[i].sprite.x > apuzzle1.x){
+        balls[i].sprite.x--;
+      }
+      if (balls[i].sprite.x < apuzzle1.x){
+        balls[i].sprite.x++;
+      }
+    }
+    //b
+    if (balls[i].sprite.y == bpuzzle1.y
+      && balls[i].sprite.x > bpuzzle1.x - puzzlehitbox
+      && balls[i].sprite.x < bpuzzle1.x + puzzlehitbox){
+      if (balls[i].sprite.x > bpuzzle1.x){
+        balls[i].sprite.x--;
+      }
+      if (balls[i].sprite.x < bpuzzle1.x){
+        balls[i].sprite.x++;
+      }
+    }
+    //c
+    if (balls[i].sprite.y == cpuzzle1.y
+      && balls[i].sprite.x > cpuzzle1.x - puzzlehitbox
+      && balls[i].sprite.x < cpuzzle1.x + puzzlehitbox){
+      if (balls[i].sprite.x > cpuzzle1.x){
+        balls[i].sprite.x--;
+      }
+      if (balls[i].sprite.x < cpuzzle1.x){
+        balls[i].sprite.x++;
+      }
+    }
+  //d
+    if (balls[i].sprite.y == dpuzzle1.y
+      && balls[i].sprite.x > dpuzzle1.x - puzzlehitbox
+      && balls[i].sprite.x < dpuzzle1.x + puzzlehitbox){
+      if (balls[i].sprite.x > dpuzzle1.x){
+        balls[i].sprite.x--;
+      }
+      if (balls[i].sprite.x < dpuzzle1.x){
+        balls[i].sprite.x++;
+      }
+    }
+    //e
+    if (balls[i].sprite.y > epuzzle1.y-16
+      && balls[i].sprite.y < epuzzle1.y+16 // extra
+      && balls[i].sprite.x > epuzzle1.x - puzzlehitbox
+      && balls[i].sprite.x < epuzzle1.x + puzzlehitbox){
+      if (balls[i].sprite.x > epuzzle1.x){
+        balls[i].sprite.x--;
+      }
+      if (balls[i].sprite.x < epuzzle1.x){
+        balls[i].sprite.x++;
+      }
+    }
+    //f
+    if (balls[i].sprite.y == fpuzzle1.y
+      && balls[i].sprite.x > fpuzzle1.x - puzzlehitbox
+      && balls[i].sprite.x < fpuzzle1.x + puzzlehitbox){
+      if (balls[i].sprite.x > fpuzzle1.x){
+        balls[i].sprite.x--;
+      }
+      if (balls[i].sprite.x < fpuzzle1.x){
+        balls[i].sprite.x++;
+      }
+    }
+    if (balls[i].sprite.y > gpuzzle1.y-16
+      && balls[i].sprite.y < gpuzzle1.y+16 //extra
+      && balls[i].sprite.x > gpuzzle1.x - puzzlehitbox
+      && balls[i].sprite.x < gpuzzle1.x + puzzlehitbox){
+      if (balls[i].sprite.x > gpuzzle1.x){
+        balls[i].sprite.x--;
+      }
+      if (balls[i].sprite.x < gpuzzle1.x){
+        balls[i].sprite.x++;
+      }
+    }
+
   }
 
   else { // bandit has the ball
+
     //balls chase bandit
+    //puzzle1 stuff
+    boxfull_a.splice(i);
+    boxfull_b.splice(i);
+    boxfull_c.splice(i);
+    boxfull_d.splice(i);
+    boxfull_e.splice(i);
+    boxfull_f.splice(i);
+    boxfull_g.splice(i);
     balls[i].lake1 = false;
     balls[i].lake2 = false;
     balls[i].lake3 = false;
+    balls[i].inboxa = false;
+    balls[i].inboxb = false;
+    balls[i].inboxc = false;
 
+    balls[i].sprite.x = bandit[0].sprite.x;
+    balls[i].sprite.y = bandit[0].sprite.y;
 
+//flying balls
+
+/*
     if (balls[i].sprite.x > bandit[0].sprite.x)  {
       balls[i].sprite.x -= balls[i].sprite.vx*hitpower;
     }
@@ -1983,6 +2369,7 @@ function ballMove() {
     else if (balls[i].sprite.y < bandit[0].sprite.y)  {
       balls[i].sprite.y += balls[i].sprite.vy*hitpower;
     }
+    */
   }
 
   }// end loop
@@ -2026,7 +2413,7 @@ function playerToss() {
   if (game.input.keyboard.justPressed(Phaser.Keyboard.UP)){
 //console.log(grabbed)
     //for(var i=0; i<balls.length; i++){
-    if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
+    if (game.input.keyboard.isDown(Phaser.Keyboard.Y)){
     if(grabbed.length>0){
       for(var j=0; j<grabbed.length; j++){
         var i = grabbed[j]
@@ -2037,7 +2424,7 @@ function playerToss() {
           //  balls[i].sprite.y -= yhop;
           balls[i].sprite.y = bandit[0].sprite.y;
           balls[i].sprite.x = bandit[0].sprite.x;
-      //      toss1.play();
+          //  toss1.play();
             balls[i].banditPossession = false;
             grabbed.splice(j,1)
             break;
@@ -2045,6 +2432,7 @@ function playerToss() {
         }
       }
     }
+
 
     else {
       if(grabbed.length>0){
@@ -2055,7 +2443,7 @@ function playerToss() {
       //    && balls[i].sprite.x < bandit[0].sprite.x+ballmeetsplayer
       //    && balls[i].sprite.y < bandit[0].sprite.y+ballmeetsplayer){
           //  balls[i].justGotTossed = true
-          //  toss1.play();
+            toss1.play();
             balls[i].sound.play();
             balls[i].tossedy = bandit[0].sprite.y;
             balls[i].tossedx = bandit[0].sprite.x;
@@ -2073,7 +2461,7 @@ function playerToss() {
 
   if (game.input.keyboard.justPressed(Phaser.Keyboard.DOWN)){
 
-    if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
+    if (game.input.keyboard.isDown(Phaser.Keyboard.Y)){
     if(grabbed.length>0){
       for(var j = grabbed.length; j--;){
         var i = grabbed[j]
@@ -2104,7 +2492,7 @@ function playerToss() {
             balls[i].sprite.y = bandit[0].sprite.y;
             balls[i].sprite.x = bandit[0].sprite.x;
             balls[i].tosseddown = true;
-        //    toss1.play();
+            toss1.play();
             balls[i].sound.play();
             balls[i].banditPossession = false;
             grabbed.splice(j,1)
