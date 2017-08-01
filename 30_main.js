@@ -250,7 +250,7 @@
   var treenumber1 = 118;
   var treenumber2 = 118;
   var treenumber3 = 118;
-  var ballnumber = 30;
+  var ballnumber = 36;
   var loveline2;
   var house
   var trees1 = [];
@@ -303,6 +303,7 @@ var dpuzzle1;
 var epuzzle1;
 var fpuzzle1;
 var gpuzzle1;
+var hpuzzle1;
   var ground1;
   var ground2;
   var ground3;
@@ -354,7 +355,7 @@ var banditwalkspeed = 4;
         ground4.anchor.setTo(0);
         ground4.scale.setTo(1);
 
-        apuzzle1 = staticimages.create(leftmargin2+300, pagestart3+yhop, 'greentarget');
+        apuzzle1 = staticimages.create(leftmargin2+240, pagestart3+yhop, 'greentarget');
         apuzzle1.anchor.setTo(0.5);
         apuzzle1.scale.setTo(3);
 
@@ -370,17 +371,21 @@ var banditwalkspeed = 4;
         dpuzzle1.anchor.setTo(0.5);
         dpuzzle1.scale.setTo(3);
 
-        epuzzle1 = staticimages.create(leftmargin2+500, pagestart3+yhop*5, 'greentarget');
-        epuzzle1.anchor.setTo(0.5);
-        epuzzle1.scale.setTo(3);
-
-        fpuzzle1 = staticimages.create(leftmargin2+700, pagestart3+yhop*2, 'greentarget');
+        fpuzzle1 = staticimages.create(leftmargin2+640, pagestart3+yhop*2, 'greentarget');
         fpuzzle1.anchor.setTo(0.5);
         fpuzzle1.scale.setTo(3);
 
-        gpuzzle1 = staticimages.create(leftmargin2+400, pagestart3+yhop*5, 'greentarget');
+        epuzzle1 = staticimages.create(leftmargin2+440, pagestart3+yhop*5, 'greentarget');
+        epuzzle1.anchor.setTo(0.5);
+        epuzzle1.scale.setTo(3);
+
+        gpuzzle1 = staticimages.create(leftmargin2+340, pagestart3+yhop*5, 'greentarget');
         gpuzzle1.anchor.setTo(0.5);
         gpuzzle1.scale.setTo(3);
+
+        hpuzzle1 = staticimages.create(leftmargin2+540, pagestart3+yhop*5, 'yellowtarget');
+        hpuzzle1.anchor.setTo(0.5);
+        hpuzzle1.scale.setTo(3);
 
         loveline = staticimages.create(leftmargin1+10, 0, 'loveline');
         loveline.anchor.setTo(0);
@@ -398,7 +403,7 @@ var banditwalkspeed = 4;
         casa.anchor.setTo(0.5);
         casa.scale.setTo(0);
 
-        flag = staticimages.create(looperleftx - 8, pageend3, 'flag');
+        flag = staticimages.create(rightmargin4-60, pageend3, 'flag');
         flag.anchor.setTo(0.5);
         flag.scale.setTo(1);
 
@@ -444,7 +449,7 @@ var banditwalkspeed = 4;
         gatemark5 = staticimages.create(rightmargin2-10, pageend2, 'gate');
         gatemark6 = staticimages.create(leftmargin2+10, pagestart3, 'gate');
         gatemark7 = staticimages.create(leftmargin2+10, pageend3, 'gate2');
-        gatemark8 = staticimages.create(rightmargin2-10, pageend3, 'gate');
+        gatemark8 = staticimages.create(rightmargin2-10, pageend3, 'gate2');
         gatemark9 = staticimages.create(leftmargin3+10, pageend3, 'gate');
         gatemark10 = staticimages.create(rightmargin3-10, pageend3, 'gate');
         gatemark11 = staticimages.create(leftmargin4+10, pageend3, 'gate');
@@ -497,7 +502,7 @@ for(var i=0; i<ballnumber; i++){
   balls[i] = {};
   balls[i].banditPossession = false;
   balls[i].sound = game.add.audio('collect'+(i+1));
-  balls[i].sprite = projectiles.create(60+i*10, pageend1, 'gameball'+(i+1));
+  balls[i].sprite = projectiles.create(leftmargin2+i*20, pageend3, 'gameball'+(i+1));
   balls[i].sprite.anchor.setTo(0.5);
   balls[i].sprite.scale.setTo(ballscale);
   balls[i].sprite.vx = ballmeetsplayer/4;
@@ -698,6 +703,10 @@ var gate1sounda = false;
 var gate1soundb = true;
 var access1sound = false;
 
+var gate2sounda = false;
+var gate2soundb = true;
+var access2sound = false;
+
 function puzzleCompletion(){
   if (boxfull_a.length > 0
       && boxfull_a.length > 0
@@ -725,6 +734,7 @@ function puzzleCompletion(){
     gatemark7.kill();
     gatemark7 = staticimages.create(leftmargin2+10, pageend3, 'gate');
     gatemark7.scale.setTo(1);
+    gatemark7.anchor.setTo(0.5);
     yessound.play();
     gate1sounda = true;
     }
@@ -735,11 +745,52 @@ function puzzleCompletion(){
     gatemark7.kill();
     gatemark7 = staticimages.create(leftmargin2+10, pageend3, 'gate2');
     gatemark7.scale.setTo(1);
+    gatemark7.anchor.setTo(0.5);
     nosound.play();
     gate1soundb = true;
     }
     else{gate1sounda = false;}
   }
+
+
+  if (boxfull_h.length > 0){
+        gate2down = true;
+        if (access2sound == false){
+      //  oob2.play();
+        access2sound = true;
+    //    ground4.tint = 0x9933ff;
+      }
+      }
+  else {
+    gate2down = false;
+    access2sound = false;
+  //  ground4.tint = 0xffffff;
+    }
+
+  if (gate2down == true){
+    if (gate2sounda == false){
+    gatemark8.kill();
+    gatemark8 = staticimages.create(rightmargin2-10, pageend3, 'gate');
+    gatemark8.anchor.setTo(0.5);
+    gatemark8.scale.setTo(1);
+    yessound.play();
+    gate2sounda = true;
+    }
+    else{gate2soundb = false;}
+    }
+  else {
+    if (gate2soundb == false){
+    gatemark8.kill();
+    gatemark8 = staticimages.create(rightmargin2-10, pageend3, 'gate2');
+    gatemark8.anchor.setTo(0.5);
+    gatemark8.scale.setTo(1);
+    nosound.play();
+    gate2soundb = true;
+    }
+    else{gate2sounda = false;}
+  }
+
+
 }
 
 function puzzle1(ball){
@@ -818,7 +869,6 @@ function ghostBandit(){
     ghostmode = true;
     }
     else {
-      console.log('hello')
       for (var j = 0; j<bandit.length; j++){
       bandit[j].sprite.tint = 0xffffff;
     }
@@ -1013,12 +1063,12 @@ else {
 
 
 
-
+/*
 function crazyTrees(tree){
   var obj = tree.sprite;
   obj.tint = Math.random() * 0xffffff;
 }
-
+*/
 var may;
 var mtnplaysong = true;
 
@@ -1074,8 +1124,8 @@ function looper(ball) {
   if (poss == false){
   if (obj.y > looperlefty - 50
     && obj.y < looperlefty + 50
-    && obj.x > looperleftx-60
-    && obj.x < looperrightx+60){
+    && obj.x > looperleftx-40
+    && obj.x < looperrightx+40){
       if (direction == true) {
         obj.x += looperspeed;//obj.vx;
         if (obj.x > looperrightx) {
@@ -1121,8 +1171,8 @@ function looper(ball) {
   if (poss == false){
     if (obj.y > looperlefty2 - 50
       && obj.y < looperlefty2 + 50
-      && obj.x > looperleftx2-60
-      && obj.x < looperrightx2+60){
+      && obj.x > looperleftx2-40
+      && obj.x < looperrightx2+40){
         if (direction == true) {
           obj.x += looperspeed;//obj.vx;
           if (obj.x > looperrightx2) {
@@ -1159,24 +1209,22 @@ function looper(ball) {
 function loopReset(ball) {
   var obj = ball.sprite;
   var inside = ball.inlooper;
-  if (bandit[0].sprite.x > looperleftx && bandit[0].sprite.x < looperleftx + 200){
-    if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {
+  if (bandit[0].sprite.x > flag.x && bandit[0].sprite.y > pagestart3){
            obj.y = pageend3;
            inside = false;
          }
-}
+
 return inside;
 }
 
 function loopReset2(ball) {
   var obj = ball.sprite;
   var inside = ball.inlooper;
-  if (bandit[0].sprite.x > looperleftx && bandit[0].sprite.x < looperleftx + 200){
-    if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {
+  if (bandit[0].sprite.x > flag.x && bandit[0].sprite.y > pagestart3){
            obj.y = pageend3;
            inside = false;
-}
-}
+         }
+
 return inside;
 }
 
@@ -1506,7 +1554,7 @@ var menusize = 1;
             && bandit[0].sprite.x < housex+180
             && bandit[0].sprite.x > housex-10){
               if (game.input.keyboard.justPressed(Phaser.Keyboard.ENTER))  {
-              console.log('tadaima!')
+            //  console.log('tadaima!')
               jamSpace();
             }
             }
@@ -1533,7 +1581,7 @@ var menusize = 1;
              && bandit[i].sprite.y >= pagestart1){
                bandit[i].onpage2 = false;
                bandit[i].onpage1 = true;
-              console.log('1')
+        //      console.log('1')
            }
 //on page 2
            if (bandit[i].sprite.x < rightmargin2
@@ -1543,7 +1591,7 @@ var menusize = 1;
                bandit[i].onpage1 = false;
                bandit[i].onpage3 = false;
                bandit[i].onpage2 = true;
-               console.log('2')
+          //     console.log('2')
            }
 //on page 3
             if (bandit[i].sprite.x < rightmargin2
@@ -1553,7 +1601,7 @@ var menusize = 1;
                 bandit[i].onpage2 = false;
                 bandit[i].onpage4 = false;
                 bandit[i].onpage3 = true;
-                console.log('3')
+          //      console.log('3')
             }
 //on page 4
             if (bandit[i].sprite.x < rightmargin2
@@ -1564,7 +1612,7 @@ var menusize = 1;
                 bandit[i].onpage5 = false;
                 bandit[i].onpage7 = false;
                 bandit[i].onpage4 = true;
-                console.log('4')
+          //      console.log('4')
             }
 //on page 5
             if (bandit[i].sprite.x < rightmargin3
@@ -1574,7 +1622,7 @@ var menusize = 1;
                 bandit[i].onpage4 = false;
                 bandit[i].onpage6 = false;
                 bandit[i].onpage5 = true;
-                console.log('5')
+          //      console.log('5')
             }
 //on page 6
             if (bandit[i].sprite.x < rightmargin4
@@ -1583,7 +1631,7 @@ var menusize = 1;
               && bandit[i].sprite.y >= pagestart3){
                 bandit[i].onpage5 = false;
                 bandit[i].onpage6 = true;
-                console.log('6')
+          //      console.log('6')
             }
 //on page 7
           if (bandit[i].sprite.x < rightmargin1
@@ -1593,7 +1641,7 @@ var menusize = 1;
               bandit[i].onpage4 = false;
               bandit[i].onpage8 = false;
               bandit[i].onpage7 = true;
-              console.log('7')
+          //    console.log('7')
           }
 //on page 8
 //REVERSED MARGINS (NEGATIVE NUMBERS)
@@ -1604,7 +1652,7 @@ var menusize = 1;
               bandit[i].onpage7 = false;
               bandit[i].onpage9 = false;
               bandit[i].onpage8 = true;
-              console.log('8')
+          //    console.log('8')
           }
 //on page 9
           if (bandit[i].sprite.x > rightmargin1 * -1
@@ -1614,7 +1662,7 @@ var menusize = 1;
               bandit[i].onpage10 = false;
               bandit[i].onpage8 = false;
               bandit[i].onpage9 = true;
-              console.log('9')
+          //    console.log('9')
           }
          }
 
@@ -1708,7 +1756,7 @@ var menusize = 1;
                          }
 
 
-
+var gate2down = false;
 
 function marginer(obj) {
   var ob = obj.sprite
@@ -1810,8 +1858,15 @@ else if (page3 == true){
       ob.x = leftmargin2;
     }
     if (ob.y == pageend3 && ob.x > rightmargin2) {
-      //go straight
+      if (gate2down == true){
+        //go straight
+      }
+      else{
+          ob.y = pagestart3;
+          ob.x = leftmargin2;
     }
+    }
+
     else{
     if (ob.x > rightmargin2){
       ob.y = ob.y + yhop;
@@ -1971,22 +2026,21 @@ if (obj.x < rightmargin2
   return lake1
 }
 
-
-
 function lake2area(ball){
   var obj = ball.sprite;
   var lake2 = ball.lake2;
   var wave = ball.waves;
   //lake 2
-  if (obj.x < rightmargin2+20
-    && obj.x > leftmargin2-20
-    && obj.y > pageend3){
+  if (obj.x < rightmargin1+20
+    && obj.x > leftmargin1-20
+    && obj.y > pageend1
+    && obj.y < pageend1+300){
     lake2 = true;
     }
 
     if (lake2 == true){
-      if(obj.y > pageend3){
-        obj.y -= obj.vy*wave;
+      if(obj.y > pageend1){
+        obj.y -= 2*wave;
       }
       else {
         lake2 = false;
@@ -1996,29 +2050,73 @@ function lake2area(ball){
     return lake2;
   }
 
+function lake3area(ball){
+  var obj = ball.sprite;
+  var lake3 = ball.lake3;
+  var wave = ball.waves;
+  var tossx = ball.tossedx;
+  //lake 2
+  if (obj.x < rightmargin2+10
+    && obj.x > leftmargin2-10
+    && obj.y > pageend3
+    && obj.y < pageend3 + 200){
+    lake3 = true;
+    }
 
-  function lake3area(ball){
+    if (lake3 == true){
+      if (obj.y <= pageend3){
+        lake3 = false;
+      }
+      else if (obj.x < leftmargin2 + 440){
+        if(obj.y > pageend3){
+          obj.y -= 2;
+      }
+    }
+      else{
+        if (obj.x > tossx - 400){
+          obj.x -= 2;
+        }
+          if (obj.x < tossx - 300){
+            if (obj.y > pageend3){
+                obj.y -= 2;
+            }
+          }
+          else {
+            lake3 = false;
+          }
+        }
+  }
+
+    return lake3;
+  }
+
+/*
+  function lake3whirl(ball){
     var obj = ball.sprite;
-    var lake3 = ball.lake2;
+    var whirl = ball.lake3whirl;
     var wave = ball.waves;
     //lake 2
-    if (obj.x < rightmargin1+20
-      && obj.x > leftmargin1-20
-      && obj.y > pageend1){
-      lake3 = true;
+    if (obj.x < rightmargin2
+      && obj.x > rightmargin2-300
+      && obj.y > pageend3
+      && obj.y < pageend3 + 200){
+      whirl = true;
       }
 
-      if (lake3 == true){
-        if(obj.y > pageend1){
-          obj.y -= 2*wave;
+      if (whirl == true){
+        if(obj.x > rightmargin2-300){
+          obj.x -= obj.vx*wave;
         }
         else {
-          lake3 = false;
+          whirl = false;
         }
       }
 
-      return lake3;
+      return whirl;
     }
+*/
+
+
 
 function puzzleboxes(){
   if (boxfull_a.length > 0){
@@ -2064,6 +2162,12 @@ function puzzleboxes(){
   else{
         gpuzzle1.tint = 0xffffff;
   }
+  if (boxfull_h.length > 0){
+        hpuzzle1.tint = 0x9933ff;
+  }
+  else{
+        hpuzzle1.tint = 0xffffff;
+  }
 }
 
 var toss_speed = 19 //19 shows motion
@@ -2074,6 +2178,7 @@ var boxfull_d = [];
 var boxfull_e = [];
 var boxfull_f = [];
 var boxfull_g = [];
+var boxfull_h = [];
 //ball movement
 function ballMove() {
 
@@ -2171,6 +2276,18 @@ function ballMove() {
                     boxfull_g.splice(i);
                   }
 
+                  if (balls[i].sprite.x > hpuzzle1.x-puzzlehitbox
+                    && balls[i].sprite.x < hpuzzle1.x+puzzlehitbox
+                    && balls[i].sprite.y > hpuzzle1.y-puzzlehitbox
+                    && balls[i].sprite.y < hpuzzle1.y+puzzlehitbox
+                    )
+                    {
+                      boxfull_h.push(i);
+                    }
+                    else {
+                      boxfull_h.splice(i);
+                    }
+
 //magnet
 
 
@@ -2213,6 +2330,9 @@ function ballMove() {
     else if (balls[i].lake3 == true){
       //this next bit breaks water movement
     }
+//    else if (balls[i].lake3whirl == true){
+      //this next bit breaks water movement
+  //  }
     else{
       if (bandit[0].sprite.y == pageend1
         && balls[i].sprite.y < pagestart2
@@ -2240,6 +2360,7 @@ function ballMove() {
       balls[i].lake1 = lake1area(balls[i]);
       balls[i].lake2 = lake2area(balls[i]);
       balls[i].lake3 = lake3area(balls[i]);
+    //  balls[i].lake3whirl = lake3whirl(balls[i]);
 //scan1 and scan 2
       balls[i].scan1off = ballScan(balls[i]);
       balls[i].scan2off = ballScan2(balls[i]);
@@ -2330,6 +2451,17 @@ function ballMove() {
         balls[i].sprite.x++;
       }
     }
+    if (balls[i].sprite.y > hpuzzle1.y-16
+      && balls[i].sprite.y < hpuzzle1.y+16 //extra
+      && balls[i].sprite.x > hpuzzle1.x - puzzlehitbox
+      && balls[i].sprite.x < hpuzzle1.x + puzzlehitbox){
+      if (balls[i].sprite.x > hpuzzle1.x){
+        balls[i].sprite.x--;
+      }
+      if (balls[i].sprite.x < hpuzzle1.x){
+        balls[i].sprite.x++;
+      }
+    }
 
   }
 
@@ -2344,6 +2476,7 @@ function ballMove() {
     boxfull_e.splice(i);
     boxfull_f.splice(i);
     boxfull_g.splice(i);
+    boxfull_h.splice(i);
     balls[i].lake1 = false;
     balls[i].lake2 = false;
     balls[i].lake3 = false;
