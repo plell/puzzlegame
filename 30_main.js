@@ -56,13 +56,14 @@
         game.load.audio('oob2', 'images/audio/oob2.wav');
         game.load.audio('toss1', 'images/audio/toss1.wav');
         game.load.image('menu', 'images/menu.png');
-        game.load.image('gate', 'images/gate.png');
-        game.load.image('gate2', 'images/gate2.png');
+
+        game.load.image('gate', 'images/unlocked.png');
+        game.load.image('gate2', 'images/locked.png');
         game.load.image('gate3', 'images/gate3.png');
 
         game.load.image('scan1', 'images/scan1.png');
         game.load.image('scan2', 'images/scan2.png');
-
+        game.load.image('ghostmode', 'images/ghostmode.png');
         game.load.image('wallguard1', 'images/wallguard1.ico');
         game.load.image('wallguard2', 'images/wallguard2.ico');
         game.load.image('1', 'images/backgrounds/1.jpg');
@@ -148,7 +149,7 @@
 
 //word doc parameters
   var yhop = 76; //34
-
+  var ghosticon
   var leftmargin1 = 10;
   var leftmargin2 = 800 + 10;
   var leftmargin3 = 800*2 + 10;
@@ -229,14 +230,15 @@
   var h_wintexty = 300;
   var questionmark;
   var hanamovespeed = 15;
-  var banditmovespeed = 25;
+  var banditmovespeed = 22;
 /*
   var currentdate = new Date();
   var datetime = (currentdate.getMonth()+1) + "/"
                 + currentdate.getDate();
 */
+  var ghostmodeget = false;
   var text;
-  var style = { font: "20px times", fill: "#ffffff", align: "center" };
+  var style = { font: "20px monospace", fill: "#ffffff", align: "center" };
 
   var wallguard1
   var wallguard2
@@ -308,7 +310,8 @@ var hpuzzle1;
   var ground2;
   var ground3;
   var ground4;
-var banditwalkspeed = 4;
+var banditwalkspeed = 8;
+var ghostgettext
 
     function create () {
         game.stage.backgroundColor = '#2d2d2d';
@@ -411,6 +414,7 @@ var banditwalkspeed = 4;
         house.anchor.setTo(0);
         house.scale.setTo(1);
 
+
     //    wallguard1 = staticimages.create(guard1x, guard1y, 'wallguard1');
     //    wallguard1.anchor.setTo(0.5);
     //    wallguard1.scale.setTo(3);
@@ -424,6 +428,10 @@ var banditwalkspeed = 4;
         yellowtarget.scale.setTo(2);
 
         iconbud = staticimages.create(40, 40, 'yellowtarget');
+
+        ghosticon = staticimages.create(40, 40, 'ghostmode');
+        ghosticon.anchor.setTo(0.5);
+        ghosticon.scale.setTo(0);
 
         loopmachineleft = staticimages.create(looperleftx, pageend3-yhop, 'leftear');
         loopmachineleft.anchor.setTo(0.5);
@@ -492,8 +500,8 @@ var banditwalkspeed = 4;
         gatemark16.scale.setTo(1);
 
 
-//all text
-//guard1dialogue = game.add.text(guard1x, guard1y, 'going over the bridge? \n [Y] for yes \n [N] for no', style);
+ghostgettext = game.add.text(400, pageend3-200, 'YOU GOT GHOST MODE! \n Press Z to toggle between ghost and um what you are now.', style);
+ghostgettext.anchor.setTo(0.5);
 //guard2dialogue = game.add.text(guard2x, pageend1-100, 'wanna go upstairs? \n [Y] for yes \n [N] for no', style);
 
 
@@ -678,6 +686,7 @@ menu.scale.setTo(0);
                 playerPowers();
                 ballMove();
                 moveCamera();
+                textWorld();
           //      npcTalk();
             //    animals();
                 iconUpdate();
@@ -693,7 +702,11 @@ menu.scale.setTo(0);
                 //player movement monitor
               //  if(loader){
         //    game.debug.spriteInfo(loader, 450, 400);}
-        //    game.debug.spriteInfo(bandit[0].sprite, 450, 32);
+            game.debug.spriteInfo(bandit[0].sprite, 450, 32);
+}
+
+function textWorld(){
+
 }
 
 var puzzlehitbox = 44;
@@ -758,7 +771,7 @@ function puzzleCompletion(){
         if (access2sound == false){
       //  oob2.play();
         access2sound = true;
-    //    ground4.tint = 0x9933ff;
+      //  ground4.tint = 0x2233ff;
       }
       }
   else {
@@ -861,20 +874,29 @@ function playerPowers() {
 }
 
 function ghostBandit(){
+  if (bandit[0].onpage7 == true){
+    ghostmodeget = true;
+  }
+
+  if (ghostmodeget == true){
+    //if player has ghost mode
   if (game.input.keyboard.justPressed(Phaser.Keyboard.Z)) {
     if (ghostmode == false){
       for (var j = 0; j<bandit.length; j++){
       bandit[j].sprite.tint = 0x9933ff;
     }
+    ghosticon.scale.setTo(1.4)
     ghostmode = true;
     }
     else {
       for (var j = 0; j<bandit.length; j++){
       bandit[j].sprite.tint = 0xffffff;
     }
+    ghosticon.scale.setTo(0)
     ghostmode = false;
   }
   }
+}
 }
 
 function banditScan() {
@@ -1448,6 +1470,9 @@ function moveCamera() {
 
   iconbud.x = yellowtarget.x;
   iconbud.y = yellowtarget.y;
+
+  ghosticon.x = yellowtarget.x + 40
+  ghosticon.y = yellowtarget.y
 
   }
 
