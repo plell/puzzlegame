@@ -310,8 +310,10 @@ var hpuzzle1;
   var ground2;
   var ground3;
   var ground4;
-var banditwalkspeed = 8;
+var banditwalkspeed = 4;
 var ghostgettext
+var graveyardtext
+var ghostyardtext
 
     function create () {
         game.stage.backgroundColor = '#2d2d2d';
@@ -504,6 +506,9 @@ ghostgettext = game.add.text(400, pageend3-200, 'YOU GOT GHOST MODE! \n Press Z 
 ghostgettext.anchor.setTo(0.5);
 //guard2dialogue = game.add.text(guard2x, pageend1-100, 'wanna go upstairs? \n [Y] for yes \n [N] for no', style);
 
+graveyardtext = game.add.text(1000, pageend3+100, '...no running in the graveyard...', style);
+ghostyardtext = game.add.text(1000, pageend3+100, "...PARTY AT AL'S! 206-666-2000...", style);
+
 
 //ball starting positions
 for(var i=0; i<ballnumber; i++){
@@ -652,17 +657,17 @@ hippo.onpage9 = false;
 //bandit parts
 for(var i = 0; i < banditparts; i++){
   bandit[i] = {};
-  bandit[i].sprite = players.create(240 - (i * 10), 300, 'bandit'+ i);
+  bandit[i].sprite = players.create((leftmargin2 + 240) - (i * 10), pagestart3, 'bandit'+ i);
   bandit[i].sprite.anchor.setTo(0.5);
   bandit[i].sprite.scale.setTo(playerscale);
-  bandit[i].pageportal1 = true;
+  bandit[i].pageportal1 = false;
   bandit[i].pageportal2 = true;
   bandit[i].leftside = false; //leftside of the first movable wall
   bandit[i].rightside = false; //leftside of the first movable wall
-  bandit[i].onpage1 = true;
+  bandit[i].onpage1 = false;
   bandit[i].onpage2 = false;
   bandit[i].onpage3 = false;
-  bandit[i].onpage4 = false;
+  bandit[i].onpage4 = true;
   bandit[i].onpage5 = false;
   bandit[i].onpage6 = false;
   bandit[i].onpage7 = false;
@@ -729,17 +734,22 @@ function puzzleCompletion(){
       && boxfull_e.length > 0
       && boxfull_f.length > 0
       && boxfull_g.length > 0){
+        ghostyardtext.scale.setTo(1);
+        graveyardtext.scale.setTo(0);
         gate1down = true;
         if (access1sound == false){
       //  oob2.play();
         access1sound = true;
         ground4.tint = 0x9933ff;
+
       }
       }
   else {
     gate1down = false;
     access1sound = false;
     ground4.tint = 0xffffff;
+    ghostyardtext.scale.setTo(0);
+    graveyardtext.scale.setTo(1);
     }
 
   if (gate1down == true){
@@ -1535,6 +1545,18 @@ var menusize = 1;
 
     //player movement
      function playerMove() {
+       if (bandit[6].onpage4 == true){
+         if (ghostmode == true){
+           banditmovespeed = 22;
+         }
+         else{
+         banditmovespeed = 10;
+       }
+       }
+       else{
+         banditmovespeed = 22;
+       }
+
        if (godmode == true){
 
          if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
