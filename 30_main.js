@@ -68,7 +68,6 @@
         game.load.image('wallguard2', 'images/wallguard2.ico');
         game.load.image('1', 'images/backgrounds/1.jpg');
         game.load.image('may', 'images/pixies/may.png');
-        game.load.image('flag', 'images/flag.png');
         game.load.image('loveline2', 'images/loveline2.png');
         game.load.image('arrow', 'images/arrows.png');
         game.load.image('snowflake', 'images/snowflake.png');
@@ -258,7 +257,6 @@
   var trees1 = [];
   var trees2 = [];
   var trees3 = [];
-  var flag
   var raindrops = 60;
   var rain = [];
   var pagenumber = 10;
@@ -338,8 +336,6 @@ var ghostyardtext
         staticimages = game.add.group();
         projectiles = game.add.group();
         players = game.add.group();
-  //      players.enableBody = true;
-  //      players.physicsBodyType = Phaser.Physics.ARCADE;
 
 
 
@@ -408,22 +404,10 @@ var ghostyardtext
         casa.anchor.setTo(0.5);
         casa.scale.setTo(0);
 
-        flag = staticimages.create(rightmargin4-60, pageend3, 'flag');
-        flag.anchor.setTo(0.5);
-        flag.scale.setTo(1);
 
         house = staticimages.create(housex, housey, 'house');
         house.anchor.setTo(0);
         house.scale.setTo(1);
-
-
-    //    wallguard1 = staticimages.create(guard1x, guard1y, 'wallguard1');
-    //    wallguard1.anchor.setTo(0.5);
-    //    wallguard1.scale.setTo(3);
-
-    //    wallguard2 = staticimages.create(guard2x, pageend1-40, 'wallguard2');
-    //    wallguard2.anchor.setTo(0.5);
-    //    wallguard2.scale.setTo(3);
 
         yellowtarget = staticimages.create(40, 40, 'yellowtarget');
         yellowtarget.anchor.setTo(0.5);
@@ -435,11 +419,11 @@ var ghostyardtext
         ghosticon.anchor.setTo(0.5);
         ghosticon.scale.setTo(0);
 
-        loopmachineleft = staticimages.create(looperleftx, pageend3-yhop, 'leftear');
+        loopmachineleft = staticimages.create(looperleftx, looperlefty, 'leftear');
         loopmachineleft.anchor.setTo(0.5);
         loopmachineleft.scale.setTo(1);
 
-        loopmachineright = staticimages.create(looperrightx, pageend3-yhop, 'rightear');
+        loopmachineright = staticimages.create(looperrightx, looperrighty, 'rightear');
         loopmachineright.anchor.setTo(0.5);
         loopmachineright.scale.setTo(1);
 
@@ -515,7 +499,7 @@ for(var i=0; i<ballnumber; i++){
   balls[i] = {};
   balls[i].banditPossession = false;
   balls[i].sound = game.add.audio('collect'+(i+1));
-  balls[i].sprite = projectiles.create(leftmargin2+i*20, pageend3, 'gameball'+(i+1));
+  balls[i].sprite = projectiles.create(leftmargin2+i*20, pagestart1+yhop, 'gameball'+(i+1));
   balls[i].sprite.anchor.setTo(0.5);
   balls[i].sprite.scale.setTo(ballscale);
   balls[i].sprite.vx = ballmeetsplayer/4;
@@ -548,14 +532,6 @@ for(var i=0; i<ballnumber; i++){
   balls[i].scan1off = true;
   balls[i].scan2off = true;
   //grid stuff
-/*  balls[i].tonorth = false;
-  balls[i].tonortheast = false;
-  balls[i].toeast = false;
-  balls[i].tosoutheast = false;
-  balls[i].tosouth = false;
-  balls[i].tosouthwest = false;
-  balls[i].towest = false;
-  balls[i].tonorthwest = false; */
   balls[i].questionmarker = staticimages.create(looperleftx+300, pageend3-yhop*4, 'questionmark');
   balls[i].questionmarker.anchor.setTo(0.5);
   balls[i].questionmarker.scale.setTo(0);
@@ -657,17 +633,17 @@ hippo.onpage9 = false;
 //bandit parts
 for(var i = 0; i < banditparts; i++){
   bandit[i] = {};
-  bandit[i].sprite = players.create((leftmargin2 + 240) - (i * 10), pagestart3, 'bandit'+ i);
+  bandit[i].sprite = players.create((leftmargin1 + 627) - (i * 10), pageend1-yhop, 'bandit'+ i);
   bandit[i].sprite.anchor.setTo(0.5);
   bandit[i].sprite.scale.setTo(playerscale);
   bandit[i].pageportal1 = false;
   bandit[i].pageportal2 = true;
   bandit[i].leftside = false; //leftside of the first movable wall
   bandit[i].rightside = false; //leftside of the first movable wall
-  bandit[i].onpage1 = false;
+  bandit[i].onpage1 = true;
   bandit[i].onpage2 = false;
   bandit[i].onpage3 = false;
-  bandit[i].onpage4 = true;
+  bandit[i].onpage4 = false;
   bandit[i].onpage5 = false;
   bandit[i].onpage6 = false;
   bandit[i].onpage7 = false;
@@ -1133,15 +1109,15 @@ var scan1init = false;
 var scan2init = false;
 //lopper variables
 var mtnbell = 0;
-var looperleftx = 1620;
-var looperlefty = pageend3 - yhop;
-var looperrightx = 2380;
-var looperrighty = pageend3 - yhop;
+var looperleftx = leftmargin4;
+var looperlefty = pagestart4 + yhop*2;
+var looperrightx = rightmargin4;
+var looperrighty = pagestart4 + yhop*2;
 
-var looperleftx2 = 1620;
-var looperlefty2 = pageend3 + yhop;
-var looperrightx2 = 2380;
-var looperrighty2 = pageend3 + yhop;
+var looperleftx2 = leftmargin4;
+var looperlefty2 = pagestart4 + yhop*4;
+var looperrightx2 = rightmargin4;
+var looperrighty2 = pagestart4 + yhop*4;
 var looperspeed = 19;
 
 
@@ -1154,8 +1130,8 @@ function looper(ball) {
   var poss = ball.banditPossession
 
   if (poss == false){
-  if (obj.y > looperlefty - 50
-    && obj.y < looperlefty + 50
+  if (obj.y > looperlefty - 60
+    && obj.y < looperlefty + 60
     && obj.x > looperleftx-40
     && obj.x < looperrightx+40){
       if (direction == true) {
@@ -1173,7 +1149,7 @@ function looper(ball) {
         else{qmark.setTo(0);}
         }
       else {
-        obj.x -= looperspeed;//obj.vx;
+        obj.x -= looperspeed;
         if (obj.x < looperleftx) {
         sound.play();
         mtn.tint = Math.random() * 0xffffff;
@@ -1201,8 +1177,8 @@ function looper(ball) {
     var poss = ball.banditPossession
 
   if (poss == false){
-    if (obj.y > looperlefty2 - 50
-      && obj.y < looperlefty2 + 50
+    if (obj.y > looperlefty2 - 60
+      && obj.y < looperlefty2 + 60
       && obj.x > looperleftx2-40
       && obj.x < looperrightx2+40){
         if (direction == true) {
@@ -1237,28 +1213,6 @@ function looper(ball) {
       }
           return direction;
         }
-
-function loopReset(ball) {
-  var obj = ball.sprite;
-  var inside = ball.inlooper;
-  if (bandit[0].sprite.x > flag.x && bandit[0].sprite.y > pagestart3){
-           obj.y = pageend3;
-           inside = false;
-         }
-
-return inside;
-}
-
-function loopReset2(ball) {
-  var obj = ball.sprite;
-  var inside = ball.inlooper;
-  if (bandit[0].sprite.x > flag.x && bandit[0].sprite.y > pagestart3){
-           obj.y = pageend3;
-           inside = false;
-         }
-
-return inside;
-}
 
 
 var looper2hitbox = 15;
@@ -2413,9 +2367,7 @@ function ballMove() {
       balls[i].scan2off = ballScan2(balls[i]);
 //machinelooper1
       balls[i].totheright = looper(balls[i]);
-      balls[i].inlooper = loopReset(balls[i]);
       balls[i].totheright2 = looper2(balls[i]);
-      balls[i].inlooper2 = loopReset2(balls[i]);
 
       //puzzle1
     //  puzzle1(balls[i]);
@@ -2530,6 +2482,8 @@ function ballMove() {
     balls[i].inboxa = false;
     balls[i].inboxb = false;
     balls[i].inboxc = false;
+    balls[i].inlooper = false;
+    balls[i].inlooper2 = false;
 
     balls[i].sprite.x = bandit[0].sprite.x;
     balls[i].sprite.y = bandit[0].sprite.y;
@@ -2555,56 +2509,14 @@ function ballMove() {
   }// end loop
 }
 
-
-
-
-
-
-function winLose() {}
-           /*
-             if (bandit.y < 165 || hana.y < 165) {
-                       text = game.add.text(100, h_wintexty, "HANA WIN", style);
-                       text.anchor.set(0.5);
-                    //   game.stage.backgroundColor = '#C0FFEE';
-
-                      // game.input.onTap.addOnce(restart,this);
-                       h_wintexty = h_wintexty + 30;
-             }
-             if (bandit.y > 430 || hana.y > 430 ) {
-                       text = game.add.text(700, b_wintexty, "BANDIT WIN", style);
-                       text.anchor.set(0.5);
-                  //     game.stage.backgroundColor = '#C0FFEE';
-
-                    //   game.input.keyboard.SPACEBAR.addOnce(restart,this));
-                       b_wintexty = b_wintexty + 30;
-             }
-             */
-
-function restart () {}
-
-function impactVisual() {}
-
-
-
-
-
 function playerToss() {
-//  if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) use this for arpeggiator
   if (game.input.keyboard.justPressed(Phaser.Keyboard.UP)){
-//console.log(grabbed)
-    //for(var i=0; i<balls.length; i++){
     if (game.input.keyboard.isDown(Phaser.Keyboard.Y)){
     if(grabbed.length>0){
       for(var j=0; j<grabbed.length; j++){
         var i = grabbed[j]
-    //    if (balls[i].sprite.x > bandit[0].sprite.x-ballmeetsplayer
-    //      && balls[i].sprite.y > bandit[0].sprite.y-ballmeetsplayer
-    //      && balls[i].sprite.x < bandit[0].sprite.x+ballmeetsplayer
-    //      && balls[i].sprite.y < bandit[0].sprite.y+ballmeetsplayer){
-          //  balls[i].sprite.y -= yhop;
           balls[i].sprite.y = bandit[0].sprite.y;
           balls[i].sprite.x = bandit[0].sprite.x;
-          //  toss1.play();
             balls[i].banditPossession = false;
             grabbed.splice(j,1)
             break;
@@ -2618,11 +2530,6 @@ function playerToss() {
       if(grabbed.length>0){
       for(var j=0; j<grabbed.length; j++){
         var i = grabbed[j]
-      //  if (balls[i].sprite.x > bandit[0].sprite.x-ballmeetsplayer
-      //    && balls[i].sprite.y > bandit[0].sprite.y-ballmeetsplayer
-      //    && balls[i].sprite.x < bandit[0].sprite.x+ballmeetsplayer
-      //    && balls[i].sprite.y < bandit[0].sprite.y+ballmeetsplayer){
-          //  balls[i].justGotTossed = true
             toss1.play();
             balls[i].sound.play();
             balls[i].tossedy = bandit[0].sprite.y;
@@ -2633,7 +2540,6 @@ function playerToss() {
             balls[i].banditPossession = false;
             grabbed.splice(j,1)
             break;
-      //    }
         }
       }
     }
@@ -2645,28 +2551,18 @@ function playerToss() {
     if(grabbed.length>0){
       for(var j = grabbed.length; j--;){
         var i = grabbed[j]
-  //      if (balls[i].sprite.x > bandit[0].sprite.x-ballmeetsplayer
-  //        && balls[i].sprite.y > bandit[0].sprite.y-ballmeetsplayer
-  //        && balls[i].sprite.x < bandit[0].sprite.x+ballmeetsplayer
-  //        && balls[i].sprite.y < bandit[0].sprite.y+ballmeetsplayer){
-        //    toss1.play();
             balls[i].sprite.y = bandit[0].sprite.y;
             balls[i].sprite.x = bandit[0].sprite.x;
             balls[i].banditPossession = false;
             grabbed.splice(j,1)
             break;
-  //        }
         }
       }
     }
     else {
       if(grabbed.length>0){
       for(var j=0; j<grabbed.length; j++){
-        var i = grabbed[j]
-      //  if (balls[i].sprite.x > bandit[0].sprite.x-ballmeetsplayer
-      //    && balls[i].sprite.y > bandit[0].sprite.y-ballmeetsplayer
-      //    && balls[i].sprite.x < bandit[0].sprite.x+ballmeetsplayer
-      //    && balls[i].sprite.y < bandit[0].sprite.y+ballmeetsplayer){
+        var i = grabbed[j];
             balls[i].tossedy = bandit[0].sprite.y;
             balls[i].tossedx = bandit[0].sprite.x;
             balls[i].sprite.y = bandit[0].sprite.y;
@@ -2677,51 +2573,9 @@ function playerToss() {
             balls[i].banditPossession = false;
             grabbed.splice(j,1)
             break;
-      //    }
+
         }
       }
     }
 }
 }
-
-function ballReset() {
-
-  for(var i=0; i<balls.length; i++){
-    if (bandit[0].sprite.x < 1400
-      && balls[i].sprite.y > pageend1+20
-      || balls[i].sprite.y < pagestart1-20) {
-      balls[i].sprite.x = 60+i*100;
-      balls[i].sprite.y = pageend1;
-      oob1.play();
-      balls[i].banditPossession = false;
-      if (grabbed.length > 0){
-      grabbed.splice[0];
-    }
-    }
-  }
-
-}
-
-
-          function knockBack(){
-            }
-    /*
-            if (gameball.x > bandit.x-ballmeetsplayer && gameball.y > bandit.y-ballmeetsplayer && gameball.x < bandit.x+ballmeetsplayer && gameball.y < bandit.y+ballmeetsplayer)
-                                      { passtoBandit = !passtoBandit;
-                                    for (var i = 0; i < knockbackdist; i++) {
-                                    bandit.x --;
-                                    bandit0.x --;
-                                    bandit1.x --;
-                                    bandit2.x --;
-                                    bandit3.x --;
-                                    bandit4.x --;
-                                    bandit5.x --;
-                                    marginRules();
-                                                }
-                                        }
-                                    //    playerMove();
-                                    */
-            /*ok, here are some notes on the hit system
-            8 unique toss styles: hold left, right, up, down, left-down, right-down, left-up, or right-up to choose toss style
-            4 toss speeds: release spacebar at the right time to toss at low, medium, high, and super high power
-            */
