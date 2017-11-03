@@ -1,0 +1,37 @@
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+    background: #274254;
+    }
+h1{
+    color: #ffffff;
+    text-align: center;}/*center canvas*/
+canvas {
+    margin: auto;   }
+
+#container {
+  top: 5%;
+  left: 100px;
+  position: absolute;}
+
+h1.titlename {
+  color: #eeeeff;
+  text-align: center;
+  margin-bottom: 2%;
+  font-family: Verdana;
+}
+
+h2.controls {
+  color: #eeeeff;
+  text-align: center;
+  font-family: Verdana;
+}
+
+div.container1 {
+}
+
+div.gamescreen {
+}
