@@ -1,139 +1,163 @@
 
-//window.PhaserGlobal = { disableWebAudio: true };
-
-//dimensions should be 800, 600
     var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'container', { preload: preload, create: create, update: update, render: render  });
 
-
     function preload () {
+      text = game.add.text(400, 300, '', style0);
+      text.anchor.setTo(0.5);
+      game.stage.backgroundColor = '#2d2d2d';
+    //  game.load.onLoadStart.add(loadStart, this);
+      game.load.onFileComplete.add(fileComplete, this);
+    //  game.load.onLoadComplete.add(loadComplete, this);
 
-for (var i = 0; i < 19; i++){
-      game.load.image('haka'+i, 'images/haka'+i+'.png');
+      for (var i = 0; i < 19; i++){
+            game.load.image('haka'+i, 'images/haka'+i+'.png');
+          }
+      for (var i = 0; i < 30; i++){
+            game.load.image('note'+i, 'images/notes/note'+i+'.png');
+          }
+      for (var i = 0; i < 4; i++){
+            game.load.image('seq'+i, 'images/seq'+i+'.png');
+            game.load.image('seqcrush'+i, 'images/seqcrush'+i+'.png');
+          }
+            game.load.image('snowflake', 'images/snowflake.png');
+            game.load.image('statue0', 'images/statue0.png');
+            game.load.image('statue1', 'images/statue1.png');
+            game.load.image('statue2', 'images/statue2.png');
+            game.load.image('statue3', 'images/statue3.png');
+            game.load.image('voice', 'images/voice.png');
+            game.load.image('bypassicon', 'images/open.png');
+            game.load.image('bypassicon2', 'images/closed.png');
+            game.load.image('heart', 'images/heart.png');
+            game.load.image('grass', 'images/grass.png');
+            game.load.image('you', 'images/you.png');
+            game.load.image('menu', 'images/menu.png');
+            game.load.image('flash', 'images/flash.png');
+            game.load.image('bell', 'images/bell.png');
+            game.load.image('blackarrow', 'images/blackarrow.png');
+            game.load.image('blackarrowleft', 'images/blackarrowleft.png');
+            game.load.image('whitearrow', 'images/whitearrow.png');
+
+            game.load.image('gate', 'images/unlocked.png');
+            game.load.image('crystal', 'images/pixies/crystal.png');
+            game.load.image('crystaldoor', 'images/pixies/crystaldoor.png');
+            game.load.image('crystaldoorshadow', 'images/pixies/crystaldoorshadow.png');
+
+            game.load.image('npc1shadow', 'images/npc1shadow.png');
+            game.load.image('npc2shadow', 'images/npc2shadow.png');
+            game.load.image('npc3shadow', 'images/npc3shadow.png');
+            game.load.image('scan1', 'images/scan1.png');
+            game.load.image('ghostmode', 'images/ghostmode.png');
+
+            game.load.image('casa', 'images/casa.png');
+            game.load.image('casa2', 'images/casa2.png');
+            game.load.image('yellowtarget', 'images/yellowtarget.png');
+            game.load.image('greentarget', 'images/greentarget.png');
+            game.load.image('gameball1', 'images/gameball.ico');
+            game.load.image('gameball2', 'images/gameball2.ico');
+            game.load.image('gameball3', 'images/gameball3.ico');
+            game.load.image('gameball4', 'images/gameball4.ico');
+            game.load.image('gameball5', 'images/gameball5.ico');
+            game.load.image('gameball6', 'images/gameball6.ico');
+            game.load.image('gameball7', 'images/gameball7.ico');
+            game.load.image('gameball8', 'images/gameball10.ico');
+            game.load.image('gameball9', 'images/gameball3.ico');
+            game.load.image('gameball10', 'images/gameball4.ico');
+            game.load.image('gameball11', 'images/gameball5.ico');
+            game.load.image('gameball12', 'images/gameball6.ico');
+            game.load.image('gameball13', 'images/gameball3.ico');
+            game.load.image('gameball14', 'images/gameball10.ico');
+            game.load.image('gameball15', 'images/gameball5.ico');
+            game.load.image('gameball16', 'images/gameball10.ico');
+            game.load.image('gameball17', 'images/gameball.ico');
+            game.load.image('gameball18', 'images/gameball2.ico');
+            game.load.image('gameball19', 'images/gameball3.ico');
+            game.load.image('gameball20', 'images/gameball4.ico');
+            game.load.image('gameball21', 'images/gameball5.ico');
+            game.load.image('gameball22', 'images/gameball6.ico');
+            game.load.image('gameball23', 'images/gameball7.ico');
+            game.load.image('gameball24', 'images/gameball10.ico');
+            game.load.image('gameball25', 'images/gameball3.ico');
+            game.load.image('gameball26', 'images/gameball4.ico');
+            game.load.image('gameball27', 'images/gameball5.ico');
+            game.load.image('gameball28', 'images/gameball6.ico');
+            game.load.image('gameball29', 'images/gameball3.ico');
+            game.load.image('gameball30', 'images/gameball10.ico');
+            game.load.image('gameball31', 'images/gameball5.ico');
+            game.load.image('gameball32', 'images/gameball6.ico');
+            game.load.image('gameball33', 'images/gameball7.ico');
+            game.load.image('gameball34', 'images/gameball10.ico');
+            game.load.image('gameball35', 'images/gameball3.ico');
+            game.load.image('gameball36', 'images/gameball4.ico');
+            game.load.image('gameball37', 'images/gameball5.ico');
+            game.load.image('gameball38', 'images/gameball6.ico');
+            game.load.image('gameball39', 'images/gameball3.ico');
+            game.load.image('gameball40', 'images/gameball10.ico');
+
+            //bandit parts
+            game.load.image('bandit0', 'images/arms.png');
+            game.load.image('bandit1', 'images/arms.png');
+            game.load.image('bandit2', 'images/rightear.png');
+            game.load.image('bandit3', 'images/eyes.png');
+            game.load.image('bandit4', 'images/kiss.png');
+            game.load.image('bandit5', 'images/eyes.png');
+            game.load.image('bandit6', 'images/leftear.png');
+
+          //  game.load.audio('donnie', 'images/audio/gankomix.mp3');
+
+
+              game.load.audio('collect1', 'images/audio/g_collect1.wav');
+              game.load.audio('collect2', 'images/audio/g_collect2.wav');
+              game.load.audio('collect3', 'images/audio/g_collect3.wav');
+              game.load.audio('collect4', 'images/audio/g_collect4.wav');
+              game.load.audio('collect5', 'images/audio/g_collect5.wav');
+              game.load.audio('collect6', 'images/audio/g_collect6.wav');
+              game.load.audio('collect7', 'images/audio/g_collect7.wav');
+              game.load.audio('collect8', 'images/audio/g_collect8.wav');
+              game.load.audio('collect9', 'images/audio/g_collect9.wav');
+              game.load.audio('collect10', 'images/audio/g_collect10.wav');
+              game.load.audio('collect11', 'images/audio/g_collect11.wav');
+              game.load.audio('collect12', 'images/audio/g_collect12.wav');
+              game.load.audio('collect13', 'images/audio/g_collect13.wav');
+              game.load.audio('collect14', 'images/audio/g_collect14.wav');
+              game.load.audio('collect15', 'images/audio/g_collect15.wav');
+              game.load.audio('collect16', 'images/audio/g_collect16.wav');
+              game.load.audio('collect17', 'images/audio/g_collect26.wav');
+              game.load.audio('collect18', 'images/audio/g_collect27.wav');
+              game.load.audio('collect19', 'images/audio/g_collect28.wav');
+              game.load.audio('collect20', 'images/audio/g_collect29.wav');
+              game.load.audio('collect21', 'images/audio/g_collect30.wav');
+
+              game.load.audio('collect22', 'images/audio/g_collect31.wav');
+              game.load.audio('collect23', 'images/audio/g_collect32.wav');
+              game.load.audio('collect24', 'images/audio/g_collect33.wav');
+              game.load.audio('collect25', 'images/audio/g_collect34.wav');
+        game.load.audio('yes', 'images/audio/yes.wav');
+        game.load.audio('no', 'images/audio/no.wav');
+              game.load.audio('toss1', 'images/audio/toss1.wav');
+
     }
-for (var i = 0; i < 30; i++){
-      game.load.image('note'+i, 'images/notes/note'+i+'.png');
-    }
-for (var i = 0; i < 4; i++){
-      game.load.image('seq'+i, 'images/seq'+i+'.png');
-      game.load.image('seqcrush'+i, 'images/seqcrush'+i+'.png');
-    }
-      game.load.image('snowflake', 'images/snowflake.png');
-      game.load.image('statue0', 'images/statue0.png');
-      game.load.image('statue1', 'images/statue1.png');
-      game.load.image('statue2', 'images/statue2.png');
-      game.load.image('statue3', 'images/statue3.png');
-      game.load.image('voice', 'images/voice.png');
-      game.load.image('bypassicon', 'images/open.png');
-      game.load.image('bypassicon2', 'images/closed.png');
-      game.load.image('heart', 'images/heart.png');
-      game.load.image('grass', 'images/grass.png');
-      game.load.image('you', 'images/you.png');
-      game.load.image('menu', 'images/menu.png');
-      game.load.image('flash', 'images/flash.png');
-      game.load.image('bell', 'images/bell.png');
-      game.load.image('blackarrow', 'images/blackarrow.png');
-      game.load.image('blackarrowleft', 'images/blackarrowleft.png');
-      game.load.image('whitearrow', 'images/whitearrow.png');
 
-      game.load.image('gate', 'images/unlocked.png');
-      game.load.image('crystal', 'images/pixies/crystal.png');
-      game.load.image('crystaldoor', 'images/pixies/crystaldoor.png');
-      game.load.image('crystaldoorshadow', 'images/pixies/crystaldoorshadow.png');
+var loadertext
 
-      game.load.image('npc1shadow', 'images/npc1shadow.png');
-      game.load.image('npc2shadow', 'images/npc2shadow.png');
-      game.load.image('npc3shadow', 'images/npc3shadow.png');
-      game.load.image('scan1', 'images/scan1.png');
-      game.load.image('ghostmode', 'images/ghostmode.png');
+function fileComplete(progress, cacheKey, success, totalLoaded, totalFiles) {
 
-      game.load.image('casa', 'images/casa.png');
-      game.load.image('casa2', 'images/casa2.png');
-      game.load.image('yellowtarget', 'images/yellowtarget.png');
-      game.load.image('greentarget', 'images/greentarget.png');
-      game.load.image('gameball1', 'images/gameball.ico');
-      game.load.image('gameball2', 'images/gameball2.ico');
-      game.load.image('gameball3', 'images/gameball3.ico');
-      game.load.image('gameball4', 'images/gameball4.ico');
-      game.load.image('gameball5', 'images/gameball5.ico');
-      game.load.image('gameball6', 'images/gameball6.ico');
-      game.load.image('gameball7', 'images/gameball7.ico');
-      game.load.image('gameball8', 'images/gameball10.ico');
-      game.load.image('gameball9', 'images/gameball3.ico');
-      game.load.image('gameball10', 'images/gameball4.ico');
-      game.load.image('gameball11', 'images/gameball5.ico');
-      game.load.image('gameball12', 'images/gameball6.ico');
-      game.load.image('gameball13', 'images/gameball3.ico');
-      game.load.image('gameball14', 'images/gameball10.ico');
-      game.load.image('gameball15', 'images/gameball5.ico');
-      game.load.image('gameball16', 'images/gameball10.ico');
-      game.load.image('gameball17', 'images/gameball.ico');
-      game.load.image('gameball18', 'images/gameball2.ico');
-      game.load.image('gameball19', 'images/gameball3.ico');
-      game.load.image('gameball20', 'images/gameball4.ico');
-      game.load.image('gameball21', 'images/gameball5.ico');
-      game.load.image('gameball22', 'images/gameball6.ico');
-      game.load.image('gameball23', 'images/gameball7.ico');
-      game.load.image('gameball24', 'images/gameball10.ico');
-      game.load.image('gameball25', 'images/gameball3.ico');
-      game.load.image('gameball26', 'images/gameball4.ico');
-      game.load.image('gameball27', 'images/gameball5.ico');
-      game.load.image('gameball28', 'images/gameball6.ico');
-      game.load.image('gameball29', 'images/gameball3.ico');
-      game.load.image('gameball30', 'images/gameball10.ico');
-      game.load.image('gameball31', 'images/gameball5.ico');
-      game.load.image('gameball32', 'images/gameball6.ico');
-      game.load.image('gameball33', 'images/gameball7.ico');
-      game.load.image('gameball34', 'images/gameball10.ico');
-      game.load.image('gameball35', 'images/gameball3.ico');
-      game.load.image('gameball36', 'images/gameball4.ico');
-      game.load.image('gameball37', 'images/gameball5.ico');
-      game.load.image('gameball38', 'images/gameball6.ico');
-      game.load.image('gameball39', 'images/gameball3.ico');
-      game.load.image('gameball40', 'images/gameball10.ico');
+	text.setText("Loading world: " + progress + "% - " + totalLoaded + " out of " + totalFiles);
 
-      //bandit parts
-      game.load.image('bandit0', 'images/arms.png');
-      game.load.image('bandit1', 'images/arms.png');
-      game.load.image('bandit2', 'images/rightear.png');
-      game.load.image('bandit3', 'images/eyes.png');
-      game.load.image('bandit4', 'images/kiss.png');
-      game.load.image('bandit5', 'images/eyes.png');
-      game.load.image('bandit6', 'images/leftear.png');
+}
+/*
+function loadStart() {
 
-    //  game.load.audio('donnie', 'images/audio/gankomix.mp3');
+	text.setText("Loading ...");
+
+}
 
 
-        game.load.audio('collect1', 'images/audio/g_collect1.wav');
-        game.load.audio('collect2', 'images/audio/g_collect2.wav');
-        game.load.audio('collect3', 'images/audio/g_collect3.wav');
-        game.load.audio('collect4', 'images/audio/g_collect4.wav');
-        game.load.audio('collect5', 'images/audio/g_collect5.wav');
-        game.load.audio('collect6', 'images/audio/g_collect6.wav');
-        game.load.audio('collect7', 'images/audio/g_collect7.wav');
-        game.load.audio('collect8', 'images/audio/g_collect8.wav');
-        game.load.audio('collect9', 'images/audio/g_collect9.wav');
-        game.load.audio('collect10', 'images/audio/g_collect10.wav');
-        game.load.audio('collect11', 'images/audio/g_collect11.wav');
-        game.load.audio('collect12', 'images/audio/g_collect12.wav');
-        game.load.audio('collect13', 'images/audio/g_collect13.wav');
-        game.load.audio('collect14', 'images/audio/g_collect14.wav');
-        game.load.audio('collect15', 'images/audio/g_collect15.wav');
-        game.load.audio('collect16', 'images/audio/g_collect16.wav');
-        game.load.audio('collect17', 'images/audio/g_collect26.wav');
-        game.load.audio('collect18', 'images/audio/g_collect27.wav');
-        game.load.audio('collect19', 'images/audio/g_collect28.wav');
-        game.load.audio('collect20', 'images/audio/g_collect29.wav');
-        game.load.audio('collect21', 'images/audio/g_collect30.wav');
+function loadComplete() {
 
-        game.load.audio('collect22', 'images/audio/g_collect31.wav');
-        game.load.audio('collect23', 'images/audio/g_collect32.wav');
-        game.load.audio('collect24', 'images/audio/g_collect33.wav');
-        game.load.audio('collect25', 'images/audio/g_collect34.wav');
-  game.load.audio('yes', 'images/audio/yes.wav');
-  game.load.audio('no', 'images/audio/no.wav');
-        game.load.audio('toss1', 'images/audio/toss1.wav');
-    }
+	text.setText("Load Complete");
 
+}
+*/
 
     var donnieplayed = false;
     var puzzlehitbox = 44;
@@ -235,6 +259,7 @@ var puzzlehakas = [];
                 + currentdate.getDate();
 */
   var text;
+  var style0 = { font: "32px monospace", fill: "#ffffff"};
   var style = { font: "24px monospace", fill: "#ffffff" };
   var style2 = { font: "20px monospace", fill: "#ffffff" };
   var style3 = { font: "34px monospace", fill: "#000000" };
@@ -391,18 +416,22 @@ var looperlefty7 = pageend-(yhop*4);
 var looperrightx7 = rightmargin3;
 var looperrighty7 = pageend-(yhop*4);
 
-var sequencer = []
-var sequencenumber = 4;
+var lootboxes = []
+var lootboxnumber = 4;
 
 var looperspeed = 3;
 
 var keycounter = [];
 
     function create () {
-        game.stage.backgroundColor = '#2d2d2d';
+
+
+
+
+//loading stuff    //	You can listen for each of these events from Phaser.Loader
         game.world.setBounds(0, 0, 7000, 1800);
 
-        text = game.add.text(0, 0, '', style);
+
 
 //fullscreen stuff
                 game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
@@ -439,6 +468,11 @@ var keycounter = [];
         flash3 = staticimages.create(1600, 0, 'flash');
         flash3.anchor.setTo(0);
         flash3.scale.setTo(1);
+
+        flash.tint = 0xccffff
+        flash1.tint = 0xccffff
+        flash2.tint = 0xccffff
+        flash3.tint = 0xccffff
 
 
         for (var i = 0; i < grassnumber; i++){
@@ -780,8 +814,6 @@ for(var i=0; i<ballnumber; i++){
   balls[i].inlooper = false;
   balls[i].totheright = false;
 
-  balls[i].insequencer = false;
-  balls[i].sequence = [];
 
   //bandit ABILITIES
   balls[i].scan1on = false;
@@ -831,21 +863,26 @@ balls[24].sprite.y = puzzlehakas[13].sprite.y
 balls[25].sprite.x = puzzlehakas[15].sprite.x
 balls[25].sprite.y = puzzlehakas[15].sprite.y
 balls[26].sprite.x = puzzlehakas[16].sprite.x
-balls[26].sprite.y = puzzlehakas[16].sprite.y
+balls[26].sprite.y = pageend-yhop
 balls[27].sprite.x = puzzlehakas[17].sprite.x
 balls[27].sprite.y = puzzlehakas[17].sprite.y
 
 //ball location
 
-for (var i = 0; i < sequencenumber; i++){
-  sequencer[i] = {};
-  sequencer[i].sprite = projectiles.create(4076+50+184*i, pageend, 'seq'+i);
-  sequencer[i].sprite.anchor.setTo(0.5);
-  sequencer[i].sprite.scale.setTo(0.4);
-  sequencer[i].crushedsprite = projectiles.create(4076+50+184*i, pageend, 'seqcrush'+i);
-  sequencer[i].crushedsprite.anchor.setTo(0.5);
-  sequencer[i].crushedsprite.scale.setTo(0);
+for (var i = 0; i < lootboxnumber; i++){
+  lootboxes[i] = {};
+  lootboxes[i].sprite = projectiles.create(4076+50+184*i, pageend, 'seq'+i);
+  lootboxes[i].sprite.anchor.setTo(0.5);
+  lootboxes[i].sprite.scale.setTo(0.4);
+  lootboxes[i].crushedsprite = projectiles.create(4076+50+184*i, pageend, 'seqcrush'+i);
+  lootboxes[i].crushedsprite.anchor.setTo(0.5);
+  lootboxes[i].crushedsprite.scale.setTo(0);
+  lootboxes[i].grabinit = false;
 }
+
+lootboxes[0].sprite.x = lootboxes[0].sprite.x - 764;
+lootboxes[1].sprite.x = lootboxes[1].sprite.x - 724;
+
 
 game.camera.x = 800;
 
@@ -895,13 +932,15 @@ game.camera.x = 800;
 
 you = staticimages.create(bandit[1].sprite.x-40, bandit[1].sprite.y-46, 'you');
 you.anchor.setTo(0.5);
-you.tint = Math.random() * 0xffffff;
+you.tint = 0x000000;
 you.scale.setTo(0.5);
 
 menu = staticimages.create(0, 0, 'menu');
 menu.anchor.setTo(0.5);
 menu.scale.setTo(0);
 
+
+game.load.start();
 
     }
 
@@ -1630,16 +1669,18 @@ var backway = false;
         }
 
        if (boxcrush == true){
-         for (var i = 0; i < sequencenumber; i++){
-           if (bandit[0].sprite.y == sequencer[i].sprite.y
-             && bandit[0].sprite.x > sequencer[i].sprite.x-70
-             && bandit[0].sprite.x < sequencer[i].sprite.x+100)
+         for (var i = 0; i < lootboxnumber; i++){
+           if (bandit[0].sprite.y == lootboxes[i].sprite.y
+             && bandit[0].sprite.x > lootboxes[i].sprite.x-70
+             && bandit[0].sprite.x < lootboxes[i].sprite.x+100)
              {
-               sequencer[i].sprite.scale.setTo(0);
-               sequencer[i].crushedsprite.scale.setTo(0.4);
+               lootboxes[i].sprite.scale.setTo(0);
+               lootboxes[i].crushedsprite.scale.setTo(0.4);
              }
            }
        }
+
+
 
 
        if (godmode == true){
@@ -1985,9 +2026,52 @@ function statueUpdate(){
   for (var i = 0; i < bells.length; i++){
     bells[i].grabinit = bellMover(bells[i]);
   }
+  for (var i = 0; i < lootboxes.length; i++){
+    lootboxes[i].grabinit = boxMover(lootboxes[i]);
+  }
 }
 
 var bypassing = false;
+
+function boxMover(box){
+  var obj = box.sprite
+  var crushed = box.crushedsprite
+  var grabinit = box.grabinit
+
+
+      if (game.input.keyboard.isDown(Phaser.Keyboard.B))
+      {
+        bypassing = true;
+        if (statuegrabbed == false){
+          if (bandit[0].sprite.y == obj.y
+            && bandit[0].sprite.x > obj.x-70
+            && bandit[0].sprite.x < obj.x+100){
+              grabinit = true;
+              statuegrabbed = true;
+            }
+        }
+        if (grabinit == true){
+          obj.x = bandit[0].sprite.x;
+          obj.y = bandit[0].sprite.y;
+        }
+        else{}
+
+      }
+      else {
+        bypassing = false;
+        statuegrabbed = false;
+        grabinit = false;
+      }
+
+      //broken moves with whole objects
+          crushed.x = obj.x
+          crushed.y = obj.y
+
+
+
+
+      return grabinit
+}
 
 function bellMover(bell){
 
