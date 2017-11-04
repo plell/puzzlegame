@@ -137,27 +137,12 @@
 
     }
 
-var loadertext
 
 function fileComplete(progress, cacheKey, success, totalLoaded, totalFiles) {
 
 	text.setText("Loading world: " + progress + "% - " + totalLoaded + " out of " + totalFiles);
 
 }
-/*
-function loadStart() {
-
-	text.setText("Loading ...");
-
-}
-
-
-function loadComplete() {
-
-	text.setText("Load Complete");
-
-}
-*/
 
     var donnieplayed = false;
     var puzzlehitbox = 44;
@@ -620,7 +605,7 @@ grass[4].sprite.y = pageend+yhop*3
         puzzlehakas[16].sprite.y = pagestart+yhop*6
         puzzlehakas[17].sprite.x = leftmargin3+490
         puzzlehakas[17].sprite.y = pagestart+yhop*5
-        puzzlehakas[18].sprite.x = leftmargin3+500
+        puzzlehakas[18].sprite.x = leftmargin3+240
         puzzlehakas[18].sprite.y = pagestart
 
 
@@ -1233,7 +1218,7 @@ function ghostBandit(){
 
 }
 
-var scanspeed = 16;
+var scanspeed = 12;
 
 function banditScan() {
 
@@ -2252,7 +2237,7 @@ balls[i].totheright = loopGroup1(balls[i], loopmachinesleft[j], loopmachinesrigh
     loopmachinesleft[0].sprite.y =looperlefty4;
     loopmachinesright[0].sprite.x =looperrightx4;
     loopmachinesright[0].sprite.y =looperrighty4;
-    loopmachinesleft[1].sprite.x =looperleftx7;
+    loopmachinesleft[1].sprite.x =looperleftx7-200;
     loopmachinesleft[1].sprite.y =looperlefty7;
     loopmachinesright[1].sprite.x =looperrightx7;
     loopmachinesright[1].sprite.y =looperrighty7;
@@ -2260,9 +2245,9 @@ balls[i].totheright = loopGroup1(balls[i], loopmachinesleft[j], loopmachinesrigh
     loopmachinesleft[2].sprite.y =looperlefty6;
     loopmachinesright[2].sprite.x =looperrightx6;
     loopmachinesright[2].sprite.y =looperrighty6;
-    loopmachinesleft[3].sprite.x =looperleftx66;
+    loopmachinesleft[3].sprite.x =looperleftx66+50;
     loopmachinesleft[3].sprite.y =looperlefty66;
-    loopmachinesright[3].sprite.x =looperrightx66;
+    loopmachinesright[3].sprite.x =looperrightx66+50;
     loopmachinesright[3].sprite.y =looperrighty66;
     loopershome = false;
     loopersaway = true;
