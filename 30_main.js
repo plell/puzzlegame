@@ -26,6 +26,9 @@
         game.load.image('treebloom'+i, 'images/treebloom'+i+'.png');
       }
             game.load.image('snowflake', 'images/snowflake.png');
+
+
+
             game.load.image('statue0', 'images/statue0.png');
             game.load.image('statue1', 'images/statue1.png');
             game.load.image('statue2', 'images/statue2.png');
@@ -65,6 +68,10 @@
             game.load.image('casa2', 'images/casa2.png');
             game.load.image('yellowtarget', 'images/yellowtarget.png');
             game.load.image('greentarget', 'images/greentarget.png');
+
+            game.load.spritesheet('friend', 'images/spritesheets/friend.png', 96, 96, 24)
+
+
             game.load.image('gameball1', 'images/gameball.ico');
             game.load.image('gameball2', 'images/gameball2.ico');
             game.load.image('gameball3', 'images/gameball3.ico');
@@ -107,6 +114,7 @@
             game.load.image('gameball40', 'images/gameball10.ico');
 
             //bandit parts
+  /*
             game.load.image('bandit0', 'images/arms.png');
             game.load.image('bandit1', 'images/arms.png');
             game.load.image('bandit2', 'images/rightear.png');
@@ -114,14 +122,25 @@
             game.load.image('bandit4', 'images/kiss.png');
             game.load.image('bandit5', 'images/eyes.png');
             game.load.image('bandit6', 'images/leftear.png');
+*/
 
           //  game.load.audio('donnie', 'images/audio/gankomix.mp3');
 
-              game.load.audio('opener', 'images/audio/opener.wav');
+          //    game.load.audio('opener', 'images/audio/opener.wav');
 
-              for (var i = 1; i< ballnumber; i++){
-              game.load.audio('collect'+i, 'images/audio/_ g_collect'+i+'.wav');
+              game.load.audio('gatecrush', 'images/audio/gatecrush.wav');
+              game.load.audio('lootcrush', 'images/audio/lootcrush.wav');
+              game.load.audio('hakacrush', 'images/audio/hakacrush.wav');
+              game.load.audio('bellcrush', 'images/audio/bellcrush.wav');
+              game.load.audio('statuecrush', 'images/audio/statuecrush.wav');
+
+              for (var i = 0; i< ballnumber; i++){
+              game.load.audio('collect'+(i+1), 'images/audio/_ g_collect'+(i+1)+'.wav');
             }
+            for (var i = 0; i< bellnumber; i++){
+            game.load.audio('pots'+(i+1), 'images/audio/_ pots'+(i+1)+'.wav');
+            game.load.audio('heavenlybell'+(i+1), 'images/audio/_ heavenlybell'+(i+1)+'.wav');
+          }
             game.load.audio('on', 'images/audio/_ on.wav');
             game.load.audio('off', 'images/audio/_ off.wav');
             game.load.audio('crush', 'images/audio/crush.wav');
@@ -228,7 +247,7 @@ var puzzlehakas = [];
 
 
   var players;
-  var playerscale = .18;
+  var playerscale = .8 //.18;
   var ballscale = 1;
   var projectiles;
 
@@ -290,7 +309,7 @@ var puzzlehakas = [];
   var guard2x = 3000;
   var iconbud
 
-
+  var treenumber = 9;
   var jailed = false;
 
   //pages
@@ -422,13 +441,20 @@ var tosssound = [];
 
 
 //fullscreen stuff
-                game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
         game.input.onDown.add(gofull, this);
         game.scale.setMinMax(400, 300, 1200, 900)
 
-        donnie = game.add.audio('donnie');
+      //  donnie = game.add.audio('donnie');
 
-        opener = game.add.audio('opener');
+      //  opener = game.add.audio('opener');
+
+        gatecrush = game.add.audio('gatecrush');
+        lootcrush = game.add.audio('lootcrush');
+        hakacrush = game.add.audio('hakacrush');
+        bellcrush = game.add.audio('bellcrush');
+        statuecrush = game.add.audio('statuecrush');
+
         nosound = game.add.audio('no');
         yessound = game.add.audio('yes');
         yessound2 = game.add.audio('yes2');
@@ -513,7 +539,8 @@ grass[4].sprite.y = pageend+yhop*3
           bells[i].crushedsprite.anchor.setTo(0.5);
           bells[i].crushedsprite.scale.setTo(0.6);
           bells[i].scan1off = true;
-          bells[i].sound = game.add.audio('collect'+(i+1));
+          bells[i].sound = game.add.audio('pots'+(i+1));
+          bells[i].sound2 = game.add.audio('heavenlybell'+(i+1));
           bells[i].grabinit = false;
           bells[i].crushinit = false;
         }
@@ -528,11 +555,11 @@ grass[4].sprite.y = pageend+yhop*3
         bells[3].sprite.y = pageend
         bells[4].sprite.x = leftmargin4+590
         bells[4].sprite.y = pagestart+yhop*2
-        bells[5].sprite.x = leftmargin4+610
+        bells[5].sprite.x = leftmargin4+620
         bells[5].sprite.y = pagestart+yhop*3
-        bells[6].sprite.x = leftmargin4+630
+        bells[6].sprite.x = leftmargin4+650
         bells[6].sprite.y = pagestart+yhop*4
-        bells[7].sprite.x = leftmargin4+650
+        bells[7].sprite.x = leftmargin4+680
         bells[7].sprite.y = pagestart+yhop*5
         bells[8].sprite.x = leftmargin2+170
         bells[8].sprite.y = pageend-yhop*2
@@ -832,14 +859,31 @@ ididit.scale.setTo(0);
 //bandit parts
 for(var i = 0; i < banditparts; i++){
   bandit[i] = {};
-  bandit[i].sprite = players.create((leftmargin2 + 420) - (i * 14), pagestart+yhop*2, 'bandit'+ i);
+  bandit[i].sprite = players.create((leftmargin2 + 420) - (i * 64), pagestart+yhop*2, 'friend', 16);
+//  bandit[i].sprite = players.create((leftmargin2 + 420) - (i * 14), pagestart+yhop*2, 'bandit'+ i);
+  //bandit[i].sprite.frame = 5;
+
   bandit[i].sprite.anchor.setTo(0.5);
   bandit[i].sprite.scale.setTo(playerscale);
-  bandit[i].sprite.tint = 0xff007f;
+//  bandit[i].sprite.tint = 0xff007f;
 
 }
 
+bandit[0].stand = bandit[0].sprite.animations.add('stand', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], 8, false);
+bandit[0].walkleft = bandit[0].sprite.animations.add('walkleft', [16, 17, 18, 19], 8, false)
+bandit[0].walkright = bandit[0].sprite.animations.add('walkright', [20, 21, 22, 23, 24], 8, false)
+bandit[0].sprite.animations.play('stand', 16, true)
 
+bandit[1].sprite.scale.setTo(0);
+bandit[2].sprite.scale.setTo(0);
+bandit[3].sprite.scale.setTo(0);
+bandit[4].sprite.scale.setTo(0);
+bandit[5].sprite.scale.setTo(0);
+bandit[6].sprite.scale.setTo(0);
+/*
+  friend.animations.add('left', [0,1], 10, true);
+  friend.animations.add('right', [3,4], 10, true);
+*/
         bypassicon = staticimages.create(0, 0, 'bypassicon');
         bypassicon.anchor.setTo(0.5);
         bypassicon.scale.setTo(1);
@@ -1000,12 +1044,12 @@ game.camera.x = 800;
 //jail.anchor.setTo(0.5);
 //jail.scale.setTo(0);
 
-you = staticimages.create(bandit[1].sprite.x-40, bandit[1].sprite.y-46, 'you');
+you = staticimages.create(bandit[0].sprite.x, bandit[0].sprite.y-46, 'you');
 you.anchor.setTo(0.5);
 you.tint = 0x000000;
 you.scale.setTo(0.5);
 
-for (var i = 0; i < 9; i++){
+for (var i = 0; i < treenumber; i++){
 
   trees[i] = {}
   trees[i].sprite = staticimages.create(0, 0, 'tree' + i);
@@ -1061,6 +1105,7 @@ var trees = [];
 
 
     function update() {
+                animationUpdate();
                 playerUpdate();
                 statueUpdate();
                 ballMove();
@@ -1124,13 +1169,15 @@ if (controlstext3){
 
 function iconMain(){
 
+
+
 iconUpdate();
 arrowsBlink();
 
   //kill text
   if (you){
-    you.x = bandit[1].sprite.x-40;
-    you.y = bandit[1].sprite.y-54;
+    you.x = bandit[0].sprite.x;
+    you.y = bandit[0].sprite.y-78;
     youexpires++;
     if (youexpires > 280){
       if (you){
@@ -1228,7 +1275,7 @@ if (puzzlehakas[11].boxfull.length > 0
     && puzzlehakas[18].boxfull.length > 0){
         crystaldoor2.kill();
         crystaldoor2open.scale.setTo(0.6);
-        yessound2.play();
+        yessound.play();
         controlstext1.kill();
         puzzle2solved = true;
       }
@@ -1258,6 +1305,7 @@ function bellRinger(bell){
   var belldude = bell.sprite;
   var xscanoff = bell.scan1off;
   var ding = bell.sound;
+  var dong = bell.sound2;
 
   //scan1
   if (scan1init == true){
@@ -1269,7 +1317,8 @@ function bellRinger(bell){
         //if ball is on the page
         if (belldude.x > game.camera.x){
         if (belldude.x < scan1.x+10){
-          ding.play();
+          if(restored == true){dong.play();}
+          else{ding.play();}
           scan1.tint = Math.random() * 0xffffff;
           xscanoff = false;
         }
@@ -1370,7 +1419,7 @@ function ghostBandit(){
     }
     else {
       for (var j = 0; j<bandit.length; j++){
-      bandit[j].sprite.tint = 0xff007f;
+      bandit[j].sprite.tint = 0xffffff;
     }
 
       if (controlstext0){
@@ -1559,9 +1608,9 @@ function rainFall(){
 
 
 
-  casa.x = bandit[0].sprite.x;
-  casa.y = bandit[0].sprite.y -16;
-  casa2.x = bandit[0].sprite.x+18;
+  casa.x = bandit[0].sprite.x+30;
+  casa.y = bandit[0].sprite.y -20;
+  casa2.x = bandit[0].sprite.x+48;
   casa2.y = bandit[0].sprite.y -4;
 
 }
@@ -1744,7 +1793,7 @@ var backway = false;
 
 
         if (ghostmode == true){
-               banditmovespeed = 28;
+               banditmovespeed = 22;
                if (ONinit == false){
                  onsound.play();
                  ONinit = true;}
@@ -1754,20 +1803,21 @@ var backway = false;
                offsound.play();
                ONinit = false;
              }
-             banditmovespeed = 14;
+             banditmovespeed = 10;
            }
 
-        if (bypassing == true){
-          banditmovespeed = 16;
+        if (statuegrabbed == true){
+          banditmovespeed = 5;
         }
 
-        if (banditmovespeed < 15){
-          bypassicon2.scale.setTo(1);
-          bypassicon.scale.setTo(0);
-        }
-        else{
+        if (ghostmode == true
+        || bypassing == true){
           bypassicon2.scale.setTo(0);
           bypassicon.scale.setTo(1);
+        }
+        else{
+          bypassicon2.scale.setTo(1);
+          bypassicon.scale.setTo(0);
         }
 
         //page 1 backwards block path
@@ -1777,12 +1827,12 @@ var backway = false;
           }
         }
 
-        bypassicon.x = bandit[4].sprite.x
-        bypassicon.y = bandit[4].sprite.y-20
-        bypassicon2.x = bandit[4].sprite.x
-        bypassicon2.y = bandit[4].sprite.y-20
-        voice.x = bandit[1].sprite.x-10
-        voice.y = bandit[1].sprite.y-20
+        bypassicon.x = bandit[0].sprite.x
+        bypassicon.y = bandit[0].sprite.y-46
+        bypassicon2.x = bandit[0].sprite.x
+        bypassicon2.y = bandit[0].sprite.y-46
+        voice.x = bandit[0].sprite.x+10
+        voice.y = bandit[0].sprite.y-20
 
         //crystal blocks path
         if (puzzlesolved == false){
@@ -1886,11 +1936,12 @@ var crushinit = false;
                lootboxes[i].crushedsprite.scale.setTo(0.4);
                if (controlstext3){controlstext3.kill();}
                if (lootboxes[i].crushinit == false){
-                 crushsound.play();
+                 lootcrush.play();
                  lootboxes[i].crushinit = true;
                }
              }
            }
+
 
          for (var i = 0; i < bellnumber; i++){
            if (bandit[0].sprite.y == bells[i].sprite.y
@@ -1900,7 +1951,7 @@ var crushinit = false;
                bells[i].sprite.scale.setTo(0);
                bells[i].crushedsprite.scale.setTo(0.6);
                if (bells[i].crushinit == false){
-                 crushsound.play();
+                 bellcrush.play();
                  bells[i].crushinit = true;
                }
              }
@@ -1914,7 +1965,7 @@ var crushinit = false;
                  loopmachinesleft[i].sprite.scale.setTo(0);
                  loopmachinesleft[i].crushedsprite.scale.setTo(0.44);
                  if (loopmachinesleft[i].crushinit == false){
-                   crushsound.play();
+                   statuecrush.play();
                    loopmachinesleft[i].crushinit = true;
                  }
                }
@@ -1925,7 +1976,7 @@ var crushinit = false;
                    loopmachinesright[i].sprite.scale.setTo(0);
                    loopmachinesright[i].crushedsprite.scale.setTo(0.44);
                    if (loopmachinesright[i].crushinit == false){
-                     crushsound.play();
+                     statuecrush.play();
                      loopmachinesright[i].crushinit = true;
                    }
                  }
@@ -1940,7 +1991,7 @@ var crushinit = false;
                  puzzlehakas[i].sprite.scale.setTo(0);
                  puzzlehakas[i].crushedsprite.scale.setTo(0.5);
                  if (puzzlehakas[i].crushinit == false){
-                   crushsound.play();
+                   hakacrush.play();
                    puzzlehakas[i].crushinit = true;
                  }
                }
@@ -2648,8 +2699,52 @@ balls[i].totheright = loopGroup1(balls[i], loopmachinesleft[j], loopmachinesrigh
   }// end loop
 }
 
+function animationUpdate(){
+
+  if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
+  {
+    //leftstride
+    if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
+    {
+      //tossup
+      bandit[0].sprite.animations.play('stand', true);
+    }
+    else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
+    {
+      //tossdown
+      bandit[0].sprite.animations.play('stand', true);
+    }
+    else{
+    bandit[0].sprite.animations.play('walkleft');
+    }
+  }
+  else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
+      {
+        //rightstride
+        if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
+        {
+          //tossup
+          bandit[0].sprite.animations.play('stand', true);
+        }
+        else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
+        {
+          //tossdown
+          bandit[0].sprite.animations.play('stand', true);
+        }
+        else{
+        bandit[0].sprite.animations.play('walkright');
+        }
+    }
+    else{
+      //center
+      bandit[0].sprite.animations.play('stand', true);
+    }
+}
+
 
 function playerToss() {
+
+
 
            if (game.input.keyboard.justPressed(Phaser.Keyboard.UP))  {
          if(grabbed.length>0){
@@ -2672,6 +2767,7 @@ function playerToss() {
          }
 
             if (game.input.keyboard.justPressed(Phaser.Keyboard.DOWN))  {
+
               if(grabbed.length>0){
               for(var j=0; j<grabbed.length; j++){
                 var i = grabbed[j];
