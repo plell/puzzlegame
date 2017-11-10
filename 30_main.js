@@ -5,9 +5,12 @@
       text = game.add.text(400, 300, '', style0);
       text.anchor.setTo(0.5);
       game.stage.backgroundColor = '#2d2d2d';
+
     //  game.load.onLoadStart.add(loadStart, this);
       game.load.onFileComplete.add(fileComplete, this);
     //  game.load.onLoadComplete.add(loadComplete, this);
+
+      game.load.image('noteyard', 'images/noteyard.png');
 
       for (var i = 0; i < 19; i++){
             game.load.image('haka'+i, 'images/haka'+i+'.png');
@@ -26,6 +29,7 @@
         game.load.image('treebloom'+i, 'images/treebloom'+i+'.png');
       }
             game.load.image('snowflake', 'images/snowflake.png');
+
 
 
 
@@ -128,18 +132,19 @@
 
           //    game.load.audio('opener', 'images/audio/opener.wav');
 
-              game.load.audio('gatecrush', 'images/audio/gatecrush.wav');
-              game.load.audio('lootcrush', 'images/audio/lootcrush.wav');
-              game.load.audio('hakacrush', 'images/audio/hakacrush.wav');
+              game.load.audio('gatecrush', 'images/audio/crush.wav');
+              game.load.audio('lootcrush', 'images/audio/crush.wav');
+              game.load.audio('hakacrush', 'images/audio/crush.wav');
               game.load.audio('bellcrush', 'images/audio/bellcrush.wav');
-              game.load.audio('statuecrush', 'images/audio/statuecrush.wav');
+              game.load.audio('statuecrush', 'images/audio/crush.wav');
+              game.load.audio('hook', 'images/audio/_ hook1.wav');
 
               for (var i = 0; i< ballnumber; i++){
               game.load.audio('collect'+(i+1), 'images/audio/_ g_collect'+(i+1)+'.wav');
             }
             for (var i = 0; i< bellnumber; i++){
-            game.load.audio('pots'+(i+1), 'images/audio/_ pots'+(i+1)+'.wav');
-            game.load.audio('heavenlybell'+(i+1), 'images/audio/_ heavenlybell'+(i+1)+'.wav');
+            game.load.audio('pots'+(i+1), 'images/audio/_ pots'+(i+1)+'-4.wav');
+            game.load.audio('heavenlybell'+(i+1), 'images/audio/_ newbell'+(i+1)+'.wav');
           }
             game.load.audio('on', 'images/audio/_ on.wav');
             game.load.audio('off', 'images/audio/_ off.wav');
@@ -449,11 +454,12 @@ var tosssound = [];
 
       //  opener = game.add.audio('opener');
 
-        gatecrush = game.add.audio('gatecrush');
-        lootcrush = game.add.audio('lootcrush');
-        hakacrush = game.add.audio('hakacrush');
+        gatecrush = game.add.audio('crush');
+        lootcrush = game.add.audio('crush');
+        hakacrush = game.add.audio('crush');
         bellcrush = game.add.audio('bellcrush');
-        statuecrush = game.add.audio('statuecrush');
+        statuecrush = game.add.audio('crush');
+        hook = game.add.audio('hook');
 
         nosound = game.add.audio('no');
         yessound = game.add.audio('yes');
@@ -545,21 +551,21 @@ grass[4].sprite.y = pageend+yhop*3
           bells[i].crushinit = false;
         }
 
-        bells[0].sprite.x = leftmargin1+20
-        bells[0].sprite.y = pageend
-        bells[1].sprite.x = leftmargin4+140
+        bells[0].sprite.x = leftmargin1+500
+        bells[0].sprite.y = pageend-yhop*2
+        bells[1].sprite.x = leftmargin4+90
         bells[1].sprite.y = pageend
-        bells[2].sprite.x = leftmargin4+250
+        bells[2].sprite.x = leftmargin4+200
         bells[2].sprite.y = pagestart
-        bells[3].sprite.x = leftmargin4+200
+        bells[3].sprite.x = leftmargin4+150
         bells[3].sprite.y = pageend
-        bells[4].sprite.x = leftmargin4+590
+        bells[4].sprite.x = leftmargin4+600
         bells[4].sprite.y = pagestart+yhop*2
-        bells[5].sprite.x = leftmargin4+620
+        bells[5].sprite.x = leftmargin4+500
         bells[5].sprite.y = pagestart+yhop*3
-        bells[6].sprite.x = leftmargin4+650
+        bells[6].sprite.x = leftmargin4+20
         bells[6].sprite.y = pagestart+yhop*4
-        bells[7].sprite.x = leftmargin4+680
+        bells[7].sprite.x = leftmargin4+710
         bells[7].sprite.y = pagestart+yhop*5
         bells[8].sprite.x = leftmargin2+170
         bells[8].sprite.y = pageend-yhop*2
@@ -714,6 +720,9 @@ grass[4].sprite.y = pageend+yhop*3
           puzzlehakas[i].heart.y = puzzlehakas[i].sprite.y-48
         }
 
+        noteyard = staticimages.create(leftmargin6+360, 260, 'noteyard');
+        noteyard.anchor.setTo(0.5);
+        noteyard.scale.setTo(.8);
 
         casa = staticimages.create(0, 0, 'casa');
         casa.anchor.setTo(0.5);
@@ -791,22 +800,22 @@ grass[4].sprite.y = pageend+yhop*3
 //        loopmachinesright[3].sprite.scale.setTo(.44);
 
 
-controlstext0 = game.add.text(400, pageend+60, 'bypass: F', style3);
+controlstext0 = game.add.text(200, pageend+60, 'bypass: F', style3);
 controlstext0.anchor.setTo(0.5);
 
 controlstext2 = game.add.text(leftmargin4+360, pageend+60, 'strum: SPACEBAR', style3);
 controlstext2.anchor.setTo(0.5);
 
-controlstext1 = game.add.text(leftmargin3+360, pageend+60, 'carry: HOLD D', style3);
+controlstext1 = game.add.text(600, pageend+60, 'drag: HOLD D', style3);
 controlstext1.anchor.setTo(0.5);
 
-controlstext3 = game.add.text(leftmargin6+360, pageend+60, 'crush: V', style9);
+controlstext3 = game.add.text(leftmargin6+360, pageend+60, 'crush: C', style9);
 controlstext3.anchor.setTo(0.5);
 
 controlstext = game.add.text(1200, pageend+60, 'move: ← →   toss: ↑ ↓', style3);
 controlstext.anchor.setTo(0.5);
 
-creditstext = game.add.text(leftmargin5+600, 290, 'MADE BY\nDavid Plell\n\nPROGRAMMED WITH\nPhaser JS library\n\nSYNTHESIZERS\nkorg minilogue\nMassive\nKontakt\nAbsynth\n\nLIVE RECORDINGS\nmarimba\nacoustic guitar\ncello\nglockenspiel\nbells\nchimes', style7);
+creditstext = game.add.text(leftmargin5+600, 290, 'MADE BY\nDavid Plell\n\nPROGRAMMED WITH\nJS/Phaser library\n\nSYNTHESIZERS\nkorg minilogue\nKontakt\nAbsynth\n\nLIVE RECORDINGS\nmarimba\nshaker\nkitchen pots\nbells', style7);
 creditstext.anchor.setTo(0.5);
 
 for (var i =0; i < 8; i++){
@@ -859,13 +868,13 @@ ididit.scale.setTo(0);
 //bandit parts
 for(var i = 0; i < banditparts; i++){
   bandit[i] = {};
-  bandit[i].sprite = players.create((leftmargin2 + 420) - (i * 64), pagestart+yhop*2, 'friend', 16);
+  bandit[i].sprite = players.create((leftmargin2 + 400) - (i * 34), pagestart+yhop*2, 'friend', 16);
 //  bandit[i].sprite = players.create((leftmargin2 + 420) - (i * 14), pagestart+yhop*2, 'bandit'+ i);
   //bandit[i].sprite.frame = 5;
 
   bandit[i].sprite.anchor.setTo(0.5);
   bandit[i].sprite.scale.setTo(playerscale);
-//  bandit[i].sprite.tint = 0xff007f;
+  bandit[i].sprite.tint = 0xe6e6e6;
 
 }
 
@@ -1063,20 +1072,20 @@ for (var i = 0; i < treenumber; i++){
 
 
 
-trees[0].sprite.x = 300
+trees[0].sprite.x = 390
 trees[0].sprite.y = 500
-trees[1].sprite.x = rightmargin6+1000
-trees[1].sprite.y = pageend-40
-trees[2].sprite.x = 100
+trees[6].sprite.x = leftmargin3+568
+trees[6].sprite.y = pagestart+yhop-60
+trees[2].sprite.x = 20
 trees[2].sprite.y = 560
 trees[3].sprite.x = 200
 trees[3].sprite.y = 300
-trees[4].sprite.x = 1000
+trees[4].sprite.x = 1200
 trees[4].sprite.y = 70
 trees[5].sprite.x = leftmargin4+400
 trees[5].sprite.y = 250
-trees[6].sprite.x = 30
-trees[6].sprite.y = 170
+trees[1].sprite.x = 30
+trees[1].sprite.y = 170
 trees[7].sprite.x = 718
 trees[7].sprite.y = 98
 trees[8].sprite.x = 290
@@ -1419,7 +1428,7 @@ function ghostBandit(){
     }
     else {
       for (var j = 0; j<bandit.length; j++){
-      bandit[j].sprite.tint = 0xffffff;
+      bandit[j].sprite.tint = 0xe6e6e6;
     }
 
       if (controlstext0){
@@ -1831,8 +1840,8 @@ var backway = false;
         bypassicon.y = bandit[0].sprite.y-46
         bypassicon2.x = bandit[0].sprite.x
         bypassicon2.y = bandit[0].sprite.y-46
-        voice.x = bandit[0].sprite.x+10
-        voice.y = bandit[0].sprite.y-20
+        voice.x = bandit[0].sprite.x//-28
+        voice.y = bandit[0].sprite.y//-14
 
         //crystal blocks path
         if (puzzlesolved == false){
@@ -1951,7 +1960,7 @@ var crushinit = false;
                bells[i].sprite.scale.setTo(0);
                bells[i].crushedsprite.scale.setTo(0.6);
                if (bells[i].crushinit == false){
-                 bellcrush.play();
+                 bells[i].sound.play();
                  bells[i].crushinit = true;
                }
              }
@@ -2070,12 +2079,14 @@ var crushinit = false;
     if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR))  {
       if (scan1) {
         scan1.kill();}
+
       for (var j = 0;j< balls.length;j++){
       if (balls[j].sprite.x > game.camera.x
         && balls[j].sprite.x < game.camera.x+800){
       balls[j].scan1off = true;
     }
     }
+
     for (var j = 0;j< bells.length;j++){
     if (bells[j].sprite.x > game.camera.x
       && bells[j].sprite.x < game.camera.x+800){
@@ -2086,7 +2097,7 @@ var crushinit = false;
       }
 
 if (puzzle2solved == true){
-  if (game.input.keyboard.isDown(Phaser.Keyboard.V))  {
+  if (game.input.keyboard.isDown(Phaser.Keyboard.C))  {
     casa.scale.setTo(0);
     casa2.scale.setTo(2);
     boxcrush = true;
@@ -2373,6 +2384,7 @@ function boxMover(box){
           if (bandit[0].sprite.y == obj.y
             && bandit[0].sprite.x > obj.x-70
             && bandit[0].sprite.x < obj.x+100){
+              hook.play();
               grabinit = true;
               statuegrabbed = true;
             }
@@ -2406,6 +2418,7 @@ function bellMover(bell){
     var obj = bell.sprite
     var crushed = bell.crushedsprite
     var grabinit = bell.grabinit
+    var bellsound = bell.sound
 
     if (game.input.keyboard.isDown(Phaser.Keyboard.D))
     {
@@ -2414,6 +2427,7 @@ function bellMover(bell){
         if (bandit[0].sprite.y == obj.y
           && bandit[0].sprite.x > obj.x-70
           && bandit[0].sprite.x < obj.x+100){
+            bellsound.play();
             grabinit = true;
             statuegrabbed = true;
           }
@@ -2445,6 +2459,7 @@ function swordMover(){
       if (bandit[0].sprite.y == sword.y
         && bandit[0].sprite.x > sword.x-70
         && bandit[0].sprite.x < sword.x+100){
+          hook.play();
           sword.grabinit = true;
           statuegrabbed = true;
         }
@@ -2475,6 +2490,7 @@ function statueMover(loopers) {
       if (bandit[0].sprite.y == obj.y
         && bandit[0].sprite.x > obj.x-70
         && bandit[0].sprite.x < obj.x+100){
+          hook.play();
           grabinit = true;
           statuegrabbed = true;
         }
