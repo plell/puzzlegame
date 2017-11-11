@@ -10,7 +10,8 @@
       game.load.onFileComplete.add(fileComplete, this);
     //  game.load.onLoadComplete.add(loadComplete, this);
 
-      game.load.image('noteyard', 'images/noteyard.png');
+    //  game.load.image('noteyard', 'images/noteyard.png');
+      game.load.spritesheet('whirl', 'images/spritesheets/stars.png', 800, 800, 11)
 
       for (var i = 0; i < 19; i++){
             game.load.image('haka'+i, 'images/haka'+i+'.png');
@@ -74,6 +75,7 @@
             game.load.image('greentarget', 'images/greentarget.png');
 
             game.load.spritesheet('friend', 'images/spritesheets/friend.png', 96, 96, 24)
+            game.load.spritesheet('flashback', 'images/spritesheets/flashback.png', 800, 600, 30)
 
 
             game.load.image('gameball1', 'images/gameball.ico');
@@ -129,10 +131,12 @@
 */
 
           //  game.load.audio('donnie', 'images/audio/gankomix.mp3');
-
-          //    game.load.audio('opener', 'images/audio/opener.wav');
-
-              game.load.audio('gatecrush', 'images/audio/crush.wav');
+          game.load.audio('crusher1', 'images/audio/_ crusher1.wav');
+          game.load.audio('crusher2', 'images/audio/_ crusher2.wav');
+          game.load.audio('crusher3', 'images/audio/_ crusher2.wav');
+              game.load.audio('opener', 'images/audio/opener.wav');
+            game.load.audio('aha', 'images/audio/opener.wav');
+            //  game.load.audio('gatecrush', 'images/audio/crush.wav');
               game.load.audio('lootcrush', 'images/audio/crush.wav');
               game.load.audio('hakacrush', 'images/audio/crush.wav');
               game.load.audio('bellcrush', 'images/audio/bellcrush.wav');
@@ -396,7 +400,7 @@ var looperlefty3 = pageend-(yhop*3);
 var looperrightx3 = rightmargin1-24;
 var looperrighty3 = pageend-(yhop*3);
 
-var looperleftx33 = leftmargin1+330;
+var looperleftx33 = leftmargin1+250;
 var looperlefty33 = pagestart+yhop*2;
 var looperrightx33 = rightmargin1-330;
 var looperrighty33 = pagestart+yhop*2;
@@ -434,6 +438,7 @@ var looperspeed = 3;
 var keycounter = [];
 
 var tosssound = [];
+var crushsound = [];
 
     function create () {
 
@@ -454,17 +459,18 @@ var tosssound = [];
 
       //  opener = game.add.audio('opener');
 
-        gatecrush = game.add.audio('crush');
+    //    gatecrush = game.add.audio('crush');
         lootcrush = game.add.audio('crush');
         hakacrush = game.add.audio('crush');
         bellcrush = game.add.audio('bellcrush');
         statuecrush = game.add.audio('crush');
         hook = game.add.audio('hook');
 
+        aha = game.add.audio('aha');
         nosound = game.add.audio('no');
         yessound = game.add.audio('yes');
         yessound2 = game.add.audio('yes2');
-        crushsound = game.add.audio('crush');
+      //  crushsound = game.add.audio('crush');
         onsound = game.add.audio('on');
         offsound = game.add.audio('off');
 
@@ -472,6 +478,11 @@ var tosssound = [];
           tosssound[i] = {};
           tosssound[i] = game.add.audio('toss'+i);
       }
+
+        for (var i = 0; i < 3; i++){
+          crushsound[i] = {};
+          crushsound[i] = game.add.audio('crusher'+(i+1));
+        }
 //groups
         staticimages = game.add.group();
         projectiles = game.add.group();
@@ -489,9 +500,12 @@ var tosssound = [];
       //  flash.anchor.setTo(0);
       //  flash.scale.setTo(1);
 
-        flash2 = staticimages.create(2400, 0, 'flash');
+        flash2 = staticimages.create(2400, -32, 'whirl', 61);
         flash2.anchor.setTo(0);
         flash2.scale.setTo(1);
+        flash2.gowhirl = flash2.animations.add('gowhirl',[0,1,2,3,4,5,6,7,8,9,10],20, false);
+
+
 
         flash3 = staticimages.create(1600, 0, 'flash');
         flash3.anchor.setTo(0);
@@ -601,17 +615,17 @@ grass[4].sprite.y = pageend+yhop*3
         crystaldoor2open.anchor.setTo(0.5);
         crystaldoor2open.scale.setTo(0);
 
-        crystaldoor3 = staticimages.create(leftmargin4+520, pagestart+yhop, 'crystal');
-        crystaldoor3.anchor.setTo(0.5);
-        crystaldoor3.scale.setTo(1);
+    //    crystaldoor3 = staticimages.create(leftmargin4+520, pagestart+yhop, 'crystal');
+    //    crystaldoor3.anchor.setTo(0.5);
+    //    crystaldoor3.scale.setTo(1);
 
-        crystaldoorblow3 = staticimages.create(leftmargin4+520, pagestart+yhop, 'crystalblow');
-        crystaldoorblow3.anchor.setTo(0.5);
-        crystaldoorblow3.scale.setTo(0);
+    //    crystaldoorblow3 = staticimages.create(leftmargin4+520, pagestart+yhop, 'crystalblow');
+    //    crystaldoorblow3.anchor.setTo(0.5);
+    //    crystaldoorblow3.scale.setTo(0);
 
         crystaldoor3open = staticimages.create(leftmargin4+520, pagestart+yhop-16, 'crystaldoor');
         crystaldoor3open.anchor.setTo(0.5);
-        crystaldoor3open.scale.setTo(0);
+        crystaldoor3open.scale.setTo(1);
 
         for (var i = 0; i < puzzlenumber; i++){
           puzzlehakas[i] = {}
@@ -720,9 +734,9 @@ grass[4].sprite.y = pageend+yhop*3
           puzzlehakas[i].heart.y = puzzlehakas[i].sprite.y-48
         }
 
-        noteyard = staticimages.create(leftmargin6+360, 260, 'noteyard');
-        noteyard.anchor.setTo(0.5);
-        noteyard.scale.setTo(.8);
+    //    noteyard = staticimages.create(leftmargin5+240, 162, 'noteyard');
+    //    noteyard.anchor.setTo(0.5);
+    //    noteyard.scale.setTo(.7);
 
         casa = staticimages.create(0, 0, 'casa');
         casa.anchor.setTo(0.5);
@@ -815,8 +829,11 @@ controlstext3.anchor.setTo(0.5);
 controlstext = game.add.text(1200, pageend+60, 'move: ← →   toss: ↑ ↓', style3);
 controlstext.anchor.setTo(0.5);
 
-creditstext = game.add.text(leftmargin5+600, 290, 'MADE BY\nDavid Plell\n\nPROGRAMMED WITH\nJS/Phaser library\n\nSYNTHESIZERS\nkorg minilogue\nKontakt\nAbsynth\n\nLIVE RECORDINGS\nmarimba\nshaker\nkitchen pots\nbells', style7);
+creditstext = game.add.text(leftmargin5+620, 240, 'MADE BY\nDavid Plell\n\nPROGRAMMED WITH\nJS/Phaser library\n\nORIGINAL SOUNDS\nkorg minilogue\nKontakt\nAbsynth\nmarimba\nshaker\ntoy bells\nkitchen pots', style7);
 creditstext.anchor.setTo(0.5);
+
+tobecontinued = game.add.text(leftmargin6+360, 300, 'to be continued...', style7);
+tobecontinued.anchor.setTo(0.5);
 
 for (var i =0; i < 8; i++){
 crypttext[i] = {};
@@ -969,6 +986,9 @@ balls[10].sprite.x = 420;
 balls[10].sprite.y = pagestart+yhop*2;
 balls[11].sprite.x = puzzlehakas[1].sprite.x;
 balls[11].sprite.y = puzzlehakas[1].sprite.y;
+balls[13].sprite.y = pagestart+yhop
+balls[14].sprite.y = pagestart+yhop
+balls[14].sprite.y = pagestart+yhop
 balls[16].sprite.x = puzzlehakas[0].sprite.x;
 balls[16].sprite.y = puzzlehakas[0].sprite.y;
 balls[13].sprite.x = bandit[0].sprite.x;
@@ -993,7 +1013,7 @@ for (var i = 0; i < lootboxnumber; i++){
   lootboxes[i].sprite = projectiles.create(4076+50+184*i, pageend, 'seq'+i);
   lootboxes[i].sprite.anchor.setTo(0.5);
   lootboxes[i].sprite.scale.setTo(0.4);
-  lootboxes[i].crushedsprite = projectiles.create(4076+50+184*i, pageend, 'seqcrush'+i);
+  lootboxes[i].crushedsprite = projectiles.create(4076+50-800+184*i, pageend, 'seqcrush'+i);
   lootboxes[i].crushedsprite.anchor.setTo(0.5);
   lootboxes[i].crushedsprite.scale.setTo(0);
   lootboxes[i].grabinit = false;
@@ -1001,10 +1021,9 @@ for (var i = 0; i < lootboxnumber; i++){
 }
 
 
-lootboxes[0].sprite.x = lootboxes[0].sprite.x +300;
-lootboxes[1].sprite.x = lootboxes[1].sprite.x - 724;
-lootboxes[1].sprite.scale.setTo(0);
-lootboxes[1].crushedsprite.scale.setTo(0.4);
+lootboxes[0].sprite.x = leftmargin5+500;
+//lootboxes[2].sprite.x = lootboxes[2].sprite.x -200;
+lootboxes[1].sprite.y = 1000;
 
 
 game.camera.x = 800;
@@ -1286,10 +1305,14 @@ if (puzzlehakas[11].boxfull.length > 0
         crystaldoor2open.scale.setTo(0.6);
         yessound.play();
         controlstext1.kill();
+      //  flash.tint = 0x606060
+      //  flash1.tint = 0x606060
+      //  flash2.tint = 0x606060
+      //  flash3.tint = 0x606060
         puzzle2solved = true;
       }
     }
-
+/*
  if (puzzle2solved == true
    && puzzle3solved == false){
   if (scan1){
@@ -1303,6 +1326,7 @@ if (puzzlehakas[11].boxfull.length > 0
     }
     }
     }
+    */
   }
 
 
@@ -1315,6 +1339,7 @@ function bellRinger(bell){
   var xscanoff = bell.scan1off;
   var ding = bell.sound;
   var dong = bell.sound2;
+  var crushed = bell.crushinit
 
   //scan1
   if (scan1init == true){
@@ -1326,7 +1351,10 @@ function bellRinger(bell){
         //if ball is on the page
         if (belldude.x > game.camera.x){
         if (belldude.x < scan1.x+10){
-          if(restored == true){dong.play();}
+          if(restored == true){
+            if (crushed == false){dong.play();}
+            else{ding.play();}
+          }
           else{ding.play();}
           scan1.tint = Math.random() * 0xffffff;
           xscanoff = false;
@@ -1877,24 +1905,6 @@ var backway = false;
         }
         else{
           rainFall();
-        }
-
-        if (puzzle3solved == false){
-          if (bandit[0].sprite.y == pagestart+yhop && bandit[0].sprite.x > leftmargin4+500){
-            crystaldoorblow3.scale.setTo(1);
-            nosound.play();
-            for (var i = 0; i < bells.length; i++){
-              if (bells[i].grabinit == true){
-                bells[i].sound.play();
-              }
-            }
-              for (var i = 0;i<banditparts;i++){
-                bandit[i].sprite.x = (leftmargin4+160)-(i*14);
-              }
-          }
-          else{ crystaldoorblow3.scale.setTo(0);}
-        }
-        else {
 
           if (restored == false){
             if (puzzlehakas[14].boxfull > 0){
@@ -1921,17 +1931,41 @@ var backway = false;
                          puzzlehakas[i].sprite.scale.setTo(0.5);
                          puzzlehakas[i].crushedsprite.scale.setTo(0);
                        }
-                    flash.tint = 0xffffff
-                    flash1.tint = 0xffffff
-                    flash2.tint = 0xffffff
-                    flash3.tint = 0xffffff
+                   flash.tint = 0xffffff
+                   flash1.tint = 0xffffff
+                   flash2.tint = 0xffffff
+                   flash3.tint = 0xffffff
+                    flash2.animations.play('gowhirl', 20, true);
+                    aha.play();
+
                      restored = true;
                    }
                    }
 
+
           backway = true;
         }
-
+/*
+        if (puzzle3solved == false){
+          if (bandit[0].sprite.y == pagestart+yhop && bandit[0].sprite.x > leftmargin4+500){
+            crystaldoorblow3.scale.setTo(1);
+            nosound.play();
+            for (var i = 0; i < bells.length; i++){
+              if (bells[i].grabinit == true){
+                bells[i].sound.play();
+              }
+            }
+              for (var i = 0;i<banditparts;i++){
+                bandit[i].sprite.x = (leftmargin4+160)-(i*14);
+              }
+          }
+          else{ crystaldoorblow3.scale.setTo(0);}
+        }
+        else {
+        }
+*/
+var animationgo = false;
+var animationtimer = 0;
 var crushinit = false;
 
        if (boxcrush == true){
@@ -1945,7 +1979,7 @@ var crushinit = false;
                lootboxes[i].crushedsprite.scale.setTo(0.4);
                if (controlstext3){controlstext3.kill();}
                if (lootboxes[i].crushinit == false){
-                 lootcrush.play();
+                 crushsound[Math.floor(Math.random()*2)].play();
                  lootboxes[i].crushinit = true;
                }
              }
@@ -1974,7 +2008,7 @@ var crushinit = false;
                  loopmachinesleft[i].sprite.scale.setTo(0);
                  loopmachinesleft[i].crushedsprite.scale.setTo(0.44);
                  if (loopmachinesleft[i].crushinit == false){
-                   statuecrush.play();
+                   crushsound[Math.floor(Math.random()*2)].play();
                    loopmachinesleft[i].crushinit = true;
                  }
                }
@@ -1985,7 +2019,7 @@ var crushinit = false;
                    loopmachinesright[i].sprite.scale.setTo(0);
                    loopmachinesright[i].crushedsprite.scale.setTo(0.44);
                    if (loopmachinesright[i].crushinit == false){
-                     statuecrush.play();
+                     crushsound[Math.floor(Math.random()*2)].play();
                      loopmachinesright[i].crushinit = true;
                    }
                  }
@@ -2000,7 +2034,7 @@ var crushinit = false;
                  puzzlehakas[i].sprite.scale.setTo(0);
                  puzzlehakas[i].crushedsprite.scale.setTo(0.5);
                  if (puzzlehakas[i].crushinit == false){
-                   hakacrush.play();
+                   crushsound[Math.floor(Math.random()*2)].play();
                    puzzlehakas[i].crushinit = true;
                  }
                }
@@ -2079,6 +2113,7 @@ var crushinit = false;
     if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR))  {
       if (scan1) {
         scan1.kill();}
+      if (controlstext2){controlstext2.kill();}
 
       for (var j = 0;j< balls.length;j++){
       if (balls[j].sprite.x > game.camera.x
