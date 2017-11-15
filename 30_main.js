@@ -12,7 +12,12 @@
       game.load.audio('crusher1', 'images/audio/_ crusher1.wav');
       game.load.audio('crusher2', 'images/audio/_ crusher2.wav');
       game.load.audio('crusher3', 'images/audio/_ crusher2.wav');
+    //  game.load.audio('casabam', 'images/audio/casa.wav');
       game.load.audio('aha', 'images/audio/opener.wav');
+
+      for (var i = 0; i < 5; i++){
+        game.load.audio('casa'+i, 'images/audio/_ casa'+(i+1)+'.wav');
+      }
       game.load.spritesheet('whirl', 'images/spritesheets/stars.png', 800, 800, 11)
       for (var i = 0; i < 19; i++){
             game.load.image('haka'+i, 'images/haka'+i+'.png');
@@ -90,7 +95,7 @@ for (var i = 0; i< ballnumber; i++){
           }
             game.load.audio('on', 'images/audio/_ on.wav');
             game.load.audio('off', 'images/audio/_ off.wav');
-            game.load.audio('crush', 'images/audio/crush.wav');
+          //  game.load.audio('crush', 'images/audio/crush.wav');
             game.load.audio('yes', 'images/audio/yes.wav');
             game.load.audio('no', 'images/audio/no.wav');
               game.load.audio('toss0', 'images/audio/_ toss1.wav');
@@ -381,6 +386,7 @@ var keycounter = [];
 var tosssound = [];
 var crushsound = [];
 var walksound = [];
+var casasound = [];
 
     function create () {
 
@@ -402,11 +408,16 @@ var walksound = [];
       //  opener = game.add.audio('opener');
 
     //    gatecrush = game.add.audio('crush');
+    for (var i = 0; i< 5; i++){
+      casasound[i] = {}
+      casasound[i] = game.add.audio('casa'+i);
+    }
+
     for (var i = 0; i< 2; i++){
     walksound[i] = {}
     walksound[i] = game.add.audio('walking'+(i+1));
     }
-
+    //  casabam = game.add.audio('casabam');
     rain = game.add.audio('rain', 1, true);
         hook = game.add.audio('hook');
 
@@ -773,7 +784,7 @@ controlstext3.anchor.setTo(0.5);
 controlstext = game.add.text(1200, pageend+60, 'move: ← →   toss: ↑ ↓', style3);
 controlstext.anchor.setTo(0.5);
 
-creditstext = game.add.text(leftmargin5+500, 270, 'CREATED BY\nDavid Plell\n\nPROGRAMMING\nJavaScript + Phaser API\n\nSOUNDS\nkorg minilogue\nKontakt\nAbsynth\nmandolin\nmarimba\nshaker\ntoy bells\nkitchen pots', style7);
+creditstext = game.add.text(leftmargin5+500, 270, 'CREATED BY\nDavid Plell\n\nPROGRAMMING\nJavaScript + Phaser API\n\nSOUNDS\nkorg minilogue\nKontakt\nmandolin\nmarimba\nshaker\ntoy bells\nkitchen pots\ncoffee mug', style7);
 creditstext.anchor.setTo(0.5);
 
 tobecontinued = game.add.text(leftmargin6+360, 280, 'noteyard.io', style7);
@@ -909,7 +920,7 @@ for(var i=0; i<ballnumber; i++){
   balls[i].npc3shadow.scale.setTo(0);
 */
 }
-balls[0].sprite.x = bandit[0].sprite.x-90;
+balls[0].sprite.x = bandit[0].sprite.x;
 balls[0].sprite.y = bandit[0].sprite.y;
 balls[1].sprite.x = puzzlehakas[0].sprite.x;
 balls[1].sprite.y = puzzlehakas[0].sprite.y;
@@ -917,11 +928,11 @@ balls[2].sprite.y = pageend
 balls[3].sprite.y = pageend-yhop;
 balls[4].sprite.x = 420;
 balls[4].sprite.y = pagestart;
-balls[5].sprite.x = bandit[0].sprite.x+200;
+balls[5].sprite.x = bandit[0].sprite.x+230;
 balls[5].sprite.y = bandit[0].sprite.y;
 balls[6].sprite.y = pageend-yhop*2;
 balls[7].sprite.x = bandit[0].sprite.x;
-balls[7].sprite.y = bandit[0].sprite.y-yhop;
+balls[7].sprite.y = bandit[0].sprite.y;
 balls[8].sprite.y = pageend-yhop*2;
 balls[9].sprite.x = bandit[0].sprite.x;
 balls[9].sprite.y = bandit[0].sprite.y+yhop;
@@ -1444,9 +1455,9 @@ function banditScan() {
     scan1.tint = 0x000000;
     scan1.anchor.setTo(0);
     scan1.scale.setTo(1);
+    if (controlstext2){controlstext2.scale.setTo(1.2);}
     scan1Moving = true;
     scan1init = false;
-    if (controlstext2){controlstext2.scale.setTo(1.2);}
   }
   else{}
 
@@ -1483,7 +1494,8 @@ if (scan1init == true){
 if (xscanoff == true){
     if (scan1){
       //if ball is on the page
-      if (ball.x > game.camera.x //&& ball.x < game.camera.x + 800
+      if (ball.x > game.camera.x
+        && ball.x < game.camera.x + 800
       //  && ball.y > game.camera.y && ball.y < game.camera.y + 600
       ){
       if (ball.x < scan1.x+10){
@@ -1792,7 +1804,7 @@ function iconUpdate(){
   }
   */
 }
-
+var casabamgoing = false;
 var bellcrush = false;
 var hakacrush = false;
 var statuecrush = false;
@@ -1905,14 +1917,15 @@ var backway = false;
                          puzzlehakas[i].sprite.scale.setTo(0.5);
                          puzzlehakas[i].crushedsprite.scale.setTo(0);
                        }
+                   baker.stop();
+                   rain.stop();
                    flash.tint = 0xffffff
                    flash1.tint = 0xffffff
                    flash2.tint = 0xffffff
                    flash3.tint = 0xffffff
                     flash2.animations.play('gowhirl', 20, true);
                     aha.play();
-                    baker.stop();
-                    rain.stop();
+
                     startgo = false;
                     rainspeed = 0.8;
                     restored = true;
@@ -2157,12 +2170,17 @@ var leftfoot = false;
 
 if (puzzle2solved == true){
   if (game.input.keyboard.isDown(Phaser.Keyboard.C))  {
+    if (casabamgoing == false){
+      casasound[Math.floor(Math.random()*4)].play();
+      casabamgoing = true;
+    }
     casa.scale.setTo(0);
     casa2.scale.setTo(1);
     boxcrush = true;
   }
   else {
     boxcrush = false;
+    casabamgoing = false;
     casa.scale.setTo(1);
     casa2.scale.setTo(0);
   }
@@ -2793,11 +2811,6 @@ balls[i].totheright = loopGroup1(balls[i], loopmachinesleft[j], loopmachinesrigh
 var gameisup = false;
 
 function animationUpdate(){
-//opening tune
-  if (gameisup == false){
-    baker.play();
-    gameisup = true;
-  }
 
   if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
   {
