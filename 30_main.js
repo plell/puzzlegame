@@ -39,8 +39,10 @@
 
 for (var i = 0; i< ballnumber; i++){
 
-        game.load.image('skull'+i, 'images/skull0.png');
+        game.load.spritesheet('skull'+i, 'images/spritesheets/skull0.png', 64, 64, 11);
 }
+
+            game.load.image('ribcage0', 'images/ribcage.png');
             game.load.image('statue0', 'images/statue0.png');
             game.load.image('statue1', 'images/statue1.png');
             game.load.image('statue2', 'images/statue2.png');
@@ -341,7 +343,7 @@ var looperlefty2 = pageend-yhop;
 var looperrightx2 = rightmargin1-128;
 var looperrighty2 = pageend-yhop;
 
-var looperleftx3 = leftmargin1+24;
+var looperleftx3 = leftmargin1+44;
 var looperlefty3 = pageend-(yhop*3);
 var looperrightx3 = rightmargin1-124;
 var looperrighty3 = pageend-(yhop*3);
@@ -351,7 +353,7 @@ var looperlefty33 = pagestart+yhop*2;
 var looperrightx33 = rightmargin1-380;
 var looperrighty33 = pagestart+yhop*2;
 
-var looperleftx4 = leftmargin3+30;
+var looperleftx4 = leftmargin3+80;
 var looperlefty4 = pageend-yhop;
 var looperrightx4 = rightmargin3-330;
 var looperrighty4 = pageend-yhop;
@@ -361,7 +363,7 @@ var looperlefty5 = pageend-yhop*2;
 var looperrightx5 = rightmargin4-160;
 var looperrighty5 = pageend-yhop*2;
 
-var looperleftx6 = leftmargin3;
+var looperleftx6 = leftmargin3+30;
 var looperlefty6 = pageend-(yhop*3);
 var looperrightx6 = rightmargin3-280;
 var looperrighty6 = pageend-(yhop*3);
@@ -373,8 +375,10 @@ var looperrighty66 = pageend-yhop*2;
 
 var looperleftx7 = leftmargin3+400;
 var looperlefty7 = pageend-(yhop*4);
-var looperrightx7 = rightmargin3;
+var looperrightx7 = rightmargin3-40;
 var looperrighty7 = pageend-(yhop*4);
+
+var ballshoulder = 8;
 
 var lootboxes = []
 var lootboxnumber = 4;
@@ -876,21 +880,30 @@ bandit[6].sprite.scale.setTo(0);
 for(var i=0; i<ballnumber; i++){
   balls[i] = {};
   balls[i].banditPossession = false;
+  //balls[i].banditPossessionswitch = false;
   balls[i].sound = game.add.audio('collect'+(i+1));
-  balls[i].sprite = projectiles.create(leftmargin1+20+i*34, pagestart+yhop*3, 'skull'+i);
-  balls[i].sprite.tint = Math.random() * 0xffffff;
+  balls[i].sprite = projectiles.create(leftmargin1+20+i*34, pagestart+yhop*3, 'skull'+i, 11);
   balls[i].sprite.anchor.setTo(0.5);
+  balls[i].sprite.tint = 0xd8e295;
   balls[i].sprite.scale.setTo(ballscale);
   balls[i].sprite.vx = ballmeetsplayer/4;
   balls[i].sprite.vy = yhop/10;
+  balls[i].ballcolor = Math.random() * 0xffffff;
+  balls[i].goskull = balls[i].sprite.animations.add('goskull', [0,1,2,3,4,5,6,7,8,9], 10, true);
+  balls[i].dead = balls[i].sprite.animations.add('dead', [10], 1, false);
+  balls[i].givencolor = true;
+
   //tossed
   balls[i].notesprite = staticimages.create(0, 40, 'note'+(i+1));
   balls[i].notesprite.anchor.setTo(0.5);
   balls[i].notesprite.scale.setTo(0);
+
   balls[i].tossedup = false;
   balls[i].tosseddown = false;
   balls[i].tossedx = 0;
   balls[i].tossedy = 0;
+  balls[i].leftofplayer = false;
+  balls[i].space = 0;
     //water
 //  balls[i].lake1 = false;
   balls[i].lake2 = false;
@@ -905,20 +918,7 @@ for(var i=0; i<ballnumber; i++){
   //bandit ABILITIES
   balls[i].scan1on = false;
   balls[i].scan1off = true;
-  //grid stuff
-/*
-  balls[i].npc1shadow = staticimages.create(shadow1x, shadow1y, 'npc1shadow');
-  balls[i].npc1shadow.anchor.setTo(0.5);
-  balls[i].npc1shadow.scale.setTo(0);
-
-  balls[i].npc2shadow = staticimages.create(shadow2x, shadow2y, 'npc2shadow');
-  balls[i].npc2shadow.anchor.setTo(0.5);
-  balls[i].npc2shadow.scale.setTo(0);
-
-  balls[i].npc3shadow = staticimages.create(shadow3x, shadow3y, 'npc3shadow');
-  balls[i].npc3shadow.anchor.setTo(0.5);
-  balls[i].npc3shadow.scale.setTo(0);
-*/
+  balls[i].sprite.animations.play('dead', 1);
 }
 balls[0].sprite.x = bandit[0].sprite.x;
 balls[0].sprite.y = bandit[0].sprite.y;
@@ -1028,8 +1028,8 @@ game.camera.x = 800;
         rain[i] = {};
         rain[i].sprite = staticimages.create(i*96, Math.random() * (700-(pagestart-200)) + (pagestart-200), 'snowflake')
         rain[i].sprite.anchor.setTo(0.5);
-        rain[i].sprite.scale.setTo(0);
-        rain[i].atbottom = false;
+        rain[i].sprite.scale.setTo(0.4);
+
       }
 
 
@@ -1106,6 +1106,7 @@ var loadedstuff = false;
     }
 
     function update() {
+                rainFall();
                 gameStartInitials();
                 animationUpdate();
                 playerUpdate();
@@ -1114,7 +1115,7 @@ var loadedstuff = false;
                 moveCamera();
                 puzzleUpdate();
                 iconMain();
-                textWobble();
+              //  textWobble();
 
 
 }
@@ -1124,6 +1125,59 @@ var loadedstuff = false;
           // game.debug.spriteInfo(bandit[0].sprite, 450, 32);
 }
 
+
+function skellyMover(ob){
+var left = ob.leftofplayer
+var obj = ob.sprite
+var space = ob.space
+
+
+if (obj.x < bandit[0].sprite.x
+  && obj.y == bandit[0].sprite.y
+  ||
+  //obj.x > game.camera.x
+  //&& obj.x < game.camera.x+800
+  //&&
+  obj.y < bandit[0].sprite.y
+  //|| obj.x < game.camera.x
+    ){
+    left = true;
+  }
+else{left = false;}
+
+
+if (left == true){
+  if (obj.x > bandit[0].sprite.x-space
+    && obj.y == bandit[0].sprite.y){
+      //stop
+    }
+      else{
+      obj.x+=banditmovespeed;
+        }
+  }
+else {
+  if (obj.x < bandit[0].sprite.x+space
+    && obj.y == bandit[0].sprite.y){
+      //stop
+    }
+      else{
+      obj.x-=banditmovespeed;
+        }
+
+  if (obj.y == pageend
+    && bandit[0].sprite.y == pagestart
+  ||
+    obj.y == pagestart
+    && bandit[0].sprite.y == pageend)
+  //obj.x > game.camera.x+800)
+  {
+    obj.x = bandit[0].sprite.x;
+    obj.y = bandit[0].sprite.y;
+  }
+}
+
+return left
+}
 
 
 function puzzleUpdate(){
@@ -1141,7 +1195,7 @@ var wobbleleft = true;
 
 function textWobble(){
 
-rainFall();
+
 
 if (controlstext3){
   if(wobbleleft == true){
@@ -1542,6 +1596,7 @@ function loopGroup1(ball, left, right){
                 if (direction == true) {
 
                   obj.x += looperspeed;
+                  obj.rotation += 0.1;
 
                     if (obj.x > rightx) {
                     colorpicker = Math.random() * 0xffffff;
@@ -1555,6 +1610,7 @@ function loopGroup1(ball, left, right){
                 else {
 
                   obj.x -= obj.vx;
+                  obj.rotation -= 0.5;
                   if (obj.x < leftx) {
                   colorpicker = Math.random() * 0xffffff;
                   sound.play();
@@ -1575,6 +1631,7 @@ function loopGroup1(ball, left, right){
 
                       if (direction == true) {
                         obj.x += looperspeed;
+                        obj.rotation += 0.1;
 
                           if (obj.x > leftx) {
                           colorpicker = Math.random() * 0xffffff;
@@ -1587,6 +1644,7 @@ function loopGroup1(ball, left, right){
                         }
                       else {
                         obj.x -= obj.vx;
+                        obj.rotation -= 0.5;
                         if (obj.x < rightx) {
                         colorpicker = Math.random() * 0xffffff;
                         sound.play();
@@ -1607,14 +1665,13 @@ function loopGroup1(ball, left, right){
 
 function rainer(rain){
   var rsprite = rain.sprite;
-  rsprite.scale.setTo(0.4);
 
   if (rsprite.y < 630){
     rsprite.y+=rainspeed;
 
   }
   else {
-    rsprite.y = 0-30;
+    rsprite.y = -30;
   //  rsprite.scale.setTo(0.4);
   }
 }
@@ -1809,6 +1866,9 @@ var bellcrush = false;
 var hakacrush = false;
 var statuecrush = false;
 
+//var crystal1spin = false;
+//var crystal2spin = false;
+
 var backway = false;
     //player movement
      function playerMove() {
@@ -1870,6 +1930,7 @@ var backway = false;
               for (var i = 0;i<banditparts;i++){
                 bandit[i].sprite.x = (rightmargin2-280)-(i*14);
               }
+          //  crystal1spin = true;
           }
           else{ crystaldoorblow1.scale.setTo(0);}
         }
@@ -1886,6 +1947,7 @@ var backway = false;
               for (var i = 0;i<banditparts;i++){
                 bandit[i].sprite.x = (rightmargin3-280)-(i*14);
               }
+              crystal2spin = true;
           }
           else{ crystaldoorblow2.scale.setTo(0);}
         }
@@ -1932,9 +1994,11 @@ var backway = false;
 
                    }
                    }
-                   else {
-                     bandit[0].sprite.tint = Math.random() * 0xffffff
-                   }
+            //       else {
+                //     bandit[0].sprite.tint = Math.random() * 0xffffff
+                //     casa.tint = Math.random() * 0xffffff
+                //     casa2.tint = Math.random() * 0xffffff
+            //       }
 
 
           backway = true;
@@ -2045,7 +2109,6 @@ var crushinit = false;
                   for (var i = 0; i < bandit.length; i++){
                    bandit[i].sprite.x --;}
                  }
-
                }
          if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
                   for (var j = 0; j < banditmovespeed; j++){
@@ -2315,7 +2378,13 @@ else if (ob.x > leftmargin3-20 && ob.x < rightmargin3+20){
  }
  }
 
- var startdelay = false;
+ function ball_marginRules() {
+   for (var i = 0; i<balls.length;i++){
+     marginer(balls[i]);
+ }
+ }
+
+ var initializeplayersound = false;
  var startgo = false;
  var starttimer = 0;
 
@@ -2331,6 +2400,7 @@ function topBoundary(ball){
     if (lake2 == true){
       if(obj.y > pageend){
         obj.y -= 1;
+        obj.rotation -= 0.4;
     //    looped = false;
       }
       else {
@@ -2354,6 +2424,7 @@ function bottomBoundary(ball){
     if (lake3 == true){
       if (obj.y < pagestart){
         obj.y += 1;
+        obj.rotation += 0.4;
   //      looped = false;
       }
       else{
@@ -2376,6 +2447,7 @@ function bottomBoundary(ball){
       if (lake4 == true){
         if (obj.y < pageend){
           obj.y += 1;
+          obj.rotation += 0.4;
     //      looped = false;
         }
         else{
@@ -2611,6 +2683,14 @@ function ballMove() {
 
   if(balls[i].banditPossession==false){
 
+    if (balls[i].givencolor == true){
+      //balls[i].sprite.tint = 0xd8e295;
+      balls[i].sprite.scale.setTo(0.5);
+      balls[i].givencolor = false;
+    }
+
+    //balls[i].sprite.animations.stop();
+
 //    balls[i].orb.x = balls[i].sprite.x;
 //    balls[i].orb.y = balls[i].sprite.y;
 
@@ -2655,11 +2735,13 @@ function ballMove() {
       && balls[i].sprite.x < bandit[0].sprite.x+ballmeetsplayerx
       && balls[i].sprite.y < bandit[0].sprite.y+ballmeetsplayery) {
   //pick up balls
-  if (startdelay == true){
+  if (initializeplayersound == true){
         balls[i].sound.play();
       }
         balls[i].banditPossession = true;
+        balls[i].sprite.rotation = 0;
         grabbed.push(i);
+        balls[i].space = (grabbed.length*ballshoulder)+40
         notearray = [];
         notearray.push(balls[i].sprite);
   }
@@ -2679,8 +2761,10 @@ function ballMove() {
 if (startgo == false){
   starttimer++;
 //  console.log('waiting')
+  if (starttimer > 600){
+    initializeplayersound = true;
+  }
   if (starttimer > 6000){
-    startdelay = true;
     startgo = true;
   }
 }
@@ -2783,11 +2867,20 @@ balls[i].totheright = loopGroup1(balls[i], loopmachinesleft[j], loopmachinesrigh
 
   else { // bandit has the ball
 
+    if (balls[i].givencolor == false){
+        balls[i].sprite.scale.setTo(0.36);
+          balls[i].sprite.tint = balls[i].ballcolor;
+          balls[i].sprite.animations.stop('dead');
+          balls[i].sprite.animations.play('goskull', 6);
+          balls[i].givencolor = true;
+}
     //balls chase bandit
     //puzzle1 stuff
     for (j = 0; j < puzzlenumber; j++){
     puzzlehakas[j].boxfull.splice(i);
   }
+
+
 
 //    if (balls[i].ballreset == false){
   //  balls[i].lake1 = false;
@@ -2800,8 +2893,60 @@ balls[i].totheright = loopGroup1(balls[i], loopmachinesleft[j], loopmachinesrigh
 //    balls[i].ballreset = true;
 //  }
 
-    balls[i].sprite.x = bandit[0].sprite.x;
-    balls[i].sprite.y = bandit[0].sprite.y;
+
+
+if (balls[i].sprite.x < bandit[0].sprite.x
+  && balls[i].sprite.y == bandit[0].sprite.y
+  || balls[i].sprite.x > game.camera.x
+  && balls[i].sprite.x < game.camera.x+800
+  && balls[i].sprite.y < bandit[0].sprite.y
+  || balls[i].sprite.x < game.camera.x
+    ){
+    balls[i].leftofplayer = true;
+  }
+else{balls[i].leftofplayer = false;}
+
+
+if (balls[i].leftofplayer == true){
+  if (balls[i].sprite.x > bandit[0].sprite.x-balls[i].space
+    && balls[i].sprite.y == bandit[0].sprite.y){
+      //stop
+    }
+      else{
+        for (var j = 0; j < banditmovespeed; j++){
+      balls[i].sprite.x++;
+      ball_marginRules();
+    }
+        }
+  }
+else {
+  if (balls[i].sprite.x < bandit[0].sprite.x+balls[i].space
+    && balls[i].sprite.y == bandit[0].sprite.y){
+      //stop
+    }
+      else{
+        for (var j = 0; j < banditmovespeed; j++){
+      balls[i].sprite.x--;
+      ball_marginRules();
+    }
+        }
+}
+
+//warp
+if (balls[i].sprite.x > bandit[0].sprite.x + 1700){
+  balls[i].sprite.x = bandit[0].sprite.x
+  balls[i].sprite.y = bandit[0].sprite.y
+}
+else if (balls[i].sprite.x < bandit[0].sprite.x - 1700){
+  balls[i].sprite.x = bandit[0].sprite.x
+  balls[i].sprite.y = bandit[0].sprite.y
+}
+
+//    balls[i].leftofplayer = skellyMover(balls[i]);
+//    marginer(balls[i]);
+
+    //balls[i].sprite.x = bandit[0].sprite.x;
+    //balls[i].sprite.y = bandit[0].sprite.y;
 
   }
 
@@ -2850,6 +2995,23 @@ function animationUpdate(){
       //center
       bandit[0].sprite.animations.play('stand', true);
     }
+
+
+
+/*
+    //crystals
+  if (crystal1spin == true){
+    console.log(crystaldoor1.rotation)
+    crystaldoor1.rotation+=0.5
+    if (crystaldoor1.rotation > 8){
+      crystal1spin = false;
+      crystaldoor1.rotation = 0;
+    }
+  }
+  if (crystal2spin == true){
+
+  }
+  */
 }
 
 
@@ -2874,8 +3036,12 @@ function playerToss() {
                grabbed.splice(j,1)
                break;
            }
+        for (var j=0; j<grabbed.length; j++){
+          var i = grabbed[j]
+          balls[i].space = balls[i].space - ballshoulder
          }
          }
+       }
 
             if (game.input.keyboard.justPressed(Phaser.Keyboard.DOWN))  {
 
@@ -2896,6 +3062,11 @@ function playerToss() {
                     break;
 
                 }
+
+                for (var j=0; j<grabbed.length; j++){
+                  var i = grabbed[j]
+                  balls[i].space = balls[i].space - ballshoulder
+                 }
+                 }
                 }
-               }
-             }
+              }
