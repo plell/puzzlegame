@@ -1,5 +1,5 @@
 
-    var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'container', { preload: preload, create: create, update: update, render: render  });
+    var game = new Phaser.Game(800, 600, Phaser.AUTO, 'container', { preload: preload, create: create, update: update, render: render  });
 
     function preload () {
       text = game.add.text(400, 300, '', style0);
@@ -48,6 +48,8 @@ for (var i = 0; i< ballnumber; i++){
 }
 
           //  game.load.image('ribcage0', 'images/ribcage.png');
+          game.load.spritesheet('leftfoot', 'images/spritesheets/leftfoot.png', 32, 32, 4);
+          game.load.spritesheet('rightfoot', 'images/spritesheets/rightfoot.png', 32, 32, 4);
             game.load.image('statue0', 'images/statue0.png');
             game.load.image('statue1', 'images/statue1.png');
             game.load.image('statue2', 'images/statue2.png');
@@ -123,7 +125,7 @@ for (var i = 0; i< ballnumber; i++){
 
 function fileComplete(progress, cacheKey, success, totalLoaded, totalFiles) {
 
-	text.setText("Loading world: " + progress + "% -" + totalLoaded + " out of " + totalFiles);
+	text.setText("Loading world: " + progress + "% ・ " + totalLoaded + " out of " + totalFiles);
 
 }
 
@@ -214,7 +216,7 @@ var puzzlehakas = [];
   var ballscale = .4;
   var projectiles;
 
-  var colorpicker = Math.random() * 0xffffff;
+  //var colorpicker = Math.random() * 0xffffff;
 
   var cameraspeed = 40;
 
@@ -314,6 +316,8 @@ var shadow2x = rightmargin2-200;
 var shadow2y = pagestart;
 var shadow3x = leftmargin2+450;
 var shadow3y = pagestart+yhop*3;
+
+var feet = []
 
 var loopmachinenumber = 4;
 
@@ -434,7 +438,7 @@ var backgrounds = [];
     walksound[i] = game.add.audio('walking'+(i+1));
     }
     //  casabam = game.add.audio('casabam');
-    rain = game.add.audio('rain', 1, true);
+        rain = game.add.audio('rain', 1, true);
         hook = game.add.audio('hook');
 
         aha = game.add.audio('aha');
@@ -1148,19 +1152,22 @@ var loadedstuff = false;
     }
 
     function update() {
-                rainFall();
-                gameStartInitials();
-                animationUpdate();
-                playerUpdate();
-                statueUpdate();
-                ballMove();
-                moveCamera();
-                puzzleUpdate();
-                iconMain();
-                textWobble();
-
-
+                mainBlob();
 }
+
+    function mainBlob(){
+
+
+      gameStartInitials();
+      animationUpdate();
+      playerUpdate();
+      statueUpdate();
+      ballMove();
+      moveCamera();
+      puzzleUpdate();
+      iconMain();
+      textWobble();
+    }
 
 
     function render() {
@@ -1236,6 +1243,8 @@ function playerUpdate(){
 var wobbleleft = true;
 
 function textWobble(){
+
+
 
 
 
@@ -1630,7 +1639,7 @@ function loopGroup1(ball, left, right){
                   obj.rotation += 0.1;
 
                     if (obj.x > rightx) {
-                    colorpicker = Math.random() * 0xffffff;
+                  //  colorpicker = Math.random() * 0xffffff;
                     sound.play();
                     notearray = [];
                     notearray.push(obj);
@@ -1643,7 +1652,7 @@ function loopGroup1(ball, left, right){
                   obj.x -= obj.vx;
                   obj.rotation -= 0.5;
                   if (obj.x < leftx) {
-                  colorpicker = Math.random() * 0xffffff;
+                //  colorpicker = Math.random() * 0xffffff;
                   sound.play();
                   notearray = [];
                   notearray.push(obj);
@@ -1665,7 +1674,7 @@ function loopGroup1(ball, left, right){
                         obj.rotation += 0.1;
 
                           if (obj.x > leftx) {
-                          colorpicker = Math.random() * 0xffffff;
+                        //  colorpicker = Math.random() * 0xffffff;
                           sound.play();
                           notearray = [];
                           notearray.push(obj);
@@ -1677,7 +1686,7 @@ function loopGroup1(ball, left, right){
                         obj.x -= obj.vx;
                         obj.rotation -= 0.5;
                         if (obj.x < rightx) {
-                        colorpicker = Math.random() * 0xffffff;
+                      //  colorpicker = Math.random() * 0xffffff;
                         sound.play();
                         notearray = [];
                         notearray.push(obj);
@@ -1711,14 +1720,6 @@ function rainFall(){
   for (var i=0; i<raindrops;i++){
     rainer(rain[i]);
   }
-
-
-
-  casa.x = bandit[0].sprite.x+30;
-  casa.y = bandit[0].sprite.y -20;
-  casa2.x = bandit[0].sprite.x+48;
-  casa2.y = bandit[0].sprite.y -4;
-
 }
 
 
@@ -1910,10 +1911,12 @@ var backway = false;
     //player movement
      function playerMove() {
 
-
+       if (restored == false){
+         rainFall();
+       }
 
         if (ghostmode == true){
-               banditmovespeed = 22;
+               banditmovespeed = 26;
                if (ONinit == false){
                  onsound.play();
                  ONinit = true;}
@@ -1990,8 +1993,14 @@ var backway = false;
         }
         else{
 
+            casa.x = bandit[0].sprite.x+30;
+            casa.y = bandit[0].sprite.y -20;
+            casa2.x = bandit[0].sprite.x+48;
+            casa2.y = bandit[0].sprite.y -4;
+
 
           if (restored == false){
+
             if (puzzlehakas[14].boxfull > 0){
 
             for (var i = 0; i < bellnumber; i++){
@@ -2163,6 +2172,17 @@ var backway = false;
 
          for (var i = 0; i < bandit.length; i++){ //THIS IS THE MAIN FOR LOOP FOR PLAYER MOVE
 
+
+
+           if (!game.input.keyboard.isDown(Phaser.Keyboard.LEFT)
+           && !game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+             //center
+             bandit[0].sprite.animations.play('stand', true);
+           }
+
+
+
+
 //bandit left and right
        if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
                  for (var j = 0; j < banditmovespeed; j++){
@@ -2171,26 +2191,60 @@ var backway = false;
                  b_marginRules();
             //    }
               }
-
+              //animator
+              if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
+              {
+                //tossup
+                bandit[0].sprite.animations.play('stand', true);
+              }
+              else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
+              {
+                //tossdown
+                bandit[0].sprite.animations.play('stand', true);
+              }
+              else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+                bandit[0].sprite.animations.play('stand', true);
+              }
+              else{
+              bandit[0].sprite.animations.play('walkleft');
               walktimer++;
               if (statuegrabbed == true){
-              if (walktimer>17){
+              if (walktimer>19){
+              var q = feet.length
+              feet[q] = {};
+              feet[q].sprite = staticimages.create(bandit[0].sprite.x+6, bandit[0].sprite.y+8+Math.floor(Math.random()*12), 'leftfoot');
+              feet[q].poof = feet[q].sprite.animations.add('poof', [0,1,2,3], false)
+              feet[q].sprite.animations.play('poof', 3);
               walksound[1].play();
               walktimer=0;
             }
           }
               else if (ghostmode == true){
-                if (walktimer>8){
+                if (walktimer>4){
+                  var q = feet.length
+                  feet[q] = {};
+                  feet[q].sprite = staticimages.create(bandit[0].sprite.x+6, bandit[0].sprite.y+8+Math.floor(Math.random()*12), 'leftfoot');
+                  feet[q].poof = feet[q].sprite.animations.add('poof', [0,1,2,3], false)
+                  feet[q].sprite.animations.play('poof', 12);
                 walksound[0].play();
                 walktimer=0;
               }
               }
               else {
-                if (walktimer>13){
+                if (walktimer>14){
+                  var q = feet.length
+                  feet[q] = {};
+                  feet[q].sprite = staticimages.create(bandit[0].sprite.x+6, bandit[0].sprite.y+8+Math.floor(Math.random()*12), 'leftfoot');
+                  feet[q].poof = feet[q].sprite.animations.add('poof', [0,1,2,3], false)
+                  feet[q].sprite.animations.play('poof', 8);
                 walksound[0].play();
                 walktimer=0;
               }
               }
+              }
+              //walker
+
+
             }
 
        if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
@@ -2198,27 +2252,67 @@ var backway = false;
             //    for (var i = 0; i < bandit.length; i++){
                  bandit[i].sprite.x ++;
                  b_marginRules();
-            //      }
-                }
-                walktimer++;
-                if (statuegrabbed == true){
-                if (walktimer>17){
-                walksound[1].play();
-                walktimer=0;
-              }
+                  }
+            //animator
+            //rightstride
+            if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
+            {
+              //tossup
+              bandit[0].sprite.animations.play('stand', true);
             }
-                else if (ghostmode == true){
-                  if (walktimer>8){
-                  walksound[0].play();
-                  walktimer=0;
+            else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
+            {
+              //tossdown
+              bandit[0].sprite.animations.play('stand', true);
+            }
+            else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+              bandit[0].sprite.animations.play('stand', true);
+            }
+            else{
+            bandit[0].sprite.animations.play('walkright');
+            walktimer++;
+            if (statuegrabbed == true){
+            if (walktimer>19){
+              var q = feet.length
+              feet[q] = {};
+              feet[q].sprite = staticimages.create(bandit[0].sprite.x+6, bandit[0].sprite.y+8+Math.floor(Math.random()*12), 'rightfoot');
+              feet[q].poof = feet[q].sprite.animations.add('poof', [0,1,2,3], false)
+              feet[q].sprite.animations.play('poof', 3);
+            walksound[1].play();
+            walktimer=0;
+          }
+        }
+            else if (ghostmode == true){
+              if (walktimer>4){
+                var q = feet.length
+                feet[q] = {};
+                feet[q].sprite = staticimages.create(bandit[0].sprite.x+6, bandit[0].sprite.y+8+Math.floor(Math.random()*12), 'rightfoot');
+                feet[q].poof = feet[q].sprite.animations.add('poof', [0,1,2,3], false)
+                feet[q].sprite.animations.play('poof', 12);
+              walksound[0].play();
+              walktimer=0;
+            }
+            }
+            else {
+              if (walktimer>14){
+                var q = feet.length
+                feet[q] = {};
+                feet[q].sprite = staticimages.create(bandit[0].sprite.x+6, bandit[0].sprite.y+8+Math.floor(Math.random()*12), 'rightfoot');
+                feet[q].poof = feet[q].sprite.animations.add('poof', [0,1,2,3], false)
+                feet[q].sprite.animations.play('poof', 8);
+              walksound[0].play();
+              walktimer=0;
+            }
+            }
+            }
+            //walker
                 }
-                }
-                else {
-                  if (walktimer>13){
-                  walksound[0].play();
-                  walktimer=0;
-                }
-                }
+
+
+
+            if (feet.length > 4){
+              feet[0].sprite.kill();
+              feet.splice(0,1);
             }
 
 
@@ -2980,45 +3074,6 @@ function animationUpdate(){
       tinttimer = 0;
     }
   }
-
-  if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
-  {
-    //leftstride
-    if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
-    {
-      //tossup
-      bandit[0].sprite.animations.play('stand', true);
-    }
-    else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
-    {
-      //tossdown
-      bandit[0].sprite.animations.play('stand', true);
-    }
-    else{
-    bandit[0].sprite.animations.play('walkleft');
-    }
-  }
-  else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
-      {
-        //rightstride
-        if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
-        {
-          //tossup
-          bandit[0].sprite.animations.play('stand', true);
-        }
-        else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
-        {
-          //tossdown
-          bandit[0].sprite.animations.play('stand', true);
-        }
-        else{
-        bandit[0].sprite.animations.play('walkright');
-        }
-    }
-    else{
-      //center
-      bandit[0].sprite.animations.play('stand', true);
-    }
 
 
 
