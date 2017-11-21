@@ -15,13 +15,18 @@
     //  game.load.audio('casabam', 'images/audio/casa.wav');
       game.load.audio('aha', 'images/audio/opener.wav');
 
+
+
+
       for (var i = 0; i < 5; i++){
         game.load.audio('casa'+i, 'images/audio/_ casa'+(i+1)+'.wav');
       }
       game.load.spritesheet('whirl', 'images/spritesheets/stars.png', 800, 800, 11)
-      for (var i = 0; i < 19; i++){
+      game.load.spritesheet('wormhole', 'images/spritesheets/wormhole.png', 192, 192, 15)
+
+      for (var i = 0; i < 3; i++){
             game.load.image('haka'+i, 'images/haka'+i+'.png');
-            game.load.image('hakacrushed'+i, 'images/hakacrushed'+i+'.png');
+            game.load.spritesheet('hakacrushed'+i, 'images/spritesheets/hakacrushed'+i+'.png', 96, 96, 14);
           }
       for (var i = 0; i < 30; i++){
             game.load.image('note'+i, 'images/notes/note'+i+'.png');
@@ -42,7 +47,7 @@ for (var i = 0; i< ballnumber; i++){
         game.load.spritesheet('skull'+i, 'images/spritesheets/skull0.png', 64, 64, 11);
 }
 
-            game.load.image('ribcage0', 'images/ribcage.png');
+          //  game.load.image('ribcage0', 'images/ribcage.png');
             game.load.image('statue0', 'images/statue0.png');
             game.load.image('statue1', 'images/statue1.png');
             game.load.image('statue2', 'images/statue2.png');
@@ -52,14 +57,16 @@ for (var i = 0; i< ballnumber; i++){
             game.load.image('statuecrushed2', 'images/statuecrushed2.png');
             game.load.image('statuecrushed3', 'images/statuecrushed3.png');
             game.load.image('sword', 'images/sword.png');
-            game.load.image('voice', 'images/voice.png');
+          //  game.load.image('voice', 'images/voice.png');
             game.load.image('bypassicon', 'images/open.png');
             game.load.image('bypassicon2', 'images/closed.png');
-            game.load.image('heart', 'images/heart.png');
+        //    game.load.image('heart', 'images/heart.png');
             game.load.image('grass', 'images/grass.png');
             game.load.image('you', 'images/you.png');
         //    game.load.image('menu', 'images/menu.png');
-            game.load.image('flash', 'images/flash.png');
+            game.load.spritesheet('forest', 'images/spritesheets/forest.png', 800, 800, 4)
+            game.load.spritesheet('flash', 'images/spritesheets/wind.png', 800, 800, 14);
+          //  game.load.image('flash', 'images/flash.png');
             game.load.image('bell', 'images/bell.png');
             game.load.image('bellcrushed', 'images/bellcrushed.png');
             game.load.image('blackarrow', 'images/blackarrow.png');
@@ -116,7 +123,7 @@ for (var i = 0; i< ballnumber; i++){
 
 function fileComplete(progress, cacheKey, success, totalLoaded, totalFiles) {
 
-	text.setText("Loading world: " + progress + "% - " + totalLoaded + " out of " + totalFiles);
+	text.setText("Loading world: " + progress + "% -" + totalLoaded + " out of " + totalFiles);
 
 }
 
@@ -215,7 +222,7 @@ var puzzlehakas = [];
   var ballmeetsplayery = 8;
   var ballmeetsplayer = 36;
   var ballmeetsplayer2 = 16;
-  var voice
+  //var voice
   var banditmovespeed = 26;//42;
 /*
   var currentdate = new Date();
@@ -226,12 +233,12 @@ var puzzlehakas = [];
   var style0 = { font: "32px monospace", fill: "#ffffff"};
   var style = { font: "24px monospace", fill: "#ffffff" };
   var style2 = { font: "20px monospace", fill: "#ffffff" };
-  var style3 = { font: "34px monospace", fill: "#000000" };
-  var style4 = { font: "20px monospace", fill: "#909090" };
+  var style3 = { font: "34px monospace", fill: "#ffffff" };
+  var style4 = { font: "20px monospace", fill: "#ffffff" };
   var style5 = { font: "30px monospace", fill: "#ffffff" };
   var style6 = { font: "16px monospace", fill: "#f1d1e1" };
   var style7 = { font: "20px monospace", fill: "#ffffff" };
-  var style8 = { font: "44px monospace", fill: "#000000" };
+  var style8 = { font: "44px monospace", fill: "#f1d1e1" };
   var style9 = { font: "34px monospace", fill: "#ffffff" };
   var hakamoviing = false;
   var greentarget;
@@ -275,7 +282,7 @@ var puzzlehakas = [];
 //  var negypages = []
 
   var bandit = [];
-  var banditparts = 7;
+  var banditparts = 1;
   var yessound
   var nosound
 
@@ -300,7 +307,6 @@ var provideoffering
 
 var puzzlesolved = false;
 var puzzle2solved = false;
-var puzzle3solved = false;
 
 var shadow1x = leftmargin2+100;
 var shadow1y = pageend;
@@ -391,6 +397,11 @@ var tosssound = [];
 var crushsound = [];
 var walksound = [];
 var casasound = [];
+var p = 0;
+var wormholes = [];
+
+
+var backgrounds = [];
 
     function create () {
 
@@ -403,10 +414,11 @@ var casasound = [];
 
 
 //fullscreen stuff
+/*
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
         game.input.onDown.add(gofull, this);
         game.scale.setMinMax(400, 300, 1200, 900)
-
+*/
       //  donnie = game.add.audio('donnie');
 
       //  opener = game.add.audio('opener');
@@ -450,30 +462,43 @@ var casasound = [];
 
 
 
-        flash = staticimages.create(800, 0, 'flash');
-        flash.anchor.setTo(0);
-        flash.scale.setTo(1);
+
+        for (var i = 0; i < 4; i++){
+          backgrounds[i] = {}
+          backgrounds[i].sprite = staticimages.create(0, 0, 'forest', false);
+          backgrounds[i].sprite2 = staticimages.create(0, 0, 'flash', true);
+          backgrounds[i].sprite2.scale.setTo(0);
+          //backgrounds[i].anchor.setTo(0);
+          //backgrounds[i].scale.setTo(1);
+          backgrounds[i].forester = backgrounds[i].sprite.animations.add('forester', [i], false);
+          backgrounds[i].winder = backgrounds[i].sprite2.animations.add('winder', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], true);
+          backgrounds[i].sprite.animations.play('forester')
+        }
+
+        backgrounds[0].sprite.x = 800;
+        backgrounds[0].sprite2.x = 800;
+        backgrounds[1].sprite.x = 0;
+        backgrounds[1].sprite2.x = 0;
+        backgrounds[2].sprite.x = 2400;
+        backgrounds[2].sprite2.x = 2400;
+        backgrounds[3].sprite.x = 1600
+        backgrounds[3].sprite2.x = 1600
 
 
-        flash1 = staticimages.create(0, 0, 'flash');
-      //  flash.anchor.setTo(0);
-      //  flash.scale.setTo(1);
-
-        flash2 = staticimages.create(2400, -32, 'whirl', 61);
+        flash2 = staticimages.create(2400, -32, 'whirl', 24);
         flash2.anchor.setTo(0);
-        flash2.scale.setTo(1);
-        flash2.gowhirl = flash2.animations.add('gowhirl',[0,1,2,3,4,5,6,7,8,9,10],20, false);
+        flash2.scale.setTo(0);
+        flash2.gowhirl = flash2.animations.add('gowhirl',[0,1,2,3,4,5,6,7,8,9,10], 16, true);
 
 
 
-        flash3 = staticimages.create(1600, 0, 'flash');
-        flash3.anchor.setTo(0);
-        flash3.scale.setTo(1);
 
-        flash.tint = 0xccffff
-        flash1.tint = 0xccffff
+
+      //  backgrounds[0].sprite.tint = 0xccffff
+      //  backgrounds[1].sprite.tint = 0xccffff
         flash2.tint = 0xccffff
-        flash3.tint = 0xccffff
+      //  backgrounds[2].sprite.tint = 0xccffff
+      //  backgrounds[3].sprite.tint = 0xccffff
 
 
         for (var i = 0; i < grassnumber; i++){
@@ -505,6 +530,10 @@ grass[4].sprite.y = pageend+yhop*3
         arrow3 = staticimages.create(leftmargin2, pagestart-30, 'blackarrowleft');
         arrow3.anchor.setTo(0.5);
         arrow3.scale.setTo(0.3);
+
+
+
+
 
 
 
@@ -558,7 +587,7 @@ grass[4].sprite.y = pageend+yhop*3
         crystaldoorblow1.anchor.setTo(0.5);
         crystaldoorblow1.scale.setTo(0);
 
-        crystaldoor1open = staticimages.create(rightmargin2-60, pageend-16, 'crystaldoor');
+        crystaldoor1open = staticimages.create(rightmargin2-60, pageend-16, 'crystaldoorshadow');
         crystaldoor1open.anchor.setTo(0.5);
         crystaldoor1open.scale.setTo(0);
 
@@ -587,22 +616,29 @@ grass[4].sprite.y = pageend+yhop*3
         crystaldoor3open.scale.setTo(1);
 
         for (var i = 0; i < puzzlenumber; i++){
+          if (p>2){p=0}
           puzzlehakas[i] = {}
-          puzzlehakas[i].sprite = staticimages.create(leftmargin2+240, pagestart+yhop, 'haka'+i);
+          puzzlehakas[i].sprite = staticimages.create(leftmargin2+240, pagestart+yhop, 'haka'+p);
           puzzlehakas[i].sprite.anchor.setTo(0.5);
           puzzlehakas[i].sprite.scale.setTo(0);
-          puzzlehakas[i].crushedsprite = staticimages.create(leftmargin2+240, pagestart+yhop, 'hakacrushed'+i);
+          puzzlehakas[i].crushedsprite = staticimages.create(leftmargin2+240, pagestart+yhop, 'hakacrushed'+p, 14);
           puzzlehakas[i].crushedsprite.anchor.setTo(0.5);
-          puzzlehakas[i].crushedsprite.scale.setTo(0.5);
+          puzzlehakas[i].crushedsprite.scale.setTo(1);
+          puzzlehakas[i].magic = puzzlehakas[i].crushedsprite.animations.add('magic', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 14, true);
+          puzzlehakas[i].empty = puzzlehakas[i].crushedsprite.animations.add('empty', [0], 1, false);
           puzzlehakas[i].boxfull = [];
           puzzlehakas[i].grabinit = false;
           puzzlehakas[i].crushinit = false;
       //    puzzlehakas[i].hakatext = game.add.text(puzzlehakas[i].sprite.x, puzzlehakas[i].sprite.y-45, puzzlehakas[i].boxfull.length, style4);
       //    puzzlehakas[i].hakatext.anchor.set(0.5);
-          puzzlehakas[i].heart = staticimages.create(puzzlehakas[i].sprite.x, puzzlehakas[i].sprite.y-48, 'heart');
-          puzzlehakas[i].heart.scale.setTo(0);
-          puzzlehakas[i].heart.anchor.setTo(0.5);
+      //    puzzlehakas[i].heart = staticimages.create(puzzlehakas[i].sprite.x, puzzlehakas[i].sprite.y-48, 'heart');
+      //    puzzlehakas[i].heart.scale.setTo(0);
+      //    puzzlehakas[i].heart.anchor.setTo(0.5);
+
+          p++;
         }
+
+
 
         puzzlehakas[0].sprite.x = leftmargin2+240
         puzzlehakas[0].sprite.y = pagestart+yhop
@@ -688,10 +724,10 @@ grass[4].sprite.y = pageend+yhop*3
         puzzlehakas[18].crushedsprite.y = pagestart
 
 
-        for (var i =0; i < puzzlenumber; i++){
-          puzzlehakas[i].heart.x = puzzlehakas[i].sprite.x
-          puzzlehakas[i].heart.y = puzzlehakas[i].sprite.y-48
-        }
+    //    for (var i =0; i < puzzlenumber; i++){
+    //      puzzlehakas[i].heart.x = puzzlehakas[i].sprite.x
+    //      puzzlehakas[i].heart.y = puzzlehakas[i].sprite.y-48
+    //    }
 
     //    noteyard = staticimages.create(leftmargin5+240, 162, 'noteyard');
     //    noteyard.anchor.setTo(0.5);
@@ -835,6 +871,15 @@ crypttext[7].text.scale.setTo(0.6);
 //provideoffering.anchor.setTo(0.5);
 //provideoffering.scale.setTo(0.5);
 
+
+for (var i = 0; i< 2; i++){
+  wormholes[i] = {};
+  wormholes[i].sprite = staticimages.create(1500 + (i*800), pageend-16, 'wormhole', 15);
+  wormholes[i].sprite.anchor.setTo(0.5);
+  wormholes[i].sprite.scale.setTo(1);
+  wormholes[i].goworm = wormholes[i].sprite.animations.add('goworm', [1,2,3,4,5,6,7,8,9,10,11,12,13,14], 6, false);
+}
+
 //bandit parts
 for(var i = 0; i < banditparts; i++){
   bandit[i] = {};
@@ -844,7 +889,7 @@ for(var i = 0; i < banditparts; i++){
 
   bandit[i].sprite.anchor.setTo(0.5);
   bandit[i].sprite.scale.setTo(playerscale);
-  bandit[i].sprite.tint = 0xe6e6e6;
+  //bandit[i].sprite.tint = 0xe6e6e6;
 
 }
 
@@ -853,12 +898,8 @@ bandit[0].walkleft = bandit[0].sprite.animations.add('walkleft', [16, 17, 18, 19
 bandit[0].walkright = bandit[0].sprite.animations.add('walkright', [20, 21, 22, 23, 24], 8, false)
 bandit[0].sprite.animations.play('stand', 16, true)
 
-bandit[1].sprite.scale.setTo(0);
-bandit[2].sprite.scale.setTo(0);
-bandit[3].sprite.scale.setTo(0);
-bandit[4].sprite.scale.setTo(0);
-bandit[5].sprite.scale.setTo(0);
-bandit[6].sprite.scale.setTo(0);
+
+
 /*
   friend.animations.add('left', [0,1], 10, true);
   friend.animations.add('right', [3,4], 10, true);
@@ -871,9 +912,9 @@ bandit[6].sprite.scale.setTo(0);
         bypassicon2.anchor.setTo(0.5);
         bypassicon2.scale.setTo(1);
 
-        voice = staticimages.create(0, 0, 'voice');
-        voice.anchor.setTo(0.5);
-        voice.scale.setTo(0);
+      //  voice = staticimages.create(0, 0, 'voice');
+      //  voice.anchor.setTo(0.5);
+      //  voice.scale.setTo(0);
 
 
 //ball starting positions
@@ -884,7 +925,7 @@ for(var i=0; i<ballnumber; i++){
   balls[i].sound = game.add.audio('collect'+(i+1));
   balls[i].sprite = projectiles.create(leftmargin1+20+i*34, pagestart+yhop*3, 'skull'+i, 11);
   balls[i].sprite.anchor.setTo(0.5);
-  balls[i].sprite.tint = 0xd8e295;
+  //balls[i].sprite.tint = 0xd8e295;
   balls[i].sprite.scale.setTo(ballscale);
   balls[i].sprite.vx = ballmeetsplayer/4;
   balls[i].sprite.vy = yhop/10;
@@ -1040,13 +1081,14 @@ game.camera.x = 800;
 
 you = staticimages.create(bandit[0].sprite.x, bandit[0].sprite.y-46, 'you');
 you.anchor.setTo(0.5);
-you.tint = 0x000000;
+//you.tint = 0xffffff;
 you.scale.setTo(0.5);
 
 for (var i = 0; i < treenumber; i++){
 
   trees[i] = {}
   trees[i].sprite = staticimages.create(0, 0, 'tree' + i);
+  trees[i].sprite.tint = 0xb0b0b0
   trees[i].sprite.anchor.setTo(0.5);
   trees[i].sprite.scale.setTo(0.8);
   trees[i].spritebloom = staticimages.create(0, 0, 'treebloom' + i);
@@ -1115,7 +1157,7 @@ var loadedstuff = false;
                 moveCamera();
                 puzzleUpdate();
                 iconMain();
-              //  textWobble();
+                textWobble();
 
 
 }
@@ -1199,24 +1241,24 @@ function textWobble(){
 
 if (controlstext3){
   if(wobbleleft == true){
-        if (controlstext3.y > pageend+yhop-2){
-        controlstext3.y-=0.2;
-        //if (controlstext){controlstext.y-=0.2;}
-        if (controlstext0){controlstext0.y-=0.2;}
-        if (controlstext1){controlstext1.y-=0.2;}
-        if (controlstext2){controlstext2.y-=0.2;}
+        if (controlstext3.y > pageend+yhop-4){
+        controlstext3.y-=0.4;
+        if (controlstext){controlstext.y-=0.4;}
+        if (controlstext0){controlstext0.y-=0.4;}
+        if (controlstext1){controlstext1.y-=0.4;}
+        if (controlstext2){controlstext2.y-=0.4;}
       }
         else{
           wobbleleft = false;
         }
       }
       else{
-        if (controlstext3.y < pageend+yhop+2){
-        controlstext3.y+=0.2;
-      //  if (controlstext){controlstext.y+=0.2;}
-        if (controlstext0){controlstext0.y+=0.2;}
-        if (controlstext1){controlstext1.y+=0.2;}
-        if (controlstext2){controlstext2.y+=0.2;}
+        if (controlstext3.y < pageend+yhop+4){
+        controlstext3.y+=0.4;
+        if (controlstext){controlstext.y+=0.4;}
+        if (controlstext0){controlstext0.y+=0.4;}
+        if (controlstext1){controlstext1.y+=0.4;}
+        if (controlstext2){controlstext2.y+=0.4;}
       }
         else{
           wobbleleft = true;
@@ -1310,9 +1352,11 @@ function puzzleCompletion(){
       && puzzlehakas[10].boxfull.length > 0
     ){
         crystaldoor1.kill();
-        crystaldoor1open.scale.setTo(1);
+        crystaldoor1open.scale.setTo(0.6);
         yessound.play();
         controlstext0.kill();
+        wormholes[0].sprite.animations.play('goworm', 12, false);
+        psychowarp = true;
         puzzlesolved = true;
       }
     }
@@ -1338,25 +1382,12 @@ if (puzzlehakas[11].boxfull.length > 0
       //  flash1.tint = 0x606060
       //  flash2.tint = 0x606060
       //  flash3.tint = 0x606060
+        wormholes[1].sprite.animations.play('goworm', 12, false);
+        psychowarp = true;
         puzzle2solved = true;
 
       }
     }
-/*
- if (puzzle2solved == true
-   && puzzle3solved == false){
-  if (scan1){
-    if (scan1.x > bells[4].sprite.x){
-      yessound.play();
-      crystaldoor3.kill();
-      controlstext2.kill();
-      crystaldoor3open.scale.setTo(1);
-        puzzle3solved = true;
-  //    controlstext1.kill();
-    }
-    }
-    }
-    */
   }
 
 
@@ -1408,7 +1439,7 @@ function bellsUpdate(){
 
 
 function hakaUpdate(){
-
+/*
   for (var i = 0; i < puzzlenumber; i++)
   {
   if(puzzlehakas[i].boxfull.length>0){
@@ -1419,7 +1450,7 @@ function hakaUpdate(){
       puzzlehakas[i].heart.scale.setTo(0);
     }
 }
-
+*/
 
 puzzleboxes();
 puzzleCompletion();
@@ -1485,7 +1516,7 @@ function ghostBandit(){
     }
     else {
       for (var j = 0; j<bandit.length; j++){
-      bandit[j].sprite.tint = 0xe6e6e6;
+      bandit[j].sprite.tint = 0xffffff;
     }
 
       if (controlstext0){
@@ -1519,11 +1550,11 @@ function banditScan() {
 if (scan1Moving == true){
   if (scan1.x < game.camera.x + 800){
     scan1.x+=scanspeed;
-    voice.scale.setTo(0.5);
+  //  voice.scale.setTo(0.5);
   }
   else {
    if (scan1) {
-   voice.scale.setTo(0);
+//   voice.scale.setTo(0);
    scan1.kill();
    if (controlstext2){controlstext2.scale.setTo(1);}
     }
@@ -1869,6 +1900,12 @@ var statuecrush = false;
 //var crystal1spin = false;
 //var crystal2spin = false;
 
+
+var backwaytriggered  = false;
+var animationgo = false;
+var animationtimer = 0;
+var crushinit = false;
+
 var backway = false;
     //player movement
      function playerMove() {
@@ -1904,7 +1941,7 @@ var backway = false;
         }
 
         //page 1 backwards block path
-        if (bandit[6].sprite.y < 0 && bandit[6].sprite.x < leftmargin1+300){
+        if (bandit[0].sprite.y < 0 && bandit[0].sprite.x < leftmargin1+300){
           for (var i = 0;i<banditparts;i++){
             bandit[i].sprite.x = (leftmargin1+600)-(i*14);
           }
@@ -1914,8 +1951,8 @@ var backway = false;
         bypassicon.y = bandit[0].sprite.y-46
         bypassicon2.x = bandit[0].sprite.x
         bypassicon2.y = bandit[0].sprite.y-46
-        voice.x = bandit[0].sprite.x//-28
-        voice.y = bandit[0].sprite.y//-14
+      //  voice.x = bandit[0].sprite.x//-28
+      //  voice.y = bandit[0].sprite.y//-14
 
         //crystal blocks path
         if (puzzlesolved == false){
@@ -1981,50 +2018,31 @@ var backway = false;
                        }
                    baker.stop();
                    rain.stop();
-                   flash.tint = 0xffffff
-                   flash1.tint = 0xffffff
+                   for (var i = 0; i < 4; i++){
+                     backgrounds[i].sprite.scale.setTo(0)
+                     backgrounds[i].sprite2.scale.setTo(1)
+                     backgrounds[i].sprite2.tint = 0xffffff
+                     backgrounds[i].sprite2.animations.play('winder', 12, true)
+                   }
                    flash2.tint = 0xffffff
-                   flash3.tint = 0xffffff
-                    flash2.animations.play('gowhirl', 20, true);
-                    aha.play();
-
+                   flash2.scale.setTo(1)
+                   flash2.animations.play('gowhirl', 16, true);
+                   aha.play();
+                    psychowarp = true;
                     startgo = false;
                     rainspeed = 0.8;
+
                     restored = true;
 
                    }
                    }
-            //       else {
-                //     bandit[0].sprite.tint = Math.random() * 0xffffff
-                //     casa.tint = Math.random() * 0xffffff
-                //     casa2.tint = Math.random() * 0xffffff
-            //       }
 
-
-          backway = true;
-        }
-/*
-        if (puzzle3solved == false){
-          if (bandit[0].sprite.y == pagestart+yhop && bandit[0].sprite.x > leftmargin4+500){
-            crystaldoorblow3.scale.setTo(1);
-            nosound.play();
-            for (var i = 0; i < bells.length; i++){
-              if (bells[i].grabinit == true){
-                bells[i].sound.play();
-              }
-            }
-              for (var i = 0;i<banditparts;i++){
-                bandit[i].sprite.x = (leftmargin4+160)-(i*14);
-              }
+            if (backwaytriggered == false){
+            backway = true;
+            backwaytriggered = true
           }
-          else{ crystaldoorblow3.scale.setTo(0);}
         }
-        else {
-        }
-*/
-var animationgo = false;
-var animationtimer = 0;
-var crushinit = false;
+
 
        if (boxcrush == true){
 
@@ -2090,7 +2108,7 @@ var crushinit = false;
                && casa.x < puzzlehakas[i].sprite.x+30)
                {
                  puzzlehakas[i].sprite.scale.setTo(0);
-                 puzzlehakas[i].crushedsprite.scale.setTo(0.5);
+                 puzzlehakas[i].crushedsprite.scale.setTo(1);
                  if (puzzlehakas[i].crushinit == false){
                    crushsound[Math.floor(Math.random()*2)].play();
                    puzzlehakas[i].crushinit = true;
@@ -2153,21 +2171,22 @@ var crushinit = false;
                  b_marginRules();
             //    }
               }
+
               walktimer++;
               if (statuegrabbed == true){
-              if (walktimer>120){
+              if (walktimer>17){
               walksound[1].play();
               walktimer=0;
             }
           }
               else if (ghostmode == true){
-                if (walktimer>60){
+                if (walktimer>8){
                 walksound[0].play();
                 walktimer=0;
               }
               }
               else {
-                if (walktimer>100){
+                if (walktimer>13){
                 walksound[0].play();
                 walktimer=0;
               }
@@ -2183,23 +2202,23 @@ var crushinit = false;
                 }
                 walktimer++;
                 if (statuegrabbed == true){
-                if (walktimer>120){
+                if (walktimer>17){
                 walksound[1].play();
                 walktimer=0;
               }
             }
                 else if (ghostmode == true){
-                  if (walktimer>60){
+                  if (walktimer>8){
                   walksound[0].play();
                   walktimer=0;
                 }
                 }
                 else {
-                  if (walktimer>100){
+                  if (walktimer>13){
                   walksound[0].play();
                   walktimer=0;
                 }
-              }
+                }
             }
 
 
@@ -2379,7 +2398,8 @@ else if (ob.x > leftmargin3-20 && ob.x < rightmargin3+20){
  }
 
  function ball_marginRules() {
-   for (var i = 0; i<balls.length;i++){
+   for (var j = 0; j<grabbed.length;j++){
+     var i = grabbed[j];
      marginer(balls[i]);
  }
  }
@@ -2462,17 +2482,18 @@ function bottomBoundary(ball){
 
 function puzzleboxes(){
 
-
-
 for (var i = 0; i < 8; i++) {
   if (puzzlehakas[i].boxfull.length > 0){
-    puzzlehakas[i].crushedsprite.tint = colorpicker
-    puzzlehakas[i].sprite.tint = colorpicker
+    puzzlehakas[i].crushedsprite.animations.play('magic', 8, true);
+    puzzlehakas[i].crushedsprite.tint = 0xff66ff//colorpicker
+    puzzlehakas[i].sprite.tint = 0xff66ff//colorpicker
     if (puzzlesolved == false){
     crypttext[i].text.scale.setTo(0);
     }
   }
   else{
+    puzzlehakas[i].crushedsprite.animations.stop();
+    puzzlehakas[i].crushedsprite.animations.play('empty', 1, false);
     puzzlehakas[i].crushedsprite.tint = 0xffffff;
     puzzlehakas[i].sprite.tint = 0xffffff;
     if (puzzlesolved == false){
@@ -2481,27 +2502,19 @@ for (var i = 0; i < 8; i++) {
   }
 }
 
-for (var i = 8; i < 11; i++) {
+for (var i = 8; i < 19; i++) {
   if (puzzlehakas[i].boxfull.length > 0){
-        puzzlehakas[i].crushedsprite.tint = colorpicker;
-        puzzlehakas[i].sprite.tint = colorpicker
+        puzzlehakas[i].crushedsprite.animations.play('magic', 8, true);
+        puzzlehakas[i].crushedsprite.tint = 0xff66ff // colorpicker;
+        puzzlehakas[i].sprite.tint = 0xff66ff//colorpicker
         //puzzlehakas[i].sprite.scale.setTo(0.8);
   }
   else{
+        puzzlehakas[i].crushedsprite.animations.stop();
+        puzzlehakas[i].crushedsprite.animations.play('empty', 1, false);
         puzzlehakas[i].crushedsprite.tint = 0xffffff;
         puzzlehakas[i].sprite.tint = 0xffffff;
       //  puzzlehakas[i].sprite.scale.setTo(0);
-  }
-}
-
-for (var i = 11; i < 19; i++) {
-  if (puzzlehakas[i].boxfull.length > 0){
-        puzzlehakas[i].crushedsprite.tint = colorpicker;
-        puzzlehakas[i].sprite.tint = colorpicker
-  }
-  else{
-        puzzlehakas[i].crushedsprite.tint = 0xffffff;
-        puzzlehakas[i].sprite.tint = 0xffffff;
   }
 }
 }
@@ -2630,6 +2643,7 @@ function swordMover(){
   }
 }
 
+var randomskull
 
 function statueMover(loopers) {
 
@@ -2679,6 +2693,10 @@ function ballMove() {
       balls[i].notesprite.scale.setTo(0);
     }
 
+    //if (restored == true){
+    //  randomskull = Math.random() * 0xffffff;
+    //  balls[i].sprite.tint = randomskull
+    //}
 
 
   if(balls[i].banditPossession==false){
@@ -2739,6 +2757,7 @@ function ballMove() {
         balls[i].sound.play();
       }
         balls[i].banditPossession = true;
+        balls[i].sprite.y = bandit[0].sprite.y;
         balls[i].sprite.rotation = 0;
         grabbed.push(i);
         balls[i].space = (grabbed.length*ballshoulder)+40
@@ -2893,69 +2912,74 @@ balls[i].totheright = loopGroup1(balls[i], loopmachinesleft[j], loopmachinesrigh
 //    balls[i].ballreset = true;
 //  }
 
-
-
-if (balls[i].sprite.x < bandit[0].sprite.x
-  && balls[i].sprite.y == bandit[0].sprite.y
-  || balls[i].sprite.x > game.camera.x
-  && balls[i].sprite.x < game.camera.x+800
-  && balls[i].sprite.y < bandit[0].sprite.y
-  || balls[i].sprite.x < game.camera.x
-    ){
-    balls[i].leftofplayer = true;
-  }
-else{balls[i].leftofplayer = false;}
-
-
-if (balls[i].leftofplayer == true){
-  if (balls[i].sprite.x > bandit[0].sprite.x-balls[i].space
-    && balls[i].sprite.y == bandit[0].sprite.y){
-      //stop
-    }
-      else{
-        for (var j = 0; j < banditmovespeed; j++){
-      balls[i].sprite.x++;
-      ball_marginRules();
-    }
-        }
-  }
-else {
-  if (balls[i].sprite.x < bandit[0].sprite.x+balls[i].space
-    && balls[i].sprite.y == bandit[0].sprite.y){
-      //stop
-    }
-      else{
-        for (var j = 0; j < banditmovespeed; j++){
-      balls[i].sprite.x--;
-      ball_marginRules();
-    }
-        }
-}
-
-//warp
-if (balls[i].sprite.x > bandit[0].sprite.x + 1700){
-  balls[i].sprite.x = bandit[0].sprite.x
-  balls[i].sprite.y = bandit[0].sprite.y
-}
-else if (balls[i].sprite.x < bandit[0].sprite.x - 1700){
+if (balls[i].sprite.y == pageend
+  && bandit[0].sprite.y == pagestart
+  || balls[i].sprite.y == pagestart
+  && bandit[0].sprite.y == pageend
+){
   balls[i].sprite.x = bandit[0].sprite.x
   balls[i].sprite.y = bandit[0].sprite.y
 }
 
-//    balls[i].leftofplayer = skellyMover(balls[i]);
-//    marginer(balls[i]);
+else{
 
-    //balls[i].sprite.x = bandit[0].sprite.x;
-    //balls[i].sprite.y = bandit[0].sprite.y;
+        if (balls[i].sprite.x < bandit[0].sprite.x
+          && balls[i].sprite.y == bandit[0].sprite.y
+          || balls[i].sprite.y < bandit[0].sprite.y
+            ){
+            balls[i].leftofplayer = true;
+          }
+        else{balls[i].leftofplayer = false;}
 
+
+        if (balls[i].leftofplayer == true){
+          if (balls[i].sprite.x > bandit[0].sprite.x-balls[i].space
+            && balls[i].sprite.y == bandit[0].sprite.y){
+              //stop
+            }
+              else{
+                for (var j = 0; j < banditmovespeed; j++){
+              balls[i].sprite.x++;
+              ball_marginRules();
+            }
+                }
+          }
+        else {
+          if (balls[i].sprite.x < bandit[0].sprite.x+balls[i].space
+            && balls[i].sprite.y == bandit[0].sprite.y){
+              //stop
+            }
+              else{
+                for (var j = 0; j < banditmovespeed; j++){
+              balls[i].sprite.x--;
+              ball_marginRules();
+            }
+                }
+        }
+}
   }
 
   }// end loop
 }
 
 var gameisup = false;
+var psychowarp = false;
+var tinttimer = 0
 
 function animationUpdate(){
+
+  if (psychowarp == true){
+    tinttimer++;
+    wormholes[0].sprite.tint = Math.random() * 0xffffff;
+    wormholes[1].sprite.tint = Math.random() * 0xffffff;
+    for (var i = 0; i < balls.length; i++){
+      balls[i].sprite.tint = Math.random() * 0xffffff;
+    }
+    if (tinttimer > 100){
+      psychowarp = false;
+      tinttimer = 0;
+    }
+  }
 
   if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
   {
